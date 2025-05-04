@@ -1,0 +1,99 @@
+[
+    {
+        "id": "cessna-172",
+        "name": "Cessna 172 Skyhawk",
+        "manufacturer": "Cessna",
+        "popularity": 1,
+        "category": "Propeller",
+        "msrp": 29999,
+        "buyUrl": "https://www.fspilotshop.com/cessna-172",
+        "previewImageUrl": "",
+        "description": "A popular four-seat, single-engine, high-wing aircraft.",
+        "tags": [
+            "trainer",
+            "GA",
+            "classic"
+        ],
+        "votes": 1200,
+        "daysOnList": 365,
+        "oldRank": 2,
+        "currentRank": 1
+    },
+    {
+        "id": "airbus-a320neo",
+        "name": "Airbus A320neo",
+        "manufacturer": "Airbus",
+        "popularity": 2,
+        "category": "Jet",
+        "msrp": 110000000,
+        "buyUrl": "https://www.fspilotshop.com/airbus-a320neo",
+        "previewImageUrl": "",
+        "description": "A modern, fuel-efficient narrow-body jet airliner.",
+        "tags": [
+            "airliner",
+            "jet"
+        ],
+        "votes": 950,
+        "daysOnList": 340,
+        "oldRank": 1,
+        "currentRank": 2
+    },
+    {
+        "id": "boeing-787",
+        "name": "Boeing 787 Dreamliner",
+        "manufacturer": "Boeing",
+        "popularity": 3,
+        "category": "Jet",
+        "msrp": 240000000,
+        "buyUrl": "https://www.fspilotshop.com/boeing-787",
+        "previewImageUrl": "",
+        "description": "A long-haul, wide-body, twin-engine jet airliner.",
+        "tags": [
+            "airliner",
+            "jet",
+            "long-haul"
+        ],
+        "votes": 870,
+        "daysOnList": 320,
+        "oldRank": 4,
+        "currentRank": 3
+    },
+    {
+        "id": "diamond-da62",
+        "name": "Diamond DA62",
+        "manufacturer": "Diamond Aircraft",
+        "popularity": 4,
+        "category": "Propeller",
+        "msrp": 1200000,
+        "buyUrl": "https://www.fspilotshop.com/diamond-da62",
+        "previewImageUrl": "",
+        "description": "A modern twin-engine light aircraft.",
+        "tags": [
+            "twin",
+            "GA"
+        ],
+        "votes": 800,
+        "daysOnList": 300,
+        "oldRank": 3,
+        "currentRank": 4
+    },
+    {
+        "id": "tbm-930",
+        "name": "Daher TBM 930",
+        "manufacturer": "Daher",
+        "popularity": 5,
+        "category": "Turboprop",
+        "msrp": 4300000,
+        "buyUrl": "https://www.fspilotshop.com/tbm-930",
+        "previewImageUrl": "",
+        "description": "A high-performance single-engine turboprop.",
+        "tags": [
+            "turboprop",
+            "GA"
+        ],
+        "votes": 780,
+        "daysOnList": 295,
+        "oldRank": 5,
+        "currentRank": 5
+    }
+]
