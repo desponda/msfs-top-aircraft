@@ -6,7 +6,16 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
-const dataPath = path.join(__dirname, '../data/reports.json');
+const publishedDir = path.join(__dirname, '../data/published');
+const unpublishedDir = path.join(__dirname, '../data/unpublished');
+
+// Ensure directories exist
+if (!fs.existsSync(publishedDir)) {
+    fs.mkdirSync(publishedDir, { recursive: true });
+}
+if (!fs.existsSync(unpublishedDir)) {
+    fs.mkdirSync(unpublishedDir, { recursive: true });
+}
 
 // Middleware for basic authentication - only for admin routes
 const authenticate = (req: any, res: any, next: any) => {
@@ -30,10 +39,10 @@ const authenticate = (req: any, res: any, next: any) => {
     }
 };
 
-// Get all reports (just metadata, not full aircraft data)
+// Get all published reports (just metadata, not full aircraft data)
 router.get('/', (req, res) => {
     try {
-        const reports = getReportsData();
+        const reports = getPublishedReportsData();
         const { year, type, month } = req.query;
 
         let filteredReports = reports;
@@ -52,9 +61,15 @@ router.get('/', (req, res) => {
 
         // Convert to report summaries (without full aircraft data)
         const summaries: ReportSummary[] = filteredReports.map(report => ({
-            ...report,
-            aircraftCount: report.aircraft.length,
-            aircraft: undefined
+            id: report.id,
+            type: report.type,
+            year: report.year,
+            month: report.month,
+            title: report.title,
+            description: report.description,
+            createdAt: report.createdAt,
+            updatedAt: report.updatedAt,
+            aircraftCount: report.aircraft.length
         }));
 
         res.json(summaries);
@@ -67,7 +82,7 @@ router.get('/', (req, res) => {
 // Get the latest report (monthly and yearly)
 router.get('/latest', (req, res) => {
     try {
-        const reports = getReportsData();
+        const reports = getPublishedReportsData();
         const latestMonthly = reports
             .filter(r => r.type === ReportType.MONTHLY)
             .sort((a, b) => {
@@ -89,33 +104,84 @@ router.get('/latest', (req, res) => {
     }
 });
 
-// Get a specific report by ID
+// Get a specific published report by ID
 router.get('/:id', (req, res) => {
     try {
-        const reports = getReportsData();
+        const reports = getPublishedReportsData();
         const report = reports.find(r => r.id === req.params.id);
 
         if (!report) {
             return res.status(404).json({ message: 'Report not found' });
-        }
+        }        // Sort aircraft by votes (descending) and then by dateAdded (descending for ties)
+        const sortedAircraft = [...report.aircraft].sort((a, b) => {
+            // First sort by votes (descending)
+            if (a.votes !== b.votes) {
+                return b.votes - a.votes;
+            }
+            
+            // For tied votes, sort by date added (descending)
+            // Later date (newer aircraft) comes first
+            if (a.dateAdded && b.dateAdded) {
+                return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+            } else if (b.dateAdded) {
+                return -1; // b has a date but a doesn't, b comes first
+            } else if (a.dateAdded) {
+                return 1; // a has a date but b doesn't, a comes first
+            }
 
-        res.json(report);
+            // Both dates are null/undefined, preserve original order
+            return 0;
+        });
+
+        // Add rank property to each aircraft
+        sortedAircraft.forEach((aircraft, index) => {
+            aircraft.rank = index + 1;
+        });
+
+        // Return the modified report with sorted and ranked aircraft
+        const rankedReport = {
+            ...report,
+            aircraft: sortedAircraft
+        };
+
+        res.json(rankedReport);
     } catch (error) {
         console.error(`Error fetching report ${req.params.id}:`, error);
         res.status(500).json({ message: 'Failed to fetch report' });
     }
 });
 
-// Admin Routes - requires authentication
-// Create a new report
+// Admin routes
+
+// Get all unpublished reports (for admin only)
+router.get('/admin/unpublished', authenticate, (req, res) => {
+    try {
+        const reports = getUnpublishedReportsData();
+        const summaries = reports.map(report => ({
+            id: report.id,
+            type: report.type,
+            year: report.year,
+            month: report.month,
+            title: report.title,
+            description: report.description,
+            createdAt: report.createdAt,
+            updatedAt: report.updatedAt,
+            aircraftCount: report.aircraft.length
+        }));
+        res.json(summaries);
+    } catch (error) {
+        console.error('Error fetching unpublished reports:', error);
+        res.status(500).json({ message: 'Failed to fetch unpublished reports' });
+    }
+});
+
+// Create a new report (admin only)
 router.post('/', authenticate, (req, res) => {
     try {
-        const reports = getReportsData();
-        const newReport = req.body as Report;
+        const newReport: Report = req.body;
 
-        // Validate report data
-        if (!newReport.type || !newReport.year || (newReport.type === ReportType.MONTHLY && !newReport.month)) {
-            return res.status(400).json({ message: 'Invalid report data' });
+        if (!newReport.aircraft || !Array.isArray(newReport.aircraft)) {
+            return res.status(400).json({ message: 'Aircraft data is required' });
         }
 
         // Generate ID if not provided
@@ -137,15 +203,11 @@ router.post('/', authenticate, (req, res) => {
         newReport.createdAt = now;
         newReport.updatedAt = now;
 
-        // Check if report with same ID already exists
-        const existingIndex = reports.findIndex(r => r.id === newReport.id);
-        if (existingIndex >= 0) {
-            reports[existingIndex] = newReport;
-        } else {
-            reports.push(newReport);
-        }
+        // Save to unpublished directory
+        const filename = `${newReport.id}.json`;
+        const filepath = path.join(unpublishedDir, filename);
+        fs.writeFileSync(filepath, JSON.stringify(newReport, null, 4));
 
-        saveReportsData(reports);
         res.status(201).json(newReport);
     } catch (error) {
         console.error('Error creating report:', error);
@@ -153,24 +215,24 @@ router.post('/', authenticate, (req, res) => {
     }
 });
 
-// Update an existing report
+// Update an unpublished report (admin only)
 router.put('/:id', authenticate, (req, res) => {
     try {
-        const reports = getReportsData();
-        const reportIndex = reports.findIndex(r => r.id === req.params.id);
+        const reportId = req.params.id;
+        const updatedReport: Report = req.body;
 
-        if (reportIndex === -1) {
-            return res.status(404).json({ message: 'Report not found' });
+        // Ensure report ID matches
+        if (reportId !== updatedReport.id) {
+            return res.status(400).json({ message: 'Report ID mismatch' });
         }
 
-        const updatedReport = {
-            ...reports[reportIndex],
-            ...req.body,
-            updatedAt: new Date().toISOString()
-        };
+        // Set updated timestamp
+        updatedReport.updatedAt = new Date().toISOString();
 
-        reports[reportIndex] = updatedReport;
-        saveReportsData(reports);
+        // Save to unpublished directory
+        const filename = `${updatedReport.id}.json`;
+        const filepath = path.join(unpublishedDir, filename);
+        fs.writeFileSync(filepath, JSON.stringify(updatedReport, null, 4));
 
         res.json(updatedReport);
     } catch (error) {
@@ -179,17 +241,17 @@ router.put('/:id', authenticate, (req, res) => {
     }
 });
 
-// Delete a report
+// Delete an unpublished report (admin only)
 router.delete('/:id', authenticate, (req, res) => {
     try {
-        const reports = getReportsData();
-        const updatedReports = reports.filter(r => r.id !== req.params.id);
+        const reportId = req.params.id;
+        const filepath = path.join(unpublishedDir, `${reportId}.json`);
 
-        if (updatedReports.length === reports.length) {
+        if (!fs.existsSync(filepath)) {
             return res.status(404).json({ message: 'Report not found' });
         }
 
-        saveReportsData(updatedReports);
+        fs.unlinkSync(filepath);
         res.json({ message: 'Report deleted successfully' });
     } catch (error) {
         console.error(`Error deleting report ${req.params.id}:`, error);
@@ -197,19 +259,96 @@ router.delete('/:id', authenticate, (req, res) => {
     }
 });
 
-// Helper functions
-function getReportsData(): Report[] {
+// Publish a report (move from unpublished to published)
+router.post('/:id/publish', authenticate, (req, res) => {
     try {
-        const raw = fs.readFileSync(dataPath, 'utf-8');
-        return JSON.parse(raw);
+        const reportId = req.params.id;
+        const unpublishedPath = path.join(unpublishedDir, `${reportId}.json`);
+        const publishedPath = path.join(publishedDir, `${reportId}.json`);
+
+        if (!fs.existsSync(unpublishedPath)) {
+            return res.status(404).json({ message: 'Unpublished report not found' });
+        }
+
+        // Read the unpublished report
+        const reportData = fs.readFileSync(unpublishedPath, 'utf-8');
+        const report = JSON.parse(reportData);
+
+        // Update the published timestamp
+        report.updatedAt = new Date().toISOString();
+
+        // Write to published directory
+        fs.writeFileSync(publishedPath, JSON.stringify(report, null, 4));
+
+        res.json({ message: 'Report published successfully', report });
+    } catch (error) {
+        console.error(`Error publishing report ${req.params.id}:`, error);
+        res.status(500).json({ message: 'Failed to publish report' });
+    }
+});
+
+// Helper functions
+
+// Read all report files from published directory
+function getPublishedReportsData(): Report[] {
+    try {
+        const reports: Report[] = [];
+
+        if (!fs.existsSync(publishedDir)) {
+            return reports;
+        }
+
+        const files = fs.readdirSync(publishedDir);
+
+        files.forEach(file => {
+            if (file.endsWith('.json')) {
+                try {
+                    const reportPath = path.join(publishedDir, file);
+                    const reportData = fs.readFileSync(reportPath, 'utf-8');
+                    const report = JSON.parse(reportData);
+                    reports.push(report);
+                } catch (err) {
+                    console.error(`Error reading report file ${file}:`, err);
+                }
+            }
+        });
+
+        return reports;
     } catch (error) {
         console.error('Error reading reports data:', error);
         return [];
     }
 }
 
-function saveReportsData(reports: Report[]): void {
-    fs.writeFileSync(dataPath, JSON.stringify(reports, null, 4));
+// Read all report files from unpublished directory
+function getUnpublishedReportsData(): Report[] {
+    try {
+        const reports: Report[] = [];
+
+        if (!fs.existsSync(unpublishedDir)) {
+            return reports;
+        }
+
+        const files = fs.readdirSync(unpublishedDir);
+
+        files.forEach(file => {
+            if (file.endsWith('.json')) {
+                try {
+                    const reportPath = path.join(unpublishedDir, file);
+                    const reportData = fs.readFileSync(reportPath, 'utf-8');
+                    const report = JSON.parse(reportData);
+                    reports.push(report);
+                } catch (err) {
+                    console.error(`Error reading report file ${file}:`, err);
+                }
+            }
+        });
+
+        return reports;
+    } catch (error) {
+        console.error('Error reading reports data:', error);
+        return [];
+    }
 }
 
 function getMonthName(month: number): string {

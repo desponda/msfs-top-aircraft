@@ -39,10 +39,11 @@ interface AircraftTableProps {
 const AircraftTable = ({ data }: AircraftTableProps) => {
   const [aircraftData, setAircraftData] = useState<Aircraft[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [sortField, setSortField] = useState<keyof Aircraft>('currentRank');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortField, setSortField] = useState<keyof Aircraft>('votes');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [manufacturerFilter, setManufacturerFilter] = useState<string>('');
+  const [paywareFilter, setPaywareFilter] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
@@ -68,20 +69,22 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
     fetchAircraft();
   }, []);
 
-  // Extract unique categories and manufacturers for filters
+  // Extract unique categories, manufacturers, and payware types for filters
   const categories = [...new Set(aircraftData.map(aircraft => aircraft.category))];
   const manufacturers = [...new Set(aircraftData.map(aircraft => aircraft.manufacturer))];
+  const paywareTypes = [...new Set(aircraftData.map(aircraft => aircraft.payware || 'Unknown'))];
 
   // Sort and filter data
   const sortedAndFilteredData = [...aircraftData]
     .filter(aircraft => {
       const matchesCategory = !categoryFilter || aircraft.category === categoryFilter;
       const matchesManufacturer = !manufacturerFilter || aircraft.manufacturer === manufacturerFilter;
+      const matchesPayware = !paywareFilter || aircraft.payware === paywareFilter;
       const matchesSearch = !searchTerm ||
         aircraft.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (aircraft.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
 
-      return matchesCategory && matchesManufacturer && matchesSearch;
+      return matchesCategory && matchesManufacturer && matchesPayware && matchesSearch;
     })
     .sort((a, b) => {
       const fieldA = a[sortField];
@@ -103,15 +106,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
     }
   };
 
-  const getTrendIcon = (current: number, old: number) => {
-    if (current < old) {
-      return <ArrowUpwardIcon color="success" />;
-    } else if (current > old) {
-      return <ArrowDownwardIcon color="error" />;
-    } else {
-      return <RemoveIcon color="action" />;
-    }
-  };
+  // We no longer need the trend icon function as we're not tracking rank changes
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -165,12 +160,29 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel id="payware-filter-label">Type</InputLabel>
+            <Select
+              labelId="payware-filter-label"
+              id="payware-filter"
+              value={paywareFilter}
+              label="Type"
+              onChange={(e) => setPaywareFilter(e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              {paywareTypes.map((type) => (
+                <MenuItem key={type} value={type}>{type}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <Button
             variant="outlined"
             onClick={() => {
               setSearchTerm('');
               setCategoryFilter('');
               setManufacturerFilter('');
+              setPaywareFilter('');
             }}
           >
             Clear Filters
@@ -184,23 +196,13 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
               <TableRow>
                 <TableCell>
                   <TableSortLabel
-                    active={sortField === 'currentRank'}
+                    active={sortField === 'rank'}
                     direction={sortDirection}
-                    onClick={() => handleSort('currentRank')}
+                    onClick={() => handleSort('rank')}
                   >
-                    Current
+                    Rank
                   </TableSortLabel>
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'oldRank'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('oldRank')}
-                  >
-                    Old
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>Trend</TableCell>
                 <TableCell>
                   <TableSortLabel
                     active={sortField === 'manufacturer'}
@@ -246,16 +248,34 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
                     Days
                   </TableSortLabel>
                 </TableCell>
+                <TableCell>
+                  <TableSortLabel
+                    active={sortField === 'payware'}
+                    direction={sortDirection}
+                    onClick={() => handleSort('payware')}
+                  >
+                    Type
+                  </TableSortLabel>
+                </TableCell>
+                <TableCell>
+                  <TableSortLabel
+                    active={sortField === 'weeksInChart'}
+                    direction={sortDirection}
+                    onClick={() => handleSort('weeksInChart')}
+                  >
+                    Weeks in Chart
+                  </TableSortLabel>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={8} align="center">Loading...</TableCell>
+                  <TableCell colSpan={9} align="center">Loading...</TableCell>
                 </TableRow>
               ) : sortedAndFilteredData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} align="center">No aircraft found</TableCell>
+                  <TableCell colSpan={9} align="center">No aircraft found</TableCell>
                 </TableRow>
               ) : (
                 sortedAndFilteredData.map((aircraft) => (
@@ -263,9 +283,9 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
                     key={aircraft.id}
                     hover
                   >
-                    <TableCell>{aircraft.currentRank}</TableCell>
-                    <TableCell>{aircraft.oldRank}</TableCell>
-                    <TableCell>{getTrendIcon(aircraft.currentRank, aircraft.oldRank)}</TableCell>
+                    <TableCell>
+                      {aircraft.rank || '-'}
+                    </TableCell>
                     <TableCell>{aircraft.manufacturer}</TableCell>
                     <TableCell>
                       <Link
@@ -286,6 +306,16 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
                       />
                     </TableCell>
                     <TableCell>{aircraft.daysOnList}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={aircraft.payware || 'Unknown'}
+                        variant="outlined"
+                        color={aircraft.payware === 'Freeware' ? 'success' :
+                          aircraft.payware === 'Payware' ? 'primary' : 'default'}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell>{aircraft.weeksInChart}</TableCell>
                   </TableRow>
                 ))
               )}
