@@ -32,7 +32,11 @@ import {
 import { Aircraft } from '../types/Aircraft';
 import { AircraftService } from '../services/AircraftService';
 
-const AircraftTable = () => {
+interface AircraftTableProps {
+  data?: Aircraft[];
+}
+
+const AircraftTable = ({ data }: AircraftTableProps) => {
   const [aircraftData, setAircraftData] = useState<Aircraft[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [sortField, setSortField] = useState<keyof Aircraft>('currentRank');
@@ -42,6 +46,14 @@ const AircraftTable = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
+    // If data is passed as a prop, use it directly
+    if (data) {
+      setAircraftData(data);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise fetch from API
     const fetchAircraft = async () => {
       try {
         const data = await AircraftService.getAll();

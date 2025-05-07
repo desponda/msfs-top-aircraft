@@ -3,6 +3,11 @@ import { blue, indigo } from '@mui/material/colors';
 import AircraftTable from './components/AircraftTable';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ReportSelector } from './components/ReportSelector';
+import { ReportDisplay } from './components/ReportDisplay';
+import { AdminReportManager } from './components/AdminReportManager';
+import { useState } from 'react';
 
 function App() {
   // Define a theme with blue/indigo colors for an aviation feel
@@ -81,24 +86,37 @@ function App() {
     },
   });
 
+  const [selectedReportId, setSelectedReportId] = useState<string>('');
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box
-        sx={{
-          bgcolor: theme.palette.background.default,
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Header />
-        <Container maxWidth="xl" sx={{ py: 4, flex: 1 }}>
-          <AircraftTable />
-        </Container>
-        <Footer />
-      </Box>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            bgcolor: theme.palette.background.default,
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <Header />
+          <Container maxWidth="xl" sx={{ py: 4, flex: 1 }}>
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <ReportSelector onReportSelected={setSelectedReportId} />
+                  <ReportDisplay reportId={selectedReportId} />
+                </>
+              } />
+              <Route path="/admin" element={<AdminReportManager />} />
+              <Route path="/legacy" element={<AircraftTable />} />
+            </Routes>
+          </Container>
+          <Footer />
+        </Box>
+      </ThemeProvider>
+    </BrowserRouter>
   )
 }
 

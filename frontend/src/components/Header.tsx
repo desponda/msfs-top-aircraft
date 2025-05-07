@@ -1,5 +1,6 @@
-import { Box, Typography, Container, Paper } from '@mui/material';
+import { Box, Typography, Container, Paper, Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -122,21 +123,50 @@ const Header = () => {
 
       {/* Content */}
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box sx={{ py: 8, display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ mr: 4, flexShrink: 0 }}>
-            {/* Modern airplane icon */}
-            <svg width="120" height="120" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21.5,16v1L16,14v6l2,2v1H10v-1l2-2v-6L6.5,17v-1L12,9V4c0-1.1,0.9-2,2-2s2,0.9,2,2v5L21.5,16z" />
-            </svg>
+        <Box sx={{ py: 8 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ mr: 4, flexShrink: 0 }}>
+              {/* Modern airplane icon */}
+              <RouterLink to="/">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.5,16v1L16,14v6l2,2v1H10v-1l2-2v-6L6.5,17v-1L12,9V4c0-1.1,0.9-2,2-2s2,0.9,2,2v5L21.5,16z" />
+                </svg>
+              </RouterLink>
+            </Box>
+            <Box>
+              <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 1 }}>
+                MSFS Aircraft Charts 2025
+              </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 300, maxWidth: '800px' }}>
+                The comprehensive ranking of Microsoft Flight Simulator aircraft based on community popularity,
+                votes, and trending data. Updated for 2025.
+              </Typography>
+            </Box>
           </Box>
-          <Box>
-            <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 1 }}>
-              MSFS Aircraft Charts 2025
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 300, maxWidth: '800px' }}>
-              The comprehensive ranking of Microsoft Flight Simulator aircraft based on community popularity,
-              votes, and trending data. Updated for 2025.
-            </Typography>
+
+          <Box sx={{ display: 'flex', mt: 3, justifyContent: 'flex-end' }}>
+            <Button
+              component={RouterLink}
+              to="/"
+              sx={{ color: 'white', mr: 2 }}
+            >
+              Home
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/legacy"
+              sx={{ color: 'white', mr: 2 }}
+            >
+              Legacy Charts
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/admin"
+              variant="outlined"
+              sx={{ color: 'white', borderColor: 'white' }}
+            >
+              Admin
+            </Button>
           </Box>
         </Box>
       </Container>

@@ -1,0 +1,212 @@
+[
+    {
+        "id": "2025-05",
+        "type": "monthly",
+        "year": 2025,
+        "month": 5,
+        "title": "Top Aircraft - May 2025",
+        "description": "The most popular aircraft for May 2025",
+        "createdAt": "2025-05-01T00:00:00Z",
+        "updatedAt": "2025-05-05T01:55:29.672Z",
+        "aircraft": [
+            {
+                "id": "cessna-172",
+                "name": "Cessna 172 Skyhawk",
+                "manufacturer": "Cessna",
+                "popularity": 1,
+                "category": "Propeller",
+                "msrp": 29999,
+                "buyUrl": "https://www.fspilotshop.com/cessna-172",
+                "previewImageUrl": "",
+                "description": "A popular four-seat, single-engine, high-wing aircraft.",
+                "tags": [
+                    "trainer",
+                    "GA",
+                    "classic"
+                ],
+                "votes": 1200,
+                "daysOnList": 365,
+                "oldRank": 2,
+                "currentRank": 1
+            },
+            {
+                "id": "diamond-da62",
+                "name": "Diamond DA62",
+                "manufacturer": "Diamond Aircraft",
+                "popularity": 4,
+                "category": "Propeller",
+                "msrp": 1200000,
+                "buyUrl": "https://www.fspilotshop.com/diamond-da62",
+                "previewImageUrl": "",
+                "description": "A modern twin-engine light aircraft.",
+                "tags": [
+                    "twin",
+                    "GA"
+                ],
+                "votes": 800,
+                "daysOnList": 300,
+                "oldRank": 3,
+                "currentRank": 4
+            },
+            {
+                "id": "tbm-930",
+                "name": "Daher TBM 930",
+                "manufacturer": "Daher",
+                "popularity": 5,
+                "category": "Turboprop",
+                "msrp": 4300000,
+                "buyUrl": "https://www.fspilotshop.com/tbm-930",
+                "previewImageUrl": "",
+                "description": "A high-performance single-engine turboprop.",
+                "tags": [
+                    "turboprop",
+                    "GA"
+                ],
+                "votes": 780,
+                "daysOnList": 295,
+                "oldRank": 5,
+                "currentRank": 5
+            }
+        ]
+    },
+    {
+        "id": "2025",
+        "type": "yearly",
+        "year": 2025,
+        "title": "Top Aircraft - 2025 (YTD)",
+        "description": "The most popular aircraft for 2025 (year-to-date)",
+        "createdAt": "2025-01-01T00:00:00Z",
+        "updatedAt": "2025-05-05T00:00:00Z",
+        "aircraft": [
+            {
+                "id": "cessna-172",
+                "name": "Cessna 172 Skyhawk",
+                "manufacturer": "Cessna",
+                "popularity": 1,
+                "category": "Propeller",
+                "msrp": 29999,
+                "buyUrl": "https://www.fspilotshop.com/cessna-172",
+                "previewImageUrl": "",
+                "description": "A popular four-seat, single-engine, high-wing aircraft.",
+                "tags": [
+                    "trainer",
+                    "GA",
+                    "classic"
+                ],
+                "votes": 4800,
+                "daysOnList": 151,
+                "oldRank": 2,
+                "currentRank": 1
+            },
+            {
+                "id": "piper-pa-28",
+                "name": "Piper PA-28 Cherokee",
+                "manufacturer": "Piper",
+                "popularity": 2,
+                "category": "Propeller",
+                "msrp": 25999,
+                "buyUrl": "https://www.fspilotshop.com/piper-pa-28",
+                "previewImageUrl": "",
+                "description": "A family of light aircraft designed for flight training, air taxi, and personal use.",
+                "tags": [
+                    "trainer",
+                    "GA"
+                ],
+                "votes": 4200,
+                "daysOnList": 151,
+                "oldRank": 1,
+                "currentRank": 2
+            },
+            {
+                "id": "beechcraft-bonanza",
+                "name": "Beechcraft Bonanza",
+                "manufacturer": "Beechcraft",
+                "popularity": 3,
+                "category": "Propeller",
+                "msrp": 45999,
+                "buyUrl": "https://www.fspilotshop.com/beechcraft-bonanza",
+                "previewImageUrl": "",
+                "description": "A high-performance single-engine aircraft known for its V-tail design.",
+                "tags": [
+                    "GA",
+                    "luxury"
+                ],
+                "votes": 3600,
+                "daysOnList": 151,
+                "oldRank": 5,
+                "currentRank": 3
+            }
+        ]
+    },
+    {
+        "id": "2025-04",
+        "type": "monthly",
+        "year": 2025,
+        "month": 4,
+        "title": "Top Aircraft - April 2025",
+        "description": "The most popular aircraft for April 2025",
+        "createdAt": "2025-04-01T00:00:00Z",
+        "updatedAt": "2025-05-05T01:55:13.971Z",
+        "aircraft": [
+            {
+                "id": "cessna-172",
+                "name": "Cessna 172 Skyhawk",
+                "manufacturer": "Cessna",
+                "popularity": 1,
+                "category": "Propeller",
+                "msrp": 29999,
+                "buyUrl": "https://www.fspilotshop.com/cessna-172",
+                "previewImageUrl": "",
+                "description": "A popular four-seat, single-engine, high-wing aircraft.",
+                "tags": [
+                    "trainer",
+                    "GA",
+                    "classic"
+                ],
+                "votes": 1200,
+                "daysOnList": 365,
+                "oldRank": 2,
+                "currentRank": 1
+            },
+            {
+                "id": "boeing-787",
+                "name": "Boeing 787 Dreamliner",
+                "manufacturer": "Boeing",
+                "popularity": 3,
+                "category": "Jet",
+                "msrp": 240000000,
+                "buyUrl": "https://www.fspilotshop.com/boeing-787",
+                "previewImageUrl": "",
+                "description": "A long-haul, wide-body, twin-engine jet airliner.",
+                "tags": [
+                    "airliner",
+                    "jet",
+                    "long-haul"
+                ],
+                "votes": 870,
+                "daysOnList": 320,
+                "oldRank": 4,
+                "currentRank": 3
+            },
+            {
+                "id": "diamond-da62",
+                "name": "Diamond DA62",
+                "manufacturer": "Diamond Aircraft",
+                "popularity": 4,
+                "category": "Propeller",
+                "msrp": 1200000,
+                "buyUrl": "https://www.fspilotshop.com/diamond-da62",
+                "previewImageUrl": "",
+                "description": "A modern twin-engine light aircraft.",
+                "tags": [
+                    "twin",
+                    "GA"
+                ],
+                "votes": 800,
+                "daysOnList": 300,
+                "oldRank": 3,
+                "currentRank": 4
+            }
+        ]
+    }
+]

@@ -1,0 +1,134 @@
+[
+    {
+        "id": "2025-05",
+        "type": "monthly",
+        "year": 2025,
+        "month": 5,
+        "title": "Top Aircraft - May 2025",
+        "description": "The most popular aircraft for May 2025",
+        "createdAt": "2025-05-01T00:00:00Z",
+        "updatedAt": "2025-05-01T00:00:00Z",
+        "aircraft": [
+            {
+                "id": "cessna-172",
+                "name": "Cessna 172 Skyhawk",
+                "manufacturer": "Cessna",
+                "popularity": 1,
+                "category": "Propeller",
+                "msrp": 29999,
+                "buyUrl": "https://www.fspilotshop.com/cessna-172",
+                "previewImageUrl": "",
+                "description": "A popular four-seat, single-engine, high-wing aircraft.",
+                "tags": [
+                    "trainer",
+                    "GA",
+                    "classic"
+                ],
+                "votes": 1200,
+                "daysOnList": 31,
+                "oldRank": 2,
+                "currentRank": 1
+            },
+            {
+                "id": "piper-pa-28",
+                "name": "Piper PA-28 Cherokee",
+                "manufacturer": "Piper",
+                "popularity": 2,
+                "category": "Propeller",
+                "msrp": 25999,
+                "buyUrl": "https://www.fspilotshop.com/piper-pa-28",
+                "previewImageUrl": "",
+                "description": "A family of light aircraft designed for flight training, air taxi, and personal use.",
+                "tags": [
+                    "trainer",
+                    "GA"
+                ],
+                "votes": 950,
+                "daysOnList": 31,
+                "oldRank": 1,
+                "currentRank": 2
+            }
+        ]
+    },
+    {
+        "id": "2025-04",
+        "type": "monthly",
+        "year": 2025,
+        "month": 4,
+        "title": "Top Aircraft - April 2025",
+        "description": "The most popular aircraft for April 2025",
+        "createdAt": "2025-04-01T00:00:00Z",
+        "updatedAt": "2025-04-01T00:00:00Z",
+        "aircraft": [
+            {
+                "id": "piper-pa-28",
+                "name": "Piper PA-28 Cherokee",
+                "manufacturer": "Piper",
+                "popularity": 1,
+                "category": "Propeller",
+                "msrp": 25999,
+                "buyUrl": "https://www.fspilotshop.com/piper-pa-28",
+                "previewImageUrl": "",
+                "description": "A family of light aircraft designed for flight training, air taxi, and personal use.",
+                "tags": [
+                    "trainer",
+                    "GA"
+                ],
+                "votes": 1100,
+                "daysOnList": 30,
+                "oldRank": 3,
+                "currentRank": 1
+            }
+        ]
+    },
+    {
+        "id": "2025",
+        "type": "yearly",
+        "year": 2025,
+        "title": "Top Aircraft - 2025 (YTD)",
+        "description": "The most popular aircraft for 2025 (year-to-date)",
+        "createdAt": "2025-01-01T00:00:00Z",
+        "updatedAt": "2025-05-01T00:00:00Z",
+        "aircraft": [
+            {
+                "id": "cessna-172",
+                "name": "Cessna 172 Skyhawk",
+                "manufacturer": "Cessna",
+                "popularity": 1,
+                "category": "Propeller",
+                "msrp": 29999,
+                "buyUrl": "https://www.fspilotshop.com/cessna-172",
+                "previewImageUrl": "",
+                "description": "A popular four-seat, single-engine, high-wing aircraft.",
+                "tags": [
+                    "trainer",
+                    "GA",
+                    "classic"
+                ],
+                "votes": 4800,
+                "daysOnList": 151,
+                "oldRank": 2,
+                "currentRank": 1
+            },
+            {
+                "id": "piper-pa-28",
+                "name": "Piper PA-28 Cherokee",
+                "manufacturer": "Piper",
+                "popularity": 2,
+                "category": "Propeller",
+                "msrp": 25999,
+                "buyUrl": "https://www.fspilotshop.com/piper-pa-28",
+                "previewImageUrl": "",
+                "description": "A family of light aircraft designed for flight training, air taxi, and personal use.",
+                "tags": [
+                    "trainer",
+                    "GA"
+                ],
+                "votes": 4200,
+                "daysOnList": 151,
+                "oldRank": 1,
+                "currentRank": 2
+            }
+        ]
+    }
+]

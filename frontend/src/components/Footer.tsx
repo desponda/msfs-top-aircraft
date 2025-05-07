@@ -1,5 +1,6 @@
 import { Box, Container, Typography, Link, Divider } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -21,14 +22,14 @@ const Footer = () => {
 
           <Box sx={{ mb: 3 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
-              Categories
+              Navigation
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Link href="#" underline="hover" color="text.secondary" sx={{ mb: 1 }}>
-                Commercial Jets
+              <Link component={RouterLink} to="/" underline="hover" color="text.secondary" sx={{ mb: 1 }}>
+                Latest Reports
               </Link>
-              <Link href="#" underline="hover" color="text.secondary" sx={{ mb: 1 }}>
-                General Aviation
+              <Link component={RouterLink} to="/legacy" underline="hover" color="text.secondary" sx={{ mb: 1 }}>
+                Legacy Charts
               </Link>
               <Link href="#" underline="hover" color="text.secondary" sx={{ mb: 1 }}>
                 Military Aircraft
