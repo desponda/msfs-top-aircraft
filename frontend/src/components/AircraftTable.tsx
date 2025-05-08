@@ -1,3 +1,4 @@
+// filepath: /workspaces/msfs-top-aircraft/frontend/src/components/AircraftTable.tsx
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -19,7 +20,8 @@ import {
   Button,
   Link,
   Card,
-  CardContent
+  CardContent,
+  Tooltip
 } from '@mui/material';
 import {
   ArrowUpward as ArrowUpwardIcon,
@@ -27,9 +29,11 @@ import {
   Remove as RemoveIcon,
   Search as SearchIcon,
   FilterList as FilterListIcon,
-  OpenInNew as OpenInNewIcon
+  OpenInNew as OpenInNewIcon,
+  Check as CheckIcon,
+  Close as CloseIcon
 } from '@mui/icons-material';
-import { Aircraft } from '../types/Aircraft';
+import { Aircraft, CompatibilityStatus } from '../types/Aircraft';
 import { AircraftService } from '../services/AircraftService';
 
 interface AircraftTableProps {
@@ -44,6 +48,8 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [manufacturerFilter, setManufacturerFilter] = useState<string>('');
   const [paywareFilter, setPaywareFilter] = useState<string>('');
+  const [msfs2020Filter, setMsfs2020Filter] = useState<string>('');
+  const [msfs2024Filter, setMsfs2024Filter] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
@@ -67,7 +73,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
     };
 
     fetchAircraft();
-  }, []);
+  }, [data]);
 
   // Extract unique categories, manufacturers, and payware types for filters
   const categories = [...new Set(aircraftData.map(aircraft => aircraft.category))];
@@ -80,11 +86,21 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
       const matchesCategory = !categoryFilter || aircraft.category === categoryFilter;
       const matchesManufacturer = !manufacturerFilter || aircraft.manufacturer === manufacturerFilter;
       const matchesPayware = !paywareFilter || aircraft.payware === paywareFilter;
+      const matchesMsfs2020 = !msfs2020Filter ||
+        (msfs2020Filter === CompatibilityStatus.NATIVE && aircraft.msfs2020Compatibility === CompatibilityStatus.NATIVE) ||
+        (msfs2020Filter === CompatibilityStatus.COMPATIBLE &&
+          (aircraft.msfs2020Compatibility === CompatibilityStatus.COMPATIBLE ||
+            aircraft.msfs2020Compatibility === CompatibilityStatus.NATIVE));
+      const matchesMsfs2024 = !msfs2024Filter ||
+        (msfs2024Filter === CompatibilityStatus.NATIVE && aircraft.msfs2024Compatibility === CompatibilityStatus.NATIVE) ||
+        (msfs2024Filter === CompatibilityStatus.COMPATIBLE &&
+          (aircraft.msfs2024Compatibility === CompatibilityStatus.COMPATIBLE ||
+            aircraft.msfs2024Compatibility === CompatibilityStatus.NATIVE));
       const matchesSearch = !searchTerm ||
         aircraft.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (aircraft.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
 
-      return matchesCategory && matchesManufacturer && matchesPayware && matchesSearch;
+      return matchesCategory && matchesManufacturer && matchesPayware && matchesMsfs2020 && matchesMsfs2024 && matchesSearch;
     })
     .sort((a, b) => {
       const fieldA = a[sortField];
@@ -106,7 +122,47 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
     }
   };
 
-  // We no longer need the trend icon function as we're not tracking rank changes
+  // Helper function to render compatibility icon
+  const renderCompatibilityIcon = (status?: CompatibilityStatus) => {
+    if (status === CompatibilityStatus.NATIVE) {
+      return (
+        <Tooltip title="Native Support">
+          <Chip
+            label="Native"
+            size="small"
+            color="success"
+            variant="outlined"
+            icon={<CheckIcon fontSize="small" />}
+          />
+        </Tooltip>
+      );
+    } else if (status === CompatibilityStatus.COMPATIBLE) {
+      return (
+        <Tooltip title="Compatible">
+          <Chip
+            label="Compatible"
+            size="small"
+            color="info"
+            variant="outlined"
+            icon={<CheckIcon fontSize="small" />}
+          />
+        </Tooltip>
+      );
+    } else if (status === CompatibilityStatus.NOT_COMPATIBLE) {
+      return (
+        <Tooltip title="Not Compatible">
+          <Chip
+            label="Not Compatible"
+            size="small"
+            color="error"
+            variant="outlined"
+            icon={<CloseIcon fontSize="small" />}
+          />
+        </Tooltip>
+      );
+    }
+    return <span>-</span>;
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -176,6 +232,36 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel id="msfs2020-filter-label">MSFS 2020</InputLabel>
+            <Select
+              labelId="msfs2020-filter-label"
+              id="msfs2020-filter"
+              value={msfs2020Filter}
+              label="MSFS 2020"
+              onChange={(e) => setMsfs2020Filter(e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value={CompatibilityStatus.NATIVE}>Native</MenuItem>
+              <MenuItem value={CompatibilityStatus.COMPATIBLE}>Compatible</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 150 }}>
+            <InputLabel id="msfs2024-filter-label">MSFS 2024</InputLabel>
+            <Select
+              labelId="msfs2024-filter-label"
+              id="msfs2024-filter"
+              value={msfs2024Filter}
+              label="MSFS 2024"
+              onChange={(e) => setMsfs2024Filter(e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value={CompatibilityStatus.NATIVE}>Native</MenuItem>
+              <MenuItem value={CompatibilityStatus.COMPATIBLE}>Compatible</MenuItem>
+            </Select>
+          </FormControl>
+
           <Button
             variant="outlined"
             onClick={() => {
@@ -183,6 +269,8 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
               setCategoryFilter('');
               setManufacturerFilter('');
               setPaywareFilter('');
+              setMsfs2020Filter('');
+              setMsfs2024Filter('');
             }}
           >
             Clear Filters
@@ -266,16 +354,22 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
                     Weeks in Chart
                   </TableSortLabel>
                 </TableCell>
+                <TableCell>
+                  MSFS 2020
+                </TableCell>
+                <TableCell>
+                  MSFS 2024
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={9} align="center">Loading...</TableCell>
+                  <TableCell colSpan={10} align="center">Loading...</TableCell>
                 </TableRow>
               ) : sortedAndFilteredData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={9} align="center">No aircraft found</TableCell>
+                  <TableCell colSpan={10} align="center">No aircraft found</TableCell>
                 </TableRow>
               ) : (
                 sortedAndFilteredData.map((aircraft) => (
@@ -316,6 +410,12 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
                       />
                     </TableCell>
                     <TableCell>{aircraft.weeksInChart}</TableCell>
+                    <TableCell>
+                      {renderCompatibilityIcon(aircraft.msfs2020Compatibility)}
+                    </TableCell>
+                    <TableCell>
+                      {renderCompatibilityIcon(aircraft.msfs2024Compatibility)}
+                    </TableCell>
                   </TableRow>
                 ))
               )}

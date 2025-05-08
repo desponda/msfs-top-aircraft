@@ -36,42 +36,64 @@ if (!fs.existsSync(unpublishedDir)) {
     fs.mkdirSync(unpublishedDir, { recursive: true });
 }
 
-// Parse the CSV file
-const parseCSV = () => {
-    console.log('Reading CSV file...');
-    // Read the CSV file line by line
-    const csvData = fs.readFileSync(csvPath, 'utf8');
+// Read existing aircraft data if it exists
+let existingAircraft = [];
+if (fs.existsSync(aircraftOutputPath)) {
+    try {
+        existingAircraft = JSON.parse(fs.readFileSync(aircraftOutputPath, 'utf8'));
+        console.log(`Loaded ${existingAircraft.length} existing aircraft`);
+    } catch (error) {
+        console.error('Error reading existing aircraft data:', error);
+    }
+}
 
-    // Simple CSV parsing approach
-    const lines = csvData.split('\n').filter(line => line.trim() !== '');
+// Create a map of existing aircraft by name + manufacturer for fast lookups
+const existingAircraftMap = new Map();
+existingAircraft.forEach(aircraft => {
+    const key = `${aircraft.manufacturer.trim().toLowerCase()}|${aircraft.name.trim().toLowerCase()}`;
+    existingAircraftMap.set(key, aircraft);
+});
 
-    const errorLines = [];
+// We no longer need to read aircraft-votes.json since we now store votes directly in each report
+
+// Generate the report ID
+const reportId = isMonthly
+    ? `${year}-${month.toString().padStart(2, '0')}`
+    : `${year}`;
+
+console.log(`Report ID: ${reportId}`);
+
+// Parse CSV and create aircraft data
+const parseCSV = (csvContent) => {
+    const lines = csvContent.split('\n');
+
+    // Extract header line
+    const header = lines[0].trim();
+
+    // Determine CSV format based on headers
+    let format;
+    if (header.includes('Developer,Aircraft,Votes')) {
+        format = 'simple';
+    } else if (header.includes('Developer,Aircraft,Category,P/F,Votes,Days')) {
+        format = 'detailed';
+    } else {
+        throw new Error('Unknown CSV format. Expected headers not found.');
+    }
+
+    console.log(`Detected CSV format: ${format}`);
+
     const aircraft = [];
+    const aircraftVotes = [];
+    const errorLines = [];
 
-    // Skip lines that are clearly not aircraft data
-    const relevantLines = lines.filter(line => {
-        return !line.includes('Total AIRCRAFT') &&
-            !line.includes('Total VOTES') &&
-            !line.includes('Total PARTICIPANTS') &&
-            line.trim() !== '';
-    });
+    // Parse data lines
+    lines.slice(1).forEach((line, index) => {
+        if (!line.trim()) return; // Skip empty lines
 
-    // Parse each line
-    lines.forEach((line, index) => {
         try {
-            // Skip the header row
-            if (index === 0) {
-                return;
-            }
-
-            // Skip the total lines at the end
-            if (line.includes('Total VOTES') || line.includes('Total PARTICIPANTS') || line.includes('Total AIRCRAFT')) {
-                return;
-            }
-
-            // CSV parsing handling quoted fields properly
-            const fields = [];
-            let fieldValue = '';
+            // Split the line by commas, but handle quoted values
+            const values = [];
+            let currentValue = '';
             let inQuotes = false;
 
             for (let i = 0; i < line.length; i++) {
@@ -80,23 +102,31 @@ const parseCSV = () => {
                 if (char === '"') {
                     inQuotes = !inQuotes;
                 } else if (char === ',' && !inQuotes) {
-                    fields.push(fieldValue);
-                    fieldValue = '';
+                    values.push(currentValue.trim());
+                    currentValue = '';
                 } else {
-                    fieldValue += char;
+                    currentValue += char;
                 }
             }
-            fields.push(fieldValue); // Push the last field
 
-            // Ensure we have enough columns
-            if (fields.length < 10) {
-                errorLines.push({ lineNumber: index + 1, line, error: 'Not enough fields' });
-                return;
+            // Add the last value
+            values.push(currentValue.trim());
+
+            let developer, name, category, paywareCode, votes, days, dateAdded, weeksInChart;
+
+            if (format === 'simple') {
+                [developer, name, votes] = values;
+                category = 'Unknown';
+                paywareCode = 'U';
+                days = '0';
+                dateAdded = '';
+                weeksInChart = '0';
+            } else { // detailed format
+                [developer, name, category, paywareCode, votes, days, dateAdded, weeksInChart] = values;
+
+                // Handle missing values
+                weeksInChart = weeksInChart || '0';
             }
-
-            // Extract the fields we need
-            const [prevRank, currentRank, rankChange, developer, name, votes, weeksInChart,
-                category, paywareCode, blank, dateAdded, days] = fields;
 
             // Check if the critical fields are valid
             if (!developer || !name) {
@@ -106,7 +136,7 @@ const parseCSV = () => {
 
             // Determine the payware status
             let paywareStatus;
-            switch (paywareCode.trim()) {
+            switch (paywareCode?.trim()) {
                 case 'P':
                     paywareStatus = 'Payware';
                     break;
@@ -144,21 +174,61 @@ const parseCSV = () => {
                 dateAddedFormatted = null;
             }
 
-            // Create the aircraft object
-            const aircraftObj = {
-                id: uuidv4(), // Generate a unique ID
-                name: name.trim(),
-                manufacturer: developer.trim(),
-                category: category.trim(),
-                payware: paywareStatus,
-                buyUrl: "", // We don't have this data in the CSV
+            // Create a unique key for lookups using cleaned names
+            const cleanedName = name.trim().toLowerCase();
+            const cleanedDeveloper = developer.trim().toLowerCase();
+            const key = `${cleanedDeveloper}|${cleanedName}`;
+
+            // Check if aircraft already exists in our data
+            let aircraftId;
+            const existingAircraft = existingAircraftMap.get(key);
+
+            if (existingAircraft) {
+                // Use existing aircraft ID
+                aircraftId = existingAircraft.id;
+
+                // Update any fields that might have changed (but preserve the ID)
+                const updatedAircraft = {
+                    ...existingAircraft,
+                    category: category?.trim() || existingAircraft.category,
+                    payware: paywareStatus || existingAircraft.payware,
+                    dateAdded: dateAddedFormatted || existingAircraft.dateAdded,
+                };
+
+                // Update both the map and the array
+                existingAircraftMap.set(key, updatedAircraft);
+
+                console.log(`Updated existing aircraft: ${developer.trim()} - ${name.trim()} (ID: ${aircraftId})`);
+            } else {
+                // Create new aircraft with a unique ID
+                aircraftId = uuidv4();
+
+                // Basic aircraft data (without votes)
+                const aircraftObj = {
+                    id: aircraftId,
+                    name: name.trim(),
+                    manufacturer: developer.trim(),
+                    category: category?.trim() || 'Unknown',
+                    payware: paywareStatus,
+                    buyUrl: "", // We don't have this data in the CSV
+                    dateAdded: dateAddedFormatted
+                };
+
+                // Add to both the map and array
+                existingAircraftMap.set(key, aircraftObj);
+
+                console.log(`Added new aircraft: ${developer.trim()} - ${name.trim()} (ID: ${aircraftId})`);
+            }
+
+            // Now create the vote data separately
+            const voteData = {
+                aircraftId,
                 votes: parseInt(votes) || 0,
                 daysOnList: parseInt(days) || 0,
-                dateAdded: dateAddedFormatted,
                 weeksInChart: parseInt(weeksInChart) || 0
             };
 
-            aircraft.push(aircraftObj);
+            aircraftVotes.push(voteData);
         } catch (error) {
             errorLines.push({ lineNumber: index + 1, line, error: error.message });
         }
@@ -173,11 +243,11 @@ const parseCSV = () => {
         });
     }
 
-    return { aircraft, errorLines };
+    return { aircraftData: existingAircraft, aircraftVotes, errorLines };
 };
 
-// Create report from the aircraft data
-const createReport = (aircraft) => {
+// Create report from the aircraft votes data
+const createReport = (aircraftVotes) => {
     const now = new Date().toISOString();
 
     // Get the month name if it's a monthly report
@@ -193,7 +263,7 @@ const createReport = (aircraft) => {
         // Create monthly report
         const monthName = getMonthName(month);
         const report = {
-            id: `${year}-${month.toString().padStart(2, '0')}`,
+            id: reportId,
             type: "monthly",
             year: parseInt(year),
             month: parseInt(month),
@@ -201,58 +271,64 @@ const createReport = (aircraft) => {
             description: `Monthly report of the most popular MSFS aircraft for ${monthName} ${year}.`,
             createdAt: now,
             updatedAt: now,
-            aircraft: aircraft
+            aircraftVotes: aircraftVotes
         };
         return report;
     } else {
         // Create yearly report
         const report = {
-            id: `${year}`,
+            id: reportId,
             type: "yearly",
             year: parseInt(year),
             title: `Top Aircraft - ${year}`,
             description: `Yearly report of the most popular MSFS aircraft for ${year}.`,
             createdAt: now,
             updatedAt: now,
-            aircraft: aircraft
+            aircraftVotes: aircraftVotes
         };
         return report;
     }
 };
 
-// Save the aircraft separately for the aircraft API
-const saveAircraftData = (aircraft) => {
-    console.log(`Saving ${aircraft.length} aircraft to ${aircraftOutputPath}`);
-    fs.writeFileSync(aircraftOutputPath, JSON.stringify(aircraft, null, 2));
+// Save the aircraft data separately
+const saveAircraftData = (aircraftMap) => {
+    const aircraftArray = Array.from(aircraftMap.values());
+    console.log(`Saving ${aircraftArray.length} aircraft to ${aircraftOutputPath}`);
+    fs.writeFileSync(aircraftOutputPath, JSON.stringify(aircraftArray, null, 2));
 };
 
 // Save the report data to the unpublished directory
 const saveReportData = (report) => {
     // Create the filename based on the report type and ID
     const filename = `${report.id}.json`;
-    const filepath = path.join(unpublishedDir, filename);
+    const filePath = path.join(unpublishedDir, filename);
 
-    console.log(`Saving report to ${filepath}`);
-    fs.writeFileSync(filepath, JSON.stringify(report, null, 2));
-
-    console.log(`Report saved as unpublished. To publish, run:
-    cp ${filepath} ${publishedDir}/${filename}`);
+    console.log(`Saving unpublished report to ${filePath}`);
+    fs.writeFileSync(filePath, JSON.stringify(report, null, 2));
 };
 
 // Main execution
 try {
-    const { aircraft, errorLines } = parseCSV();
-    console.log(`Parsed ${aircraft.length} aircraft from CSV`);
-    console.log(`Encountered ${errorLines.length} errors during parsing`);
+    // Read the CSV file
+    const csvContent = fs.readFileSync(csvPath, 'utf8');
 
-    // Create report from the aircraft data
-    const report = createReport(aircraft);
+    // Parse the CSV and create aircraft data
+    const { aircraftData, aircraftVotes, errorLines } = parseCSV(csvContent);
 
-    // Save the data
-    saveAircraftData(aircraft);
+    // Create the report object
+    const report = createReport(aircraftVotes);
+
+    // Save all the data
+    saveAircraftData(existingAircraftMap);
     saveReportData(report);
 
-    console.log('CSV conversion complete!');
+    console.log(`Successfully created report with ${aircraftVotes.length} aircraft`);
+
+    // Exit with error if there were parsing errors
+    if (errorLines.length > 0) {
+        process.exit(1);
+    }
 } catch (error) {
-    console.error('Fatal error:', error);
+    console.error('Error processing CSV:', error);
+    process.exit(1);
 }

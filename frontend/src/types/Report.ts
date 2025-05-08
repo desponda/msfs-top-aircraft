@@ -1,4 +1,4 @@
-import { Aircraft } from './Aircraft';
+import { Aircraft, AircraftWithVotes } from './Aircraft';
 
 export enum ReportType {
     MONTHLY = 'monthly',
@@ -16,8 +16,19 @@ export interface ReportMeta {
     updatedAt: string;
 }
 
+export interface AircraftVoteData {
+    aircraftId: string;
+    votes: number;
+    daysOnList: number;
+    weeksInChart: number;
+}
+
+export interface ReportData extends ReportMeta {
+    aircraftVotes: AircraftVoteData[];
+}
+
 export interface Report extends ReportMeta {
-    aircraft: Aircraft[];
+    aircraft: AircraftWithVotes[];
 }
 
 export interface ReportSummary extends ReportMeta {

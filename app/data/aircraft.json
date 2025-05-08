@@ -3912,6 +3912,18 @@
     "weeksInChart": 140
   },
   {
+    "id": "d0d52cc0-5593-46dc-9fbc-ee3117ef2757",
+    "name": "F-22 Raptor",
+    "manufacturer": "Top Mach Studio",
+    "category": "Military (Modern)",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "votes": 0,
+    "daysOnList": 1161,
+    "dateAdded": "2022-03-28T00:00:00.000Z",
+    "weeksInChart": 166
+  },
+  {
     "id": "ad93f632-241c-4868-a042-c6b9f32e298d",
     "name": "Airbus A321neo (with & without mods)",
     "manufacturer": "LatinVFR",
@@ -4042,18 +4054,6 @@
     "daysOnList": 1023,
     "dateAdded": "2022-08-13T00:00:00.000Z",
     "weeksInChart": 147
-  },
-  {
-    "id": "22927ef0-ccd7-423e-be2e-0eaca034c5e2",
-    "name": "F-22 Raptor",
-    "manufacturer": "Top Mach Studio",
-    "category": "Military (Modern)",
-    "payware": "Payware",
-    "buyUrl": "",
-    "votes": 0,
-    "daysOnList": 1041,
-    "dateAdded": "2022-07-26T00:00:00.000Z",
-    "weeksInChart": 149
   },
   {
     "id": "84b85690-4572-4ee0-9f72-ae4862d57d66",
@@ -4824,18 +4824,6 @@
     "weeksInChart": 166
   },
   {
-    "id": "d0d52cc0-5593-46dc-9fbc-ee3117ef2757",
-    "name": "F-22 Raptor",
-    "manufacturer": "Top Mach Studio",
-    "category": "Military (Modern)",
-    "payware": "Freeware",
-    "buyUrl": "",
-    "votes": 0,
-    "daysOnList": 1161,
-    "dateAdded": "2022-03-28T00:00:00.000Z",
-    "weeksInChart": 166
-  },
-  {
     "id": "e7582b36-2eb6-48a4-8554-05f786816355",
     "name": "Grumman JRF-6B Goose",
     "manufacturer": "Big Radials",
@@ -5062,5 +5050,158 @@
     "daysOnList": 1162,
     "dateAdded": "2022-03-27T00:00:00.000Z",
     "weeksInChart": 167
+  },
+  {
+    "id": "1b106303-b34a-4a9e-b350-4c4bd0c84a44",
+    "name": "Beechcraft Model 18(with & without mods)",
+    "manufacturer": "Microsoft",
+    "category": "Piston GA",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2022-06-16T00:00:00.000Z"
+  },
+  {
+    "id": "10fb609f-d657-450c-83c8-cd906c45164f",
+    "name": "Cessna C208B Grand Caravan(Steam Gauge Overhaul)",
+    "manufacturer": "Black Square",
+    "category": "Turboprop",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2022-07-24T00:00:00.000Z"
+  },
+  {
+    "id": "5a37298d-24a5-4c24-94af-916d91326ad5",
+    "name": "Cessna C152 (with WB-Sim / JPL mod)",
+    "manufacturer": "Asobo",
+    "category": "Piston GA",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2022-03-27T00:00:00.000Z"
+  },
+  {
+    "id": "5fb7c61e-adda-49de-b260-fb3e8a0fab7f",
+    "name": "Daher TBM 930(inc. with improvement mod)",
+    "manufacturer": "Asobo",
+    "category": "Turboprop",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2022-03-28T00:00:00.000Z"
+  },
+  {
+    "id": "9809ff0c-0848-4e83-b0fd-2afcb75adc92",
+    "name": "Ornithopter (Dune Expansion DLC)",
+    "manufacturer": "Microsoft",
+    "category": "Other",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2024-03-02T00:00:00.000Z"
+  },
+  {
+    "id": "ae03c6d1-44e2-4533-aec9-6496cc7b77dc",
+    "name": "P-40N WarHawk",
+    "manufacturer": "Flight g42as",
+    "category": "Warbird (Classic)",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2023-04-19T00:00:00.000Z"
+  },
+  {
+    "id": "6f8ba3c0-e506-41b9-ab05-b06291dd031a",
+    "name": "Beechcraft Baron B58(Steam Gauge Overhaul)",
+    "manufacturer": "Black Square",
+    "category": "Piston GA",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2023-03-27T00:00:00.000Z"
+  },
+  {
+    "id": "0dfa6cc6-900f-4185-9271-2ea7fced824f",
+    "name": "Mignet Pou-du-Ciel HM.14(The “Flying Flea”)",
+    "manufacturer": "Rara-Avis Sims",
+    "category": "Ultralight / Sports",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2023-03-12T00:00:00.000Z"
+  },
+  {
+    "id": "9fd93ec2-c388-4dfb-bbea-539f44cc150a",
+    "name": "Beechcraft Bonanza A36(Steam Gauge Overhaul)",
+    "manufacturer": "Black Square",
+    "category": "Piston GA",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2023-03-09T00:00:00.000Z"
+  },
+  {
+    "id": "50d2e1e1-da24-4033-8eeb-8ce4c7120f2e",
+    "name": "Flying Toilet",
+    "manufacturer": "Orangener",
+    "category": "Other",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2023-02-13T00:00:00.000Z"
+  },
+  {
+    "id": "79a29306-1eff-4fb5-9af1-a92b4bc13966",
+    "name": "Cessna 172SP Classic Enhancement",
+    "manufacturer": "WB-Sim",
+    "category": "Piston GA",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2022-08-26T00:00:00.000Z"
+  },
+  {
+    "id": "500f8e19-d467-41e3-9663-9e319a1bb382",
+    "name": "Discus 2c [Free & Premium]",
+    "manufacturer": "Got Friends",
+    "category": "Glider",
+    "payware": "Both Free & Premium",
+    "buyUrl": "",
+    "dateAdded": "2022-04-07T00:00:00.000Z"
+  },
+  {
+    "id": "009e6904-9849-487a-8c80-1d9d0aedd155",
+    "name": "Hurricane",
+    "manufacturer": "Fsadnis",
+    "category": "Warbird (Classic)",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2022-03-28T00:00:00.000Z"
+  },
+  {
+    "id": "052c1a90-1f2b-40f6-8f64-087ba1e1c73e",
+    "name": "DHC-6 Twin Otter",
+    "manufacturer": "Aerosoft",
+    "category": "Turboprop",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2022-03-27T00:00:00.000Z"
+  },
+  {
+    "id": "8571ede0-d30c-45d5-9ed4-11d87e3345c2",
+    "name": "Cessna 172",
+    "manufacturer": "Asobo",
+    "category": "GA",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2025-05-01T00:00:00.000Z"
+  },
+  {
+    "id": "57a2c69f-230b-43c5-bc76-448d9573ed88",
+    "name": "A320neo",
+    "manufacturer": "FlyByWire",
+    "category": "Airliner",
+    "payware": "Freeware",
+    "buyUrl": "",
+    "dateAdded": "2025-05-01T00:00:00.000Z"
+  },
+  {
+    "id": "c31fec7f-e1a7-44c5-9e5f-1280bb2148db",
+    "name": "CRJ 700",
+    "manufacturer": "Aerosoft",
+    "category": "Regional",
+    "payware": "Payware",
+    "buyUrl": "",
+    "dateAdded": "2025-05-01T00:00:00.000Z"
   }
 ]

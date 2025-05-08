@@ -1,3 +1,9 @@
+export enum CompatibilityStatus {
+    NATIVE = 'Native',
+    COMPATIBLE = 'Compatible',
+    NOT_COMPATIBLE = 'Not Compatible'
+}
+
 export interface Aircraft {
     id: string; // Unique identifier (UUID)
     name: string;
@@ -9,9 +15,14 @@ export interface Aircraft {
     previewImageUrl?: string;
     description?: string;
     tags?: string[];
+    dateAdded?: string; // ISO date string
+    msfs2020Compatibility?: CompatibilityStatus;
+    msfs2024Compatibility?: CompatibilityStatus;
+}
+
+export interface AircraftWithVotes extends Aircraft {
     votes: number;
     daysOnList: number;
-    dateAdded?: string; // ISO date string
     weeksInChart: number;
     rank?: number; // Position in the rankings, calculated on the server
 }

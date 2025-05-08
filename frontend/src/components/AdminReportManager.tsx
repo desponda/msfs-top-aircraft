@@ -174,17 +174,55 @@ export const AdminReportManager = () => {
             ? `Top Aircraft - ${getMonthName(reportMonth)} ${reportYear}`
             : `Top Aircraft - ${reportYear}`);
 
-        // Get selected aircraft details
+        // Get selected aircraft details and create vote data entries
         const selectedAircraft = allAircraft.filter(a =>
             selectedAircraftIds.includes(a.id));
 
-        const reportData: Partial<Report> = {
+        // For new reports, we'll initialize vote data to 0
+        // For existing reports, we'll keep existing vote data
+        const aircraftVotes = selectedAircraftIds.map(id => {
+            // If editing, try to find existing vote data for this aircraft
+            let votes = 0;
+            let daysOnList = 0;
+            let weeksInChart = 0;
+
+            if (dialogMode === 'edit' && editingReport?.id) {
+                const fullReport = editingReport as Report;
+                // Find the aircraft vote data in the report
+                if (fullReport.aircraft) {
+                    // Handle old format for backward compatibility
+                    const existingAircraft = fullReport.aircraft.find(a => a.id === id);
+                    if (existingAircraft) {
+                        votes = existingAircraft.votes || 0;
+                        daysOnList = existingAircraft.daysOnList || 0;
+                        weeksInChart = existingAircraft.weeksInChart || 0;
+                    }
+                } else if (fullReport.aircraftVotes) {
+                    // Handle new format
+                    const existingVoteData = fullReport.aircraftVotes.find(v => v.aircraftId === id);
+                    if (existingVoteData) {
+                        votes = existingVoteData.votes || 0;
+                        daysOnList = existingVoteData.daysOnList || 0;
+                        weeksInChart = existingVoteData.weeksInChart || 0;
+                    }
+                }
+            }
+
+            return {
+                aircraftId: id,
+                votes,
+                daysOnList,
+                weeksInChart
+            };
+        });
+
+        const reportData = {
             id: reportId,
             type: reportType,
             year: reportYear,
             title,
             description: reportDescription || undefined,
-            aircraft: selectedAircraft,
+            aircraftVotes: aircraftVotes,
         };
 
         if (reportType === ReportType.MONTHLY) {

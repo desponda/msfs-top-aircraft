@@ -8,7 +8,8 @@ const Header = () => {
       elevation={0}
       sx={{
         position: 'relative',
-        backgroundColor: blue[700],
+        backgroundColor: '#111111',
+        backgroundImage: 'linear-gradient(to right, #000000, #1a1a1a)',
         color: '#fff',
         mb: 4,
         borderRadius: 0,
@@ -134,10 +135,10 @@ const Header = () => {
               </RouterLink>
             </Box>
             <Box>
-              <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 1 }}>
+              <Typography variant="h3" component="h1" sx={{ fontWeight: 700, mb: 1, color: '#00e5ff' }}>
                 MSFS Aircraft Charts 2025
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 300, maxWidth: '800px' }}>
+              <Typography variant="h6" sx={{ fontWeight: 300, maxWidth: '800px', color: '#b0b0b0' }}>
                 The comprehensive ranking of Microsoft Flight Simulator aircraft based on community popularity,
                 votes, and trending data. Updated for 2025.
               </Typography>
@@ -148,14 +149,26 @@ const Header = () => {
             <Button
               component={RouterLink}
               to="/"
-              sx={{ color: 'white', mr: 2 }}
+              sx={{
+                color: '#00e5ff',
+                mr: 2,
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 229, 255, 0.08)'
+                }
+              }}
             >
               Home
             </Button>
             <Button
               component={RouterLink}
               to="/legacy"
-              sx={{ color: 'white', mr: 2 }}
+              sx={{
+                color: '#00e5ff',
+                mr: 2,
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 229, 255, 0.08)'
+                }
+              }}
             >
               Legacy Charts
             </Button>
@@ -163,7 +176,14 @@ const Header = () => {
               component={RouterLink}
               to="/admin"
               variant="outlined"
-              sx={{ color: 'white', borderColor: 'white' }}
+              sx={{
+                color: '#00e5ff',
+                borderColor: '#00e5ff',
+                '&:hover': {
+                  borderColor: '#33eaff',
+                  backgroundColor: 'rgba(0, 229, 255, 0.08)'
+                }
+              }}
             >
               Admin
             </Button>

@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { Report, ReportSummary, ReportType } from '../types/Report';
-import { Aircraft } from '../types/Aircraft';
+import { Report, ReportData, ReportSummary, ReportType, AircraftVoteData } from '../types/Report';
+import { Aircraft, AircraftWithVotes } from '../types/Aircraft';
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 const publishedDir = path.join(__dirname, '../data/published');
 const unpublishedDir = path.join(__dirname, '../data/unpublished');
+const aircraftDataPath = path.join(__dirname, '../data/aircraft.json');
 
 // Ensure directories exist
 if (!fs.existsSync(publishedDir)) {
@@ -39,6 +40,102 @@ const authenticate = (req: any, res: any, next: any) => {
     }
 };
 
+// Helper function to get aircraft data
+function getAircraftData(): Aircraft[] {
+    const raw = fs.readFileSync(aircraftDataPath, 'utf-8');
+    return JSON.parse(raw);
+}
+
+// Function to get published reports
+function getPublishedReportsData(): ReportData[] {
+    try {
+        const files = fs.readdirSync(publishedDir);
+        return files
+            .filter(file => file.endsWith('.json'))
+            .map(file => {
+                const filePath = path.join(publishedDir, file);
+                const raw = fs.readFileSync(filePath, 'utf-8');
+                return JSON.parse(raw) as ReportData;
+            });
+    } catch (error) {
+        console.error('Error reading published reports:', error);
+        return [];
+    }
+}
+
+// Function to get unpublished reports
+function getUnpublishedReportsData(): ReportData[] {
+    try {
+        const files = fs.readdirSync(unpublishedDir);
+        return files
+            .filter(file => file.endsWith('.json'))
+            .map(file => {
+                const filePath = path.join(unpublishedDir, file);
+                const raw = fs.readFileSync(filePath, 'utf-8');
+                return JSON.parse(raw) as ReportData;
+            });
+    } catch (error) {
+        console.error('Error reading unpublished reports:', error);
+        return [];
+    }
+}
+
+// Helper function to combine aircraft data with vote data
+function mergeAircraftWithVotes(reportData: ReportData): Report {
+    const aircraftData = getAircraftData();
+
+    // Combine aircraft base data with votes
+    const aircraftWithVotes: AircraftWithVotes[] = reportData.aircraftVotes.map(voteData => {
+        const baseAircraft = aircraftData.find(a => a.id === voteData.aircraftId);
+
+        if (!baseAircraft) {
+            console.warn(`Aircraft with ID ${voteData.aircraftId} not found in base data`);
+            return null;
+        }
+
+        return {
+            ...baseAircraft,
+            votes: voteData.votes,
+            daysOnList: voteData.daysOnList,
+            weeksInChart: voteData.weeksInChart
+        };
+    }).filter((a): a is AircraftWithVotes => a !== null);
+
+    // Sort by votes
+    const sortedAircraft = aircraftWithVotes.sort((a, b) => {
+        // First sort by votes (descending)
+        if (a.votes !== b.votes) {
+            return b.votes - a.votes;
+        }
+
+        // For tied votes, sort by date added (descending)
+        // Later date (newer aircraft) comes first
+        if (a.dateAdded && b.dateAdded) {
+            return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+        } else if (b.dateAdded) {
+            return -1; // b has a date but a doesn't, b comes first
+        } else if (a.dateAdded) {
+            return 1; // a has a date but b doesn't, a comes first
+        }
+
+        // Both dates are null/undefined, preserve original order
+        return 0;
+    });
+
+    // Add rank
+    sortedAircraft.forEach((aircraft, index) => {
+        aircraft.rank = index + 1;
+    });
+
+    // Build the full report
+    const report: Report = {
+        ...reportData,
+        aircraft: sortedAircraft
+    };
+
+    return report;
+}
+
 // Get all published reports (just metadata, not full aircraft data)
 router.get('/', (req, res) => {
     try {
@@ -69,7 +166,7 @@ router.get('/', (req, res) => {
             description: report.description,
             createdAt: report.createdAt,
             updatedAt: report.updatedAt,
-            aircraftCount: report.aircraft.length
+            aircraftCount: report.aircraftVotes.length
         }));
 
         res.json(summaries);
@@ -83,16 +180,20 @@ router.get('/', (req, res) => {
 router.get('/latest', (req, res) => {
     try {
         const reports = getPublishedReportsData();
-        const latestMonthly = reports
+        const latestMonthlyData = reports
             .filter(r => r.type === ReportType.MONTHLY)
             .sort((a, b) => {
                 if (a.year !== b.year) return b.year - a.year;
                 return (b.month || 0) - (a.month || 0);
             })[0];
 
-        const latestYearly = reports
+        const latestYearlyData = reports
             .filter(r => r.type === ReportType.YEARLY)
             .sort((a, b) => b.year - a.year)[0];
+
+        // Merge with aircraft data to get full reports
+        const latestMonthly = latestMonthlyData ? mergeAircraftWithVotes(latestMonthlyData) : undefined;
+        const latestYearly = latestYearlyData ? mergeAircraftWithVotes(latestYearlyData) : undefined;
 
         res.json({
             monthly: latestMonthly,
@@ -108,255 +209,290 @@ router.get('/latest', (req, res) => {
 router.get('/:id', (req, res) => {
     try {
         const reports = getPublishedReportsData();
-        const report = reports.find(r => r.id === req.params.id);
+        const reportData = reports.find(r => r.id === req.params.id);
 
-        if (!report) {
+        if (!reportData) {
             return res.status(404).json({ message: 'Report not found' });
-        }        // Sort aircraft by votes (descending) and then by dateAdded (descending for ties)
-        const sortedAircraft = [...report.aircraft].sort((a, b) => {
-            // First sort by votes (descending)
-            if (a.votes !== b.votes) {
-                return b.votes - a.votes;
-            }
-            
-            // For tied votes, sort by date added (descending)
-            // Later date (newer aircraft) comes first
-            if (a.dateAdded && b.dateAdded) {
-                return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
-            } else if (b.dateAdded) {
-                return -1; // b has a date but a doesn't, b comes first
-            } else if (a.dateAdded) {
-                return 1; // a has a date but b doesn't, a comes first
-            }
+        }
 
-            // Both dates are null/undefined, preserve original order
-            return 0;
+        // Merge with aircraft data to get full report
+        const fullReport = mergeAircraftWithVotes(reportData);
+
+        const { msfs2020, msfs2024 } = req.query;
+        let filteredAircraft = [...fullReport.aircraft];
+
+        // Filter by MSFS compatibility if needed
+        if (msfs2020) {
+            filteredAircraft = filteredAircraft.filter(a => {
+                if (msfs2020 === 'Native') {
+                    return a.msfs2020Compatibility === 'Native';
+                } else if (msfs2020 === 'Compatible') {
+                    return a.msfs2020Compatibility === 'Native' || a.msfs2020Compatibility === 'Compatible';
+                }
+                return true;
+            });
+        }
+
+        if (msfs2024) {
+            filteredAircraft = filteredAircraft.filter(a => {
+                if (msfs2024 === 'Native') {
+                    return a.msfs2024Compatibility === 'Native';
+                } else if (msfs2024 === 'Compatible') {
+                    return a.msfs2024Compatibility === 'Native' || a.msfs2024Compatibility === 'Compatible';
+                }
+                return true;
+            });
+        }
+
+        // Return the report with filtered aircraft
+        res.json({
+            ...fullReport,
+            aircraft: filteredAircraft
         });
-
-        // Add rank property to each aircraft
-        sortedAircraft.forEach((aircraft, index) => {
-            aircraft.rank = index + 1;
-        });
-
-        // Return the modified report with sorted and ranked aircraft
-        const rankedReport = {
-            ...report,
-            aircraft: sortedAircraft
-        };
-
-        res.json(rankedReport);
     } catch (error) {
-        console.error(`Error fetching report ${req.params.id}:`, error);
+        console.error('Error fetching report:', error);
         res.status(500).json({ message: 'Failed to fetch report' });
     }
 });
 
 // Admin routes
-
-// Get all unpublished reports (for admin only)
-router.get('/admin/unpublished', authenticate, (req, res) => {
+// Get all reports (published and unpublished) - admin only
+router.get('/admin/all', authenticate, (req, res) => {
     try {
-        const reports = getUnpublishedReportsData();
-        const summaries = reports.map(report => ({
-            id: report.id,
-            type: report.type,
-            year: report.year,
-            month: report.month,
-            title: report.title,
-            description: report.description,
-            createdAt: report.createdAt,
-            updatedAt: report.updatedAt,
-            aircraftCount: report.aircraft.length
+        const published = getPublishedReportsData();
+        const unpublished = getUnpublishedReportsData();
+
+        const publishedSummaries = published.map(report => ({
+            ...report,
+            aircraftCount: report.aircraftVotes.length,
+            status: 'published'
         }));
-        res.json(summaries);
+
+        const unpublishedSummaries = unpublished.map(report => ({
+            ...report,
+            aircraftCount: report.aircraftVotes.length,
+            status: 'unpublished'
+        }));
+
+        res.json([...publishedSummaries, ...unpublishedSummaries]);
     } catch (error) {
-        console.error('Error fetching unpublished reports:', error);
-        res.status(500).json({ message: 'Failed to fetch unpublished reports' });
+        console.error('Error fetching all reports:', error);
+        res.status(500).json({ message: 'Failed to fetch reports' });
     }
 });
 
-// Create a new report (admin only)
+// Get a specific unpublished report by ID - admin only
+router.get('/admin/unpublished/:id', authenticate, (req, res) => {
+    try {
+        const reports = getUnpublishedReportsData();
+        const reportData = reports.find(r => r.id === req.params.id);
+
+        if (!reportData) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        // Merge with aircraft data to get full report
+        const fullReport = mergeAircraftWithVotes(reportData);
+        res.json(fullReport);
+    } catch (error) {
+        console.error('Error fetching unpublished report:', error);
+        res.status(500).json({ message: 'Failed to fetch report' });
+    }
+});
+
+// Create a new report - admin only
 router.post('/', authenticate, (req, res) => {
     try {
-        const newReport: Report = req.body;
+        const { title, description, type, year, month, aircraftIds } = req.body;
 
-        if (!newReport.aircraft || !Array.isArray(newReport.aircraft)) {
-            return res.status(400).json({ message: 'Aircraft data is required' });
+        // Validate required fields
+        if (!title || !type || !year || !aircraftIds) {
+            return res.status(400).json({ message: 'Missing required fields' });
         }
 
-        // Generate ID if not provided
-        if (!newReport.id) {
-            newReport.id = newReport.type === ReportType.MONTHLY
-                ? `${newReport.year}-${newReport.month?.toString().padStart(2, '0')}`
-                : `${newReport.year}`;
+        if (type === ReportType.MONTHLY && !month) {
+            return res.status(400).json({ message: 'Month is required for monthly reports' });
         }
 
-        // Generate title if not provided
-        if (!newReport.title) {
-            newReport.title = newReport.type === ReportType.MONTHLY
-                ? `Top Aircraft - ${getMonthName(newReport.month || 0)} ${newReport.year}`
-                : `Top Aircraft - ${newReport.year}`;
+        // Create report ID
+        const reportId = type === ReportType.MONTHLY
+            ? `${year}-${month.toString().padStart(2, '0')}`
+            : `${year}`;
+
+        // Check if report with this ID already exists
+        const unpublishedReports = getUnpublishedReportsData();
+        const publishedReports = getPublishedReportsData();
+
+        if (unpublishedReports.some(r => r.id === reportId) || publishedReports.some(r => r.id === reportId)) {
+            return res.status(409).json({ message: 'Report with this ID already exists' });
         }
 
-        // Set timestamps
+        // Get base aircraft data
+        const allAircraft = getAircraftData();
+        const selectedAircraft = allAircraft.filter(a => aircraftIds.includes(a.id));
+
+        if (selectedAircraft.length === 0) {
+            return res.status(400).json({ message: 'No valid aircraft selected' });
+        }
+
         const now = new Date().toISOString();
-        newReport.createdAt = now;
-        newReport.updatedAt = now;
 
-        // Save to unpublished directory
-        const filename = `${newReport.id}.json`;
-        const filepath = path.join(unpublishedDir, filename);
-        fs.writeFileSync(filepath, JSON.stringify(newReport, null, 4));
+        // Create vote data for each aircraft
+        const aircraftVotes: AircraftVoteData[] = selectedAircraft.map(aircraft => ({
+            aircraftId: aircraft.id,
+            votes: 0, // Default to 0 votes for new report
+            daysOnList: 0,
+            weeksInChart: 0
+        }));
 
-        res.status(201).json(newReport);
+        // Create the new report
+        const newReport: ReportData = {
+            id: reportId,
+            type: type as ReportType,
+            year: Number(year),
+            month: type === ReportType.MONTHLY ? Number(month) : undefined,
+            title,
+            description,
+            createdAt: now,
+            updatedAt: now,
+            aircraftVotes
+        };
+
+        // Save the report to the unpublished directory
+        const filePath = path.join(unpublishedDir, `${reportId}.json`);
+        fs.writeFileSync(filePath, JSON.stringify(newReport, null, 2));
+
+        // Return the full report with aircraft data
+        const fullReport = mergeAircraftWithVotes(newReport);
+        res.status(201).json(fullReport);
     } catch (error) {
         console.error('Error creating report:', error);
         res.status(500).json({ message: 'Failed to create report' });
     }
 });
 
-// Update an unpublished report (admin only)
+// Update a report - admin only
 router.put('/:id', authenticate, (req, res) => {
     try {
+        const { title, description, aircraftVotes } = req.body;
         const reportId = req.params.id;
-        const updatedReport: Report = req.body;
 
-        // Ensure report ID matches
-        if (reportId !== updatedReport.id) {
-            return res.status(400).json({ message: 'Report ID mismatch' });
+        // Try to find in unpublished, then published
+        let report;
+        let isPublished = false;
+        let reportFilePath;
+
+        const unpublishedReports = getUnpublishedReportsData();
+        report = unpublishedReports.find(r => r.id === reportId);
+
+        if (report) {
+            reportFilePath = path.join(unpublishedDir, `${reportId}.json`);
+        } else {
+            const publishedReports = getPublishedReportsData();
+            report = publishedReports.find(r => r.id === reportId);
+
+            if (report) {
+                reportFilePath = path.join(publishedDir, `${reportId}.json`);
+                isPublished = true;
+            }
         }
 
-        // Set updated timestamp
-        updatedReport.updatedAt = new Date().toISOString();
+        if (!report || !reportFilePath) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
 
-        // Save to unpublished directory
-        const filename = `${updatedReport.id}.json`;
-        const filepath = path.join(unpublishedDir, filename);
-        fs.writeFileSync(filepath, JSON.stringify(updatedReport, null, 4));
+        // Update the report
+        const updatedReport: ReportData = {
+            ...report,
+            title: title || report.title,
+            description: description !== undefined ? description : report.description,
+            updatedAt: new Date().toISOString()
+        };
 
-        res.json(updatedReport);
+        // Update aircraft votes if provided
+        if (aircraftVotes) {
+            updatedReport.aircraftVotes = aircraftVotes;
+        }
+
+        // Save the updated report
+        fs.writeFileSync(reportFilePath, JSON.stringify(updatedReport, null, 2));
+
+        // Return the full report with aircraft data
+        const fullReport = mergeAircraftWithVotes(updatedReport);
+        res.json(fullReport);
     } catch (error) {
-        console.error(`Error updating report ${req.params.id}:`, error);
+        console.error('Error updating report:', error);
         res.status(500).json({ message: 'Failed to update report' });
     }
 });
 
-// Delete an unpublished report (admin only)
-router.delete('/:id', authenticate, (req, res) => {
+// Publish a report - admin only
+router.post('/admin/publish/:id', authenticate, (req, res) => {
     try {
         const reportId = req.params.id;
-        const filepath = path.join(unpublishedDir, `${reportId}.json`);
 
-        if (!fs.existsSync(filepath)) {
-            return res.status(404).json({ message: 'Report not found' });
-        }
+        // Check if report exists in unpublished
+        const unpublishedReports = getUnpublishedReportsData();
+        const report = unpublishedReports.find(r => r.id === reportId);
 
-        fs.unlinkSync(filepath);
-        res.json({ message: 'Report deleted successfully' });
-    } catch (error) {
-        console.error(`Error deleting report ${req.params.id}:`, error);
-        res.status(500).json({ message: 'Failed to delete report' });
-    }
-});
-
-// Publish a report (move from unpublished to published)
-router.post('/:id/publish', authenticate, (req, res) => {
-    try {
-        const reportId = req.params.id;
-        const unpublishedPath = path.join(unpublishedDir, `${reportId}.json`);
-        const publishedPath = path.join(publishedDir, `${reportId}.json`);
-
-        if (!fs.existsSync(unpublishedPath)) {
+        if (!report) {
             return res.status(404).json({ message: 'Unpublished report not found' });
         }
 
-        // Read the unpublished report
-        const reportData = fs.readFileSync(unpublishedPath, 'utf-8');
-        const report = JSON.parse(reportData);
+        const sourceFile = path.join(unpublishedDir, `${reportId}.json`);
+        const destFile = path.join(publishedDir, `${reportId}.json`);
 
-        // Update the published timestamp
-        report.updatedAt = new Date().toISOString();
+        // Check if report already exists in published
+        if (fs.existsSync(destFile)) {
+            return res.status(409).json({ message: 'Report is already published' });
+        }
 
-        // Write to published directory
-        fs.writeFileSync(publishedPath, JSON.stringify(report, null, 4));
+        // Update the publish date
+        const updatedReport = {
+            ...report,
+            updatedAt: new Date().toISOString()
+        };
 
-        res.json({ message: 'Report published successfully', report });
+        // Write to published and delete from unpublished
+        fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
+        fs.unlinkSync(sourceFile);
+
+        res.json({ message: 'Report published successfully' });
     } catch (error) {
-        console.error(`Error publishing report ${req.params.id}:`, error);
+        console.error('Error publishing report:', error);
         res.status(500).json({ message: 'Failed to publish report' });
     }
 });
 
-// Helper functions
-
-// Read all report files from published directory
-function getPublishedReportsData(): Report[] {
+// Delete a report - admin only
+router.delete('/:id', authenticate, (req, res) => {
     try {
-        const reports: Report[] = [];
+        const reportId = req.params.id;
+        let found = false;
 
-        if (!fs.existsSync(publishedDir)) {
-            return reports;
+        // Check if report exists in unpublished first
+        const unpublishedFile = path.join(unpublishedDir, `${reportId}.json`);
+        if (fs.existsSync(unpublishedFile)) {
+            fs.unlinkSync(unpublishedFile);
+            found = true;
         }
 
-        const files = fs.readdirSync(publishedDir);
-
-        files.forEach(file => {
-            if (file.endsWith('.json')) {
-                try {
-                    const reportPath = path.join(publishedDir, file);
-                    const reportData = fs.readFileSync(reportPath, 'utf-8');
-                    const report = JSON.parse(reportData);
-                    reports.push(report);
-                } catch (err) {
-                    console.error(`Error reading report file ${file}:`, err);
-                }
-            }
-        });
-
-        return reports;
-    } catch (error) {
-        console.error('Error reading reports data:', error);
-        return [];
-    }
-}
-
-// Read all report files from unpublished directory
-function getUnpublishedReportsData(): Report[] {
-    try {
-        const reports: Report[] = [];
-
-        if (!fs.existsSync(unpublishedDir)) {
-            return reports;
+        // Then check published
+        const publishedFile = path.join(publishedDir, `${reportId}.json`);
+        if (fs.existsSync(publishedFile)) {
+            fs.unlinkSync(publishedFile);
+            found = true;
         }
 
-        const files = fs.readdirSync(unpublishedDir);
+        if (!found) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
 
-        files.forEach(file => {
-            if (file.endsWith('.json')) {
-                try {
-                    const reportPath = path.join(unpublishedDir, file);
-                    const reportData = fs.readFileSync(reportPath, 'utf-8');
-                    const report = JSON.parse(reportData);
-                    reports.push(report);
-                } catch (err) {
-                    console.error(`Error reading report file ${file}:`, err);
-                }
-            }
-        });
-
-        return reports;
+        res.json({ message: 'Report deleted successfully' });
     } catch (error) {
-        console.error('Error reading reports data:', error);
-        return [];
+        console.error('Error deleting report:', error);
+        res.status(500).json({ message: 'Failed to delete report' });
     }
-}
-
-function getMonthName(month: number): string {
-    const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    return months[month - 1] || '';
-}
+});
 
 export default router;

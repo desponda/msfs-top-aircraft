@@ -10,14 +10,27 @@ import { AdminReportManager } from './components/AdminReportManager';
 import { useState } from 'react';
 
 function App() {
-  // Define a theme with blue/indigo colors for an aviation feel
+  // Define a dark theme with cyan/blue accents inspired by the screenshot
   const theme = createTheme({
     palette: {
-      mode: 'light',
-      primary: blue,
-      secondary: indigo,
+      mode: 'dark',
+      primary: {
+        main: '#00e5ff', // Bright cyan similar to the screenshot
+        light: '#33eaff',
+        dark: '#00a0b2',
+      },
+      secondary: {
+        main: '#7986cb', // Light indigo
+        light: '#aab6fe',
+        dark: '#49599a',
+      },
       background: {
-        default: '#f5f5f7',
+        default: '#1e1e1e',
+        paper: '#2d2d2d',
+      },
+      text: {
+        primary: '#ffffff',
+        secondary: '#b0b0b0',
       },
     },
     typography: {
@@ -32,7 +45,7 @@ function App() {
       ].join(','),
       h4: {
         fontWeight: 600,
-        color: blue[700],
+        color: '#00e5ff', // Cyan accent color
       },
     },
     components: {
@@ -40,7 +53,8 @@ function App() {
         styleOverrides: {
           root: {
             borderRadius: 12,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+            background: '#2d2d2d',
           },
         },
       },
@@ -48,7 +62,8 @@ function App() {
         styleOverrides: {
           root: {
             borderRadius: 12,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+            background: '#2d2d2d',
           },
         },
       },
@@ -63,7 +78,10 @@ function App() {
         styleOverrides: {
           head: {
             fontWeight: 600,
-            backgroundColor: blue[50],
+            backgroundColor: '#1a1a1a', // Dark header
+          },
+          root: {
+            borderColor: 'rgba(255, 255, 255, 0.1)', // Subtle border color
           },
         },
       },
@@ -74,12 +92,32 @@ function App() {
             textTransform: 'none',
             fontWeight: 500,
           },
+          containedPrimary: {
+            background: 'linear-gradient(45deg, #00e5ff 10%, #2979ff 90%)',
+          },
         },
       },
       MuiChip: {
         styleOverrides: {
           root: {
             borderRadius: 6,
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: '#b0b0b0',
+            '&.Mui-selected': {
+              color: '#00e5ff',
+            }
+          },
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: '#00e5ff',
           },
         },
       },
@@ -105,7 +143,7 @@ function App() {
             <Routes>
               <Route path="/" element={
                 <>
-                  <ReportSelector onReportSelected={setSelectedReportId} />
+                  <ReportSelector onReportSelected={setSelectedReportId} reportId={selectedReportId} />
                   <ReportDisplay reportId={selectedReportId} />
                 </>
               } />
