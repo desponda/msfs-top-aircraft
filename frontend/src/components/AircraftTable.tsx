@@ -33,17 +33,21 @@ import {
   Check as CheckIcon,
   Close as CloseIcon
 } from '@mui/icons-material';
-import { Aircraft, CompatibilityStatus } from '../types/Aircraft';
+import { Aircraft, AircraftWithVotes, CompatibilityStatus } from '../types/Aircraft';
 import { AircraftService } from '../services/AircraftService';
 
 interface AircraftTableProps {
-  data?: Aircraft[];
+  data?: Aircraft[] | AircraftWithVotes[];
+}
+
+function isWithVotes(a: Aircraft | AircraftWithVotes): a is AircraftWithVotes {
+  return typeof (a as AircraftWithVotes).votes === 'number';
 }
 
 const AircraftTable = ({ data }: AircraftTableProps) => {
-  const [aircraftData, setAircraftData] = useState<Aircraft[]>([]);
+  const [aircraftData, setAircraftData] = useState<(Aircraft | AircraftWithVotes)[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [sortField, setSortField] = useState<keyof Aircraft>('votes');
+  const [sortField, setSortField] = useState<keyof (Aircraft & AircraftWithVotes)>('votes');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [manufacturerFilter, setManufacturerFilter] = useState<string>('');
@@ -80,6 +84,11 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
   const manufacturers = [...new Set(aircraftData.map(aircraft => aircraft.manufacturer))];
   const paywareTypes = [...new Set(aircraftData.map(aircraft => aircraft.payware || 'Unknown'))];
 
+  function getField(obj: Aircraft | AircraftWithVotes, field: keyof (Aircraft & AircraftWithVotes)) {
+    // Only return the field if it exists on the object
+    return (obj as any)[field as any];
+  }
+
   // Sort and filter data
   const sortedAndFilteredData = [...aircraftData]
     .filter(aircraft => {
@@ -103,9 +112,8 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
       return matchesCategory && matchesManufacturer && matchesPayware && matchesMsfs2020 && matchesMsfs2024 && matchesSearch;
     })
     .sort((a, b) => {
-      const fieldA = a[sortField];
-      const fieldB = b[sortField];
-
+      const fieldA = getField(a, sortField);
+      const fieldB = getField(b, sortField);
       if (fieldA !== undefined && fieldB !== undefined) {
         if (fieldA < fieldB) return sortDirection === 'asc' ? -1 : 1;
         if (fieldA > fieldB) return sortDirection === 'asc' ? 1 : -1;
@@ -113,7 +121,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
       return 0;
     });
 
-  const handleSort = (field: keyof Aircraft) => {
+  const handleSort = (field: keyof (Aircraft & AircraftWithVotes)) => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -166,13 +174,13 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2, p: 2 }}>
-        <Typography variant="h5" gutterBottom component="div" sx={{ mb: 3 }}>
+      <Box sx={{ width: '100%', mb: 2, p: 0 }}>
+        <Typography variant="subtitle2" gutterBottom component="div" sx={{ mb: 2, color: 'text.secondary', fontWeight: 600, fontSize: '1.1rem', letterSpacing: 0 }}>
           Aircraft Rankings & Data
         </Typography>
 
         {/* Filters */}
-        <Box sx={{ mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ mb: 2, display: 'flex', gap: 1.5, flexWrap: 'wrap', background: 'transparent', p: 0, border: 'none', alignItems: 'center' }}>
           <TextField
             label="Search"
             variant="outlined"
@@ -182,9 +190,10 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             InputProps={{
               startAdornment: <SearchIcon fontSize="small" sx={{ mr: 1 }} />,
             }}
+            sx={{ minWidth: 140, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}
           />
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
+          <FormControl size="small" sx={{ minWidth: 120, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
             <InputLabel id="category-filter-label">Category</InputLabel>
             <Select
               labelId="category-filter-label"
@@ -200,7 +209,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
+          <FormControl size="small" sx={{ minWidth: 120, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
             <InputLabel id="manufacturer-filter-label">Developer</InputLabel>
             <Select
               labelId="manufacturer-filter-label"
@@ -216,7 +225,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
+          <FormControl size="small" sx={{ minWidth: 100, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
             <InputLabel id="payware-filter-label">Type</InputLabel>
             <Select
               labelId="payware-filter-label"
@@ -232,7 +241,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
+          <FormControl size="small" sx={{ minWidth: 110, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
             <InputLabel id="msfs2020-filter-label">MSFS 2020</InputLabel>
             <Select
               labelId="msfs2020-filter-label"
@@ -247,7 +256,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
+          <FormControl size="small" sx={{ minWidth: 110, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
             <InputLabel id="msfs2024-filter-label">MSFS 2024</InputLabel>
             <Select
               labelId="msfs2024-filter-label"
@@ -264,6 +273,22 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
 
           <Button
             variant="outlined"
+            sx={{
+              color: 'text.secondary',
+              borderColor: 'rgba(255,255,255,0.07)',
+              fontWeight: 500,
+              fontSize: '0.97rem',
+              px: 2,
+              borderRadius: 3,
+              background: 'none',
+              textTransform: 'none',
+              minHeight: 40,
+              '&:hover': {
+                color: '#a259f7',
+                borderColor: '#a259f7',
+                background: 'rgba(162,89,247,0.08)',
+              },
+            }}
             onClick={() => {
               setSearchTerm('');
               setCategoryFilter('');
@@ -278,86 +303,128 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
         </Box>
 
         {/* Table */}
-        <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="aircraft table">
+        <TableContainer sx={{ mt: 3, boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)', borderRadius: 4, overflow: 'auto', background: 'rgba(255,255,255,0.01)' }}>
+          <Table stickyHeader sx={{ minWidth: 900 }}>
             <TableHead>
-              <TableRow>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'rank'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('rank')}
-                  >
-                    Rank
-                  </TableSortLabel>
+              <TableRow sx={{ background: 'rgba(255,255,255,0.01)' }}>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Rank
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'manufacturer'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('manufacturer')}
-                  >
-                    Developer
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Developer
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'name'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('name')}
-                  >
-                    Aircraft
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Aircraft
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'votes'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('votes')}
-                  >
-                    Votes
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Votes
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'category'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('category')}
-                  >
-                    Category
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Category
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'daysOnList'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('daysOnList')}
-                  >
-                    Days
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Days
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'payware'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('payware')}
-                  >
-                    Type
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Type
                 </TableCell>
-                <TableCell>
-                  <TableSortLabel
-                    active={sortField === 'weeksInChart'}
-                    direction={sortDirection}
-                    onClick={() => handleSort('weeksInChart')}
-                  >
-                    Weeks in Chart
-                  </TableSortLabel>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
+                  Weeks in Chart
                 </TableCell>
-                <TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
                   MSFS 2020
                 </TableCell>
-                <TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.secondary',
+                    background: 'rgba(255,255,255,0.01)',
+                    fontSize: '1rem',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    zIndex: 2,
+                  }}
+                >
                   MSFS 2024
                 </TableCell>
               </TableRow>
@@ -372,44 +439,68 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
                   <TableCell colSpan={10} align="center">No aircraft found</TableCell>
                 </TableRow>
               ) : (
-                sortedAndFilteredData.map((aircraft) => (
+                sortedAndFilteredData.map((aircraft, idx) => (
                   <TableRow
                     key={aircraft.id}
                     hover
+                    sx={{
+                      background: idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.03)',
+                      transition: 'background 0.2s',
+                      '&:hover': {
+                        background: 'rgba(162,89,247,0.07)',
+                      },
+                    }}
                   >
+                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 700 }}>{isWithVotes(aircraft) && aircraft.rank !== undefined ? aircraft.rank : '-'}</TableCell>
+                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{aircraft.manufacturer}</TableCell>
                     <TableCell>
-                      {aircraft.rank || '-'}
+                      <Tooltip title={aircraft.name} placement="top" arrow>
+                        <span style={{ color: '#f4f4fa', textDecoration: 'underline', cursor: 'pointer', fontWeight: 500 }}>
+                          <Link
+                            href={aircraft.buyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {aircraft.name}
+                            <OpenInNewIcon fontSize="small" sx={{ ml: 0.5 }} />
+                          </Link>
+                        </span>
+                      </Tooltip>
                     </TableCell>
-                    <TableCell>{aircraft.manufacturer}</TableCell>
-                    <TableCell>
-                      <Link
-                        href={aircraft.buyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {aircraft.name}
-                        <OpenInNewIcon fontSize="small" sx={{ ml: 0.5 }} />
-                      </Link>
-                    </TableCell>
-                    <TableCell>{aircraft.votes}</TableCell>
+                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{isWithVotes(aircraft) ? aircraft.votes : '-'}</TableCell>
                     <TableCell>
                       <Chip
                         label={aircraft.category}
                         variant="outlined"
                         size="small"
+                        sx={{
+                          background: 'rgba(255,255,255,0.04)',
+                          color: 'text.secondary',
+                          fontWeight: 500,
+                          fontSize: '0.92rem',
+                          borderRadius: 2,
+                          letterSpacing: 0,
+                        }}
                       />
                     </TableCell>
-                    <TableCell>{aircraft.daysOnList}</TableCell>
+                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{isWithVotes(aircraft) ? aircraft.daysOnList : '-'}</TableCell>
                     <TableCell>
                       <Chip
                         label={aircraft.payware || 'Unknown'}
-                        variant="outlined"
-                        color={aircraft.payware === 'Freeware' ? 'success' :
-                          aircraft.payware === 'Payware' ? 'primary' : 'default'}
+                        variant="filled"
                         size="small"
+                        sx={{
+                          background: 'rgba(255,255,255,0.04)',
+                          color: 'text.secondary',
+                          fontWeight: 500,
+                          fontSize: '0.92rem',
+                          paddingX: 1.2,
+                          borderRadius: 2,
+                          letterSpacing: 0,
+                        }}
                       />
                     </TableCell>
-                    <TableCell>{aircraft.weeksInChart}</TableCell>
+                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{isWithVotes(aircraft) ? aircraft.weeksInChart : '-'}</TableCell>
                     <TableCell>
                       {renderCompatibilityIcon(aircraft.msfs2020Compatibility)}
                     </TableCell>
@@ -422,54 +513,6 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Paper>
-
-      {/* Summary Cards */}
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 2 }}>
-        <Card sx={{ minWidth: 200 }}>
-          <CardContent>
-            <Typography variant="h6" component="div" gutterBottom>
-              Total Aircraft
-            </Typography>
-            <Typography variant="h3" component="div">
-              {aircraftData.length}
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card sx={{ minWidth: 200 }}>
-          <CardContent>
-            <Typography variant="h6" component="div" gutterBottom>
-              Most Popular Category
-            </Typography>
-            <Typography variant="h5" component="div">
-              {categories.length > 0 ?
-                categories.sort((a, b) =>
-                  aircraftData.filter(aircraft => aircraft.category === b).length -
-                  aircraftData.filter(aircraft => aircraft.category === a).length
-                )[0] :
-                'N/A'
-              }
-            </Typography>
-          </CardContent>
-        </Card>
-
-        <Card sx={{ minWidth: 200 }}>
-          <CardContent>
-            <Typography variant="h6" component="div" gutterBottom>
-              Top Developer
-            </Typography>
-            <Typography variant="h5" component="div">
-              {manufacturers.length > 0 ?
-                manufacturers.sort((a, b) =>
-                  aircraftData.filter(aircraft => aircraft.manufacturer === b).length -
-                  aircraftData.filter(aircraft => aircraft.manufacturer === a).length
-                )[0] :
-                'N/A'
-              }
-            </Typography>
-          </CardContent>
-        </Card>
       </Box>
     </Box>
   );
