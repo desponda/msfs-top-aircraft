@@ -1,4 +1,5 @@
 // filepath: /workspaces/msfs-top-aircraft/frontend/src/components/AircraftTable.tsx
+import React from 'react';
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -21,7 +22,9 @@ import {
   Link,
   Card,
   CardContent,
-  Tooltip
+  Tooltip,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import {
   ArrowUpward as ArrowUpwardIcon,
@@ -44,6 +47,8 @@ function isWithVotes(a: Aircraft | AircraftWithVotes): a is AircraftWithVotes {
   return typeof (a as AircraftWithVotes).votes === 'number';
 }
 
+const PAGE_SIZE = 50;
+
 const AircraftTable = ({ data }: AircraftTableProps) => {
   const [aircraftData, setAircraftData] = useState<(Aircraft | AircraftWithVotes)[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -55,6 +60,9 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
   const [msfs2020Filter, setMsfs2020Filter] = useState<string>('');
   const [msfs2024Filter, setMsfs2024Filter] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [page, setPage] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     // If data is passed as a prop, use it directly
@@ -78,6 +86,9 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
 
     fetchAircraft();
   }, [data]);
+
+  // Reset to first page on filter/search change
+  useEffect(() => { setPage(0); }, [categoryFilter, manufacturerFilter, paywareFilter, msfs2020Filter, msfs2024Filter, searchTerm]);
 
   // Extract unique categories, manufacturers, and payware types for filters
   const categories = [...new Set(aircraftData.map(aircraft => aircraft.category))];
@@ -130,47 +141,30 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
     }
   };
 
-  // Helper function to render compatibility icon
-  const renderCompatibilityIcon = (status?: CompatibilityStatus) => {
-    if (status === CompatibilityStatus.NATIVE) {
-      return (
-        <Tooltip title="Native Support">
-          <Chip
-            label="Native"
-            size="small"
-            color="success"
-            variant="outlined"
-            icon={<CheckIcon fontSize="small" />}
-          />
-        </Tooltip>
-      );
-    } else if (status === CompatibilityStatus.COMPATIBLE) {
-      return (
-        <Tooltip title="Compatible">
-          <Chip
-            label="Compatible"
-            size="small"
-            color="info"
-            variant="outlined"
-            icon={<CheckIcon fontSize="small" />}
-          />
-        </Tooltip>
-      );
-    } else if (status === CompatibilityStatus.NOT_COMPATIBLE) {
-      return (
-        <Tooltip title="Not Compatible">
-          <Chip
-            label="Not Compatible"
-            size="small"
-            color="error"
-            variant="outlined"
-            icon={<CloseIcon fontSize="small" />}
-          />
-        </Tooltip>
-      );
-    }
-    return <span>-</span>;
+  // Helper function to render compatibility chips for both MSFS 2020 and 2024
+  const renderCombinedCompatibility = (aircraft: Aircraft | AircraftWithVotes) => {
+    const chips: React.ReactNode[] = [];
+    const compat = [
+      { label: 'MSFS 2020', status: (aircraft as any).msfs2020Compatibility },
+      { label: 'MSFS 2024', status: (aircraft as any).msfs2024Compatibility },
+    ];
+    compat.forEach(({ label, status }) => {
+      if (status === CompatibilityStatus.NATIVE) {
+        chips.push(
+          <Chip key={label} label={label} size="small" sx={{ bgcolor: '#22C55E', color: '#fff', mr: 0.5, fontWeight: 600 }} />
+        );
+      } else if (status === CompatibilityStatus.COMPATIBLE) {
+        chips.push(
+          <Chip key={label} label={label} size="small" sx={{ bgcolor: '#FFD600', color: '#232946', mr: 0.5, fontWeight: 600 }} />
+        );
+      }
+      // No chip for not compatible
+    });
+    return chips.length > 0 ? chips : <Typography variant="caption" color="text.secondary">Not Compatible</Typography>;
   };
+
+  const paginatedData = sortedAndFilteredData.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const totalPages = Math.ceil(sortedAndFilteredData.length / PAGE_SIZE);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -180,7 +174,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
         </Typography>
 
         {/* Filters */}
-        <Box sx={{ mb: 2, display: 'flex', gap: 1.5, flexWrap: 'wrap', background: 'transparent', p: 0, border: 'none', alignItems: 'center' }}>
+        <Box sx={{ mb: 2, display: 'flex', gap: 1.5, flexWrap: 'wrap', background: 'transparent', p: 0, border: 'none', alignItems: 'center', flexDirection: { xs: 'column', sm: 'row' } }}>
           <TextField
             label="Search"
             variant="outlined"
@@ -190,10 +184,10 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             InputProps={{
               startAdornment: <SearchIcon fontSize="small" sx={{ mr: 1 }} />,
             }}
-            sx={{ minWidth: 140, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}
+            sx={{ minWidth: 140, background: 'rgba(255,255,255,0.02)', borderRadius: 2, width: { xs: '100%', sm: 'auto' } }}
           />
 
-          <FormControl size="small" sx={{ minWidth: 120, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 120, background: 'rgba(255,255,255,0.02)', borderRadius: 2, width: { xs: '100%', sm: 'auto' } }}>
             <InputLabel id="category-filter-label">Category</InputLabel>
             <Select
               labelId="category-filter-label"
@@ -209,7 +203,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 120, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 120, background: 'rgba(255,255,255,0.02)', borderRadius: 2, width: { xs: '100%', sm: 'auto' } }}>
             <InputLabel id="manufacturer-filter-label">Developer</InputLabel>
             <Select
               labelId="manufacturer-filter-label"
@@ -225,7 +219,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 100, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 100, background: 'rgba(255,255,255,0.02)', borderRadius: 2, width: { xs: '100%', sm: 'auto' } }}>
             <InputLabel id="payware-filter-label">Type</InputLabel>
             <Select
               labelId="payware-filter-label"
@@ -241,7 +235,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 110, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 110, background: 'rgba(255,255,255,0.02)', borderRadius: 2, width: { xs: '100%', sm: 'auto' } }}>
             <InputLabel id="msfs2020-filter-label">MSFS 2020</InputLabel>
             <Select
               labelId="msfs2020-filter-label"
@@ -256,7 +250,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 110, background: 'rgba(255,255,255,0.02)', borderRadius: 2 }}>
+          <FormControl size="small" sx={{ minWidth: 110, background: 'rgba(255,255,255,0.02)', borderRadius: 2, width: { xs: '100%', sm: 'auto' } }}>
             <InputLabel id="msfs2024-filter-label">MSFS 2024</InputLabel>
             <Select
               labelId="msfs2024-filter-label"
@@ -283,6 +277,7 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
               background: 'none',
               textTransform: 'none',
               minHeight: 40,
+              width: { xs: '100%', sm: 'auto' },
               '&:hover': {
                 color: '#a259f7',
                 borderColor: '#a259f7',
@@ -302,217 +297,172 @@ const AircraftTable = ({ data }: AircraftTableProps) => {
           </Button>
         </Box>
 
-        {/* Table */}
-        <TableContainer sx={{ mt: 3, boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)', borderRadius: 4, overflow: 'auto', background: 'rgba(255,255,255,0.01)' }}>
-          <Table stickyHeader sx={{ minWidth: 900 }}>
-            <TableHead>
-              <TableRow sx={{ background: 'rgba(255,255,255,0.01)' }}>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Rank
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Developer
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Aircraft
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Votes
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Category
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Days
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Type
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  Weeks in Chart
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  MSFS 2020
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 600,
-                    color: 'text.secondary',
-                    background: 'rgba(255,255,255,0.01)',
-                    fontSize: '1rem',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    zIndex: 2,
-                  }}
-                >
-                  MSFS 2024
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={10} align="center">Loading...</TableCell>
-                </TableRow>
-              ) : sortedAndFilteredData.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={10} align="center">No aircraft found</TableCell>
-                </TableRow>
-              ) : (
-                sortedAndFilteredData.map((aircraft, idx) => (
-                  <TableRow
-                    key={aircraft.id}
-                    hover
-                    sx={{
-                      background: idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.03)',
-                      transition: 'background 0.2s',
-                      '&:hover': {
-                        background: 'rgba(162,89,247,0.07)',
-                      },
-                    }}
-                  >
-                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 700 }}>{isWithVotes(aircraft) && aircraft.rank !== undefined ? aircraft.rank : '-'}</TableCell>
-                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{aircraft.manufacturer}</TableCell>
-                    <TableCell>
-                      <Tooltip title={aircraft.name} placement="top" arrow>
-                        <span style={{ color: '#f4f4fa', textDecoration: 'underline', cursor: 'pointer', fontWeight: 500 }}>
-                          <Link
-                            href={aircraft.buyUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {aircraft.name}
-                            <OpenInNewIcon fontSize="small" sx={{ ml: 0.5 }} />
-                          </Link>
-                        </span>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{isWithVotes(aircraft) ? aircraft.votes : '-'}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={aircraft.category}
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          background: 'rgba(255,255,255,0.04)',
-                          color: 'text.secondary',
-                          fontWeight: 500,
-                          fontSize: '0.92rem',
-                          borderRadius: 2,
-                          letterSpacing: 0,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{isWithVotes(aircraft) ? aircraft.daysOnList : '-'}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={aircraft.payware || 'Unknown'}
-                        variant="filled"
-                        size="small"
-                        sx={{
-                          background: 'rgba(255,255,255,0.04)',
-                          color: 'text.secondary',
-                          fontWeight: 500,
-                          fontSize: '0.92rem',
-                          paddingX: 1.2,
-                          borderRadius: 2,
-                          letterSpacing: 0,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ color: '#f4f4fa', fontWeight: 600 }}>{isWithVotes(aircraft) ? aircraft.weeksInChart : '-'}</TableCell>
-                    <TableCell>
-                      {renderCompatibilityIcon(aircraft.msfs2020Compatibility)}
-                    </TableCell>
-                    <TableCell>
-                      {renderCompatibilityIcon(aircraft.msfs2024Compatibility)}
-                    </TableCell>
+        {/* Responsive Table/Card Layout */}
+        {isMobile ? (
+          <Box>
+            {loading ? (
+              <Typography align="center" sx={{ py: 4 }}>Loading...</Typography>
+            ) : paginatedData.length === 0 ? (
+              <Typography align="center" sx={{ py: 4 }}>No aircraft found</Typography>
+            ) : (
+              paginatedData.map((aircraft, idx) => (
+                <Card key={aircraft.id} sx={{ mb: 2, background: 'rgba(255,255,255,0.01)', borderRadius: 4, boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)', width: '100%' }}>
+                  <CardContent>
+                    <Typography variant="h6" sx={{ color: '#a259f7', fontWeight: 700, mb: 1 }}>
+                      {isWithVotes(aircraft) && aircraft.rank !== undefined ? `#${aircraft.rank}` : '-'} {aircraft.name}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 0.5 }}>
+                      <b>Aircraft:</b> {aircraft.name}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 0.5 }}>
+                      <b>Developer:</b> {aircraft.manufacturer}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.5 }}>
+                      <b>Votes:</b> {isWithVotes(aircraft) ? aircraft.votes : '-'}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.5 }}>
+                      <b>Category:</b> {aircraft.category}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.5 }}>
+                      <b>Type:</b> {aircraft.payware === 'Both Free & Premium' ? 'Mixed' : (aircraft.payware || 'Unknown')}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.5 }}>
+                      <b>Weeks in Chart:</b> {isWithVotes(aircraft) ? aircraft.weeksInChart : '-'}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 0.5 }}>
+                      <b>Compatibility:</b> {renderCombinedCompatibility(aircraft)}
+                    </Typography>
+                    {aircraft.buyUrl && (
+                      <Button href={aircraft.buyUrl} target="_blank" rel="noopener noreferrer" variant="outlined" size="small" sx={{ mt: 1 }}>
+                        View Product
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
+              ))
+            )}
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+                <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</Button>
+                <Typography sx={{ alignSelf: 'center' }}>Page {page + 1} of {totalPages}</Typography>
+                <Button disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>Next</Button>
+              </Box>
+            )}
+          </Box>
+        ) : (
+          <>
+            <TableContainer sx={{
+              mt: 3,
+              boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)',
+              borderRadius: 4,
+              overflow: 'auto',
+              background: 'rgba(255,255,255,0.01)',
+              width: '100%',
+              maxWidth: '100vw',
+              minWidth: 700,
+            }}>
+              <Table stickyHeader>
+                <TableHead>
+                  <TableRow sx={{ background: 'rgba(255,255,255,0.01)' }}>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Rank</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Aircraft</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Developer</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Votes</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Category</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Type</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Weeks in Chart</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Compatibility</TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {loading ? (
+                    <TableRow>
+                      <TableCell colSpan={8} align="center">Loading...</TableCell>
+                    </TableRow>
+                  ) : paginatedData.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={8} align="center">No aircraft found</TableCell>
+                    </TableRow>
+                  ) : (
+                    paginatedData.map((aircraft, idx) => (
+                      <TableRow
+                        key={aircraft.id}
+                        hover
+                        sx={{
+                          background: idx % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'rgba(255,255,255,0.03)',
+                          transition: 'background 0.2s',
+                          '&:hover': {
+                            background: 'rgba(162,89,247,0.07)',
+                          },
+                        }}
+                      >
+                        <TableCell sx={{ color: '#f4f4fa', fontWeight: 700, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{isWithVotes(aircraft) && aircraft.rank !== undefined ? aircraft.rank : '-'}</TableCell>
+                        <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
+                          <Tooltip title={aircraft.name} placement="top" arrow>
+                            <span style={{ color: '#f4f4fa', textDecoration: 'underline', cursor: 'pointer', fontWeight: 500 }}>
+                              <Link
+                                href={aircraft.buyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {aircraft.name}
+                                <OpenInNewIcon fontSize="small" sx={{ ml: 0.5 }} />
+                              </Link>
+                            </span>
+                          </Tooltip>
+                        </TableCell>
+                        <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{aircraft.manufacturer}</TableCell>
+                        <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{isWithVotes(aircraft) ? aircraft.votes : '-'}</TableCell>
+                        <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
+                          <Chip
+                            label={aircraft.category}
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              background: 'rgba(255,255,255,0.04)',
+                              color: 'text.secondary',
+                              fontWeight: 500,
+                              fontSize: '0.92rem',
+                              borderRadius: 2,
+                              letterSpacing: 0,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
+                          <Chip
+                            label={aircraft.payware === 'Both Free & Premium' ? 'Mixed' : (aircraft.payware || 'Unknown')}
+                            variant="filled"
+                            size="small"
+                            sx={{
+                              background: 'rgba(255,255,255,0.04)',
+                              color: 'text.secondary',
+                              fontWeight: 500,
+                              fontSize: '0.92rem',
+                              paddingX: 1.2,
+                              borderRadius: 2,
+                              letterSpacing: 0,
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{isWithVotes(aircraft) ? aircraft.weeksInChart : '-'}</TableCell>
+                        <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{renderCombinedCompatibility(aircraft)}</TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+                <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</Button>
+                <Typography sx={{ alignSelf: 'center' }}>Page {page + 1} of {totalPages}</Typography>
+                <Button disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>Next</Button>
+              </Box>
+            )}
+          </>
+        )}
       </Box>
     </Box>
   );

@@ -101,9 +101,7 @@ const MinimalHeader = () => {
       <Box
         sx={{
           width: '100%',
-          aspectRatio: '16/4',
-          minHeight: BANNER_HEIGHT,
-          maxHeight: 260,
+          aspectRatio: '16/4', // Use a wide aspect ratio for hero look
           overflow: 'hidden',
           position: 'relative',
           zIndex: 110,
@@ -119,16 +117,16 @@ const MinimalHeader = () => {
           src="/banner-with-title.png"
           alt="MSFS Aircraft Charts Banner"
           sx={{
-            width: '110%', // scale up to crop white bars
-            height: '110%',
-            objectFit: 'cover',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover', // Fill the box, cropping minimally if needed
             objectPosition: 'center',
             display: 'block',
             userSelect: 'none',
             filter: 'brightness(0.96)',
             position: 'absolute',
-            left: '-5%',
-            top: '-5%',
+            left: 0,
+            top: 0,
           }}
         />
         {/* Subtle dark overlay for contrast */}

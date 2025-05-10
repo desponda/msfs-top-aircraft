@@ -39,3 +39,7 @@ export interface LatestReportsResponse {
     monthly: Report;
     yearly: Report;
 }
+
+export interface ReportUpdatePayload extends Partial<Report> {
+    aircraftVotes?: { aircraftId: string; votes: number }[];
+}

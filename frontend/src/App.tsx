@@ -8,6 +8,8 @@ import { ReportDisplay } from './components/ReportDisplay';
 import { AdminReportManager } from './components/AdminReportManager';
 import { useState } from 'react';
 import { ReportSelector } from './components/ReportSelector';
+import AircraftEditor from './components/AircraftEditor';
+import ReportEditorPage from './components/ReportEditorPage';
 
 function App() {
   // Define a dark theme with diversified accent palette
@@ -192,18 +194,24 @@ function App() {
             position: 'relative',
           }}
         >
-          <MinimalHeader />
-          <Container maxWidth="lg" sx={{ py: 5, flex: 1, position: 'relative', zIndex: 1, mx: 'auto', mt: 4, mb: 4, px: { xs: 2, sm: 3, md: 4, lg: 6 } }}>
-            <Routes>
-              <Route path="/" element={
-                <>
-                  <ReportSelector onReportSelected={setSelectedReportId} reportId={selectedReportId} />
-                  <ReportDisplay reportId={selectedReportId} hideReportHeader />
-                </>
-              } />
-              <Route path="/admin" element={<AdminReportManager />} />
-              <Route path="/legacy" element={<AircraftTable />} />
-            </Routes>
+          <Container maxWidth="lg" sx={{ flex: 1, position: 'relative', zIndex: 1, mx: 'auto', mb: 4, px: { xs: 2, sm: 3, md: 4, lg: 6 } }}>
+            <Box sx={{ width: '100%', overflowX: 'auto' }}>
+              <Box sx={{ width: '100%' }}>
+                <MinimalHeader />
+                <Routes>
+                  <Route path="/" element={
+                    <>
+                      <ReportSelector onReportSelected={setSelectedReportId} reportId={selectedReportId} />
+                      <ReportDisplay reportId={selectedReportId} hideReportHeader />
+                    </>
+                  } />
+                  <Route path="/admin" element={<AdminReportManager />} />
+                  <Route path="/admin/report/:id" element={<ReportEditorPage />} />
+                  <Route path="/admin/aircraft" element={<AircraftEditor />} />
+                  <Route path="/legacy" element={<AircraftTable />} />
+                </Routes>
+              </Box>
+            </Box>
           </Container>
           <Footer />
         </Box>

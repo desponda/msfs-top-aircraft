@@ -23,16 +23,29 @@ import {
     IconButton,
     CircularProgress,
     Alert,
+    Tooltip,
+    Snackbar,
+    Tabs,
+    Tab
 } from '@mui/material';
 import {
     Add as AddIcon,
     Edit as EditIcon,
     Delete as DeleteIcon,
+    Save as SaveIcon,
+    Publish as PublishIcon,
+    Unpublished as UnpublishedIcon
 } from '@mui/icons-material';
 import { ReportService } from '../services/ReportService';
 import { AircraftService } from '../services/AircraftService';
 import { Aircraft } from '../types/Aircraft';
 import { Report, ReportSummary, ReportType } from '../types/Report';
+import { useNavigate } from 'react-router-dom';
+
+// Add a type for the report update payload
+interface ReportUpdatePayload extends Partial<Report> {
+    aircraftVotes?: { aircraftId: string; votes: number }[];
+}
 
 export const AdminReportManager = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,37 +68,96 @@ export const AdminReportManager = () => {
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [reportToDelete, setReportToDelete] = useState<string | null>(null);
     const [operationSuccess, setOperationSuccess] = useState('');
+    const [quickEditAircraft, setQuickEditAircraft] = useState<Aircraft | null>(null);
+    const [quickEditFields, setQuickEditFields] = useState<Partial<Aircraft>>({});
+    const [quickEditSaving, setQuickEditSaving] = useState(false);
+    const [voteEditSnackbar, setVoteEditSnackbar] = useState(false);
+    const [editAircraftVotes, setEditAircraftVotes] = useState<{ aircraftId: string; votes: number }[]>([]);
+    const [publishedReports, setPublishedReports] = useState<string[]>([]);
+    const [snackbarMsg, setSnackbarMsg] = useState<string | null>(null);
+    const [tab, setTab] = useState<'drafts' | 'published'>('drafts');
+    const navigate = useNavigate();
+
+    // On mount, check if session is still valid
+    useEffect(() => {
+        fetch('/api/session', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.loggedIn) setIsLoggedIn(true);
+                else setIsLoggedIn(false);
+            });
+    }, []);
 
     // Login handler
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (!username || !password) {
             setLoginError('Username and password are required');
             return;
         }
-
-        const token = btoa(`${username}:${password}`);
-        setAuthToken(token);
-        setIsLoggedIn(true);
-        setLoginError('');
+        try {
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ username, password })
+            });
+            if (!res.ok) throw new Error('Invalid credentials');
+            setIsLoggedIn(true);
+            setLoginError('');
+        } catch (err) {
+            setLoginError('Invalid credentials');
+        }
     };
 
-    // Fetch all reports when logged in
+    // Helper to handle 401 errors
+    const handleAuthError = (error: any) => {
+        if (error && error.response && error.response.status === 401) {
+            setIsLoggedIn(false);
+            setAuthToken('');
+            localStorage.removeItem('adminAuthToken');
+            setLoginError('Session expired or invalid credentials. Please log in again.');
+        }
+    };
+
+    // Guard: Prevent admin API calls if not logged in
+    const guardToken = () => {
+        if (!isLoggedIn) {
+            setLoginError('Session expired or invalid credentials. Please log in again.');
+            return false;
+        }
+        return true;
+    };
+
+    // Fetch all drafts (unpublished) and published reports
+    const [published, setPublished] = useState<ReportSummary[]>([]);
+    const [publishedLoading, setPublishedLoading] = useState(false);
+    const [publishedError, setPublishedError] = useState<string | null>(null);
+
     useEffect(() => {
         if (isLoggedIn) {
             fetchReports();
             fetchAircraft();
+            fetchPublished();
         }
     }, [isLoggedIn]);
 
     const fetchReports = async () => {
+        if (!guardToken()) return;
         setLoading(true);
         try {
-            const data = await ReportService.getAll();
+            const data = await ReportService.getAllUnpublished();
             setReports(data.sort((a, b) => {
                 if (a.year !== b.year) return b.year - a.year;
                 return (b.month || 0) - (a.month || 0);
             }));
-        } catch (error) {
+            // For each report, check if it is published
+            const publishedIds: string[] = [];
+            await Promise.all(data.map(async (report) => {
+                if (await ReportService.isPublished(report.id)) publishedIds.push(report.id);
+            }));
+            setPublishedReports(publishedIds);
+        } catch (error: any) {
+            handleAuthError(error);
             console.error('Error fetching reports:', error);
         } finally {
             setLoading(false);
@@ -93,11 +165,26 @@ export const AdminReportManager = () => {
     };
 
     const fetchAircraft = async () => {
+        // No auth needed
         try {
             const data = await AircraftService.getAll();
             setAllAircraft(data);
         } catch (error) {
             console.error('Error fetching aircraft:', error);
+        }
+    };
+
+    const fetchPublished = async () => {
+        // No auth needed
+        setPublishedLoading(true);
+        setPublishedError(null);
+        try {
+            const data = await ReportService.getAll();
+            setPublished(data);
+        } catch (e: any) {
+            setPublishedError(e.message);
+        } finally {
+            setPublishedLoading(false);
         }
     };
 
@@ -110,27 +197,8 @@ export const AdminReportManager = () => {
         setReportTitle('');
         setReportDescription('');
         setSelectedAircraftIds([]);
+        setEditAircraftVotes([]);
         setOpenDialog(true);
-    };
-
-    const handleEditReport = (report: ReportSummary) => {
-        setDialogMode('edit');
-        setEditingReport(report);
-        setReportYear(report.year);
-        setReportMonth(report.month || new Date().getMonth() + 1);
-        setReportType(report.type);
-        setReportTitle(report.title);
-        setReportDescription(report.description || '');
-
-        // Fetch full report details to get aircraft list
-        ReportService.getById(report.id)
-            .then(fullReport => {
-                setSelectedAircraftIds(fullReport.aircraft.map(a => a.id));
-                setOpenDialog(true);
-            })
-            .catch(error => {
-                console.error('Error fetching report details:', error);
-            });
     };
 
     const handleDeleteReport = (reportId: string) => {
@@ -139,14 +207,15 @@ export const AdminReportManager = () => {
     };
 
     const confirmDelete = async () => {
+        if (!guardToken()) return;
         if (!reportToDelete) return;
-
         try {
-            await ReportService.delete(reportToDelete, authToken);
+            await ReportService.delete(reportToDelete);
             setReports(reports.filter(r => r.id !== reportToDelete));
             setOperationSuccess('Report deleted successfully');
             setTimeout(() => setOperationSuccess(''), 3000);
-        } catch (error) {
+        } catch (error: any) {
+            handleAuthError(error);
             console.error('Error deleting report:', error);
         } finally {
             setDeleteConfirmOpen(false);
@@ -159,6 +228,7 @@ export const AdminReportManager = () => {
     };
 
     const handleSaveReport = async () => {
+        if (!guardToken()) return;
         // Generate reportId
         let reportId = reportType === ReportType.MONTHLY
             ? `${reportYear}-${String(reportMonth).padStart(2, '0')}`
@@ -178,45 +248,10 @@ export const AdminReportManager = () => {
         const selectedAircraft = allAircraft.filter(a =>
             selectedAircraftIds.includes(a.id));
 
-        // For new reports, we'll initialize vote data to 0
-        // For existing reports, we'll keep existing vote data
-        const aircraftVotes = selectedAircraftIds.map(id => {
-            // If editing, try to find existing vote data for this aircraft
-            let votes = 0;
-            let daysOnList = 0;
-            let weeksInChart = 0;
+        // Use editAircraftVotes for aircraftVotes
+        const aircraftVotes = editAircraftVotes;
 
-            if (dialogMode === 'edit' && editingReport?.id) {
-                const fullReport = editingReport as Report;
-                // Find the aircraft vote data in the report
-                if (fullReport.aircraft) {
-                    // Handle old format for backward compatibility
-                    const existingAircraft = fullReport.aircraft.find(a => a.id === id);
-                    if (existingAircraft) {
-                        votes = existingAircraft.votes || 0;
-                        daysOnList = existingAircraft.daysOnList || 0;
-                        weeksInChart = existingAircraft.weeksInChart || 0;
-                    }
-                } else if (fullReport.aircraftVotes) {
-                    // Handle new format
-                    const existingVoteData = fullReport.aircraftVotes.find(v => v.aircraftId === id);
-                    if (existingVoteData) {
-                        votes = existingVoteData.votes || 0;
-                        daysOnList = existingVoteData.daysOnList || 0;
-                        weeksInChart = existingVoteData.weeksInChart || 0;
-                    }
-                }
-            }
-
-            return {
-                aircraftId: id,
-                votes,
-                daysOnList,
-                weeksInChart
-            };
-        });
-
-        const reportData = {
+        const reportData: ReportUpdatePayload = {
             id: reportId,
             type: reportType,
             year: reportYear,
@@ -231,17 +266,17 @@ export const AdminReportManager = () => {
 
         try {
             if (dialogMode === 'create') {
-                await ReportService.create(reportData, authToken);
+                await ReportService.create(reportData);
                 setOperationSuccess('Report created successfully');
             } else {
-                await ReportService.update(reportId, reportData, authToken);
+                await ReportService.update(reportId, reportData);
                 setOperationSuccess('Report updated successfully');
             }
-
             setTimeout(() => setOperationSuccess(''), 3000);
             fetchReports();
             setOpenDialog(false);
-        } catch (error) {
+        } catch (error: any) {
+            handleAuthError(error);
             console.error('Error saving report:', error);
         }
     };
@@ -254,15 +289,59 @@ export const AdminReportManager = () => {
         return months[month - 1] || '';
     };
 
+    // When selecting/deselecting aircraft, update editAircraftVotes
+    useEffect(() => {
+        setEditAircraftVotes(prevVotes => {
+            // Add new selected aircraft with 0 votes if not present
+            const updated = selectedAircraftIds.map(id => {
+                const found = prevVotes.find(v => v.aircraftId === id);
+                return found ? found : { aircraftId: id, votes: 0 };
+            });
+            return updated;
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedAircraftIds]);
+
+    // Handler for publish/unpublish (placeholder)
+    const handlePublish = async (reportId: string) => {
+        if (!guardToken()) return;
+        try {
+            await ReportService.publish(reportId);
+            setSnackbarMsg('Report published');
+            fetchReports();
+        } catch (error: any) {
+            handleAuthError(error);
+            setSnackbarMsg('Failed to publish report');
+        }
+    };
+
+    const handleUnpublish = async (reportId: string) => {
+        if (!guardToken()) return;
+        try {
+            await ReportService.unpublish(reportId);
+            setSnackbarMsg('Report unpublished');
+            fetchReports();
+        } catch (error: any) {
+            handleAuthError(error);
+            setSnackbarMsg('Failed to unpublish report');
+        }
+    };
+
+    // Logout handler
+    const handleLogout = async () => {
+        await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+        setIsLoggedIn(false);
+        setUsername('');
+        setPassword('');
+    };
+
     if (!isLoggedIn) {
         return (
             <Paper sx={{ p: 4, maxWidth: 400, mx: 'auto', mt: 4 }}>
                 <Typography variant="h5" gutterBottom>Admin Login</Typography>
-
                 {loginError && (
                     <Alert severity="error" sx={{ mb: 2 }}>{loginError}</Alert>
                 )}
-
                 <Box component="form" sx={{ mt: 2 }}>
                     <TextField
                         label="Username"
@@ -294,73 +373,151 @@ export const AdminReportManager = () => {
 
     return (
         <Box>
-            <Paper sx={{ p: 3, mb: 3 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Typography variant="h5">Report Management</Typography>
-                    <Button
-                        variant="contained"
-                        startIcon={<AddIcon />}
-                        onClick={handleCreateReport}
-                    >
-                        Create Report
-                    </Button>
-                </Box>
-
-                {operationSuccess && (
-                    <Alert severity="success" sx={{ mb: 2 }}>{operationSuccess}</Alert>
-                )}
-
-                {loading ? (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-                        <CircularProgress />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
+                <Button onClick={handleLogout} color="secondary" variant="outlined">
+                    Logout
+                </Button>
+            </Box>
+            <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 2 }}>
+                <Tab label="Drafts" value="drafts" />
+                <Tab label="Published" value="published" />
+            </Tabs>
+            {tab === 'drafts' && (
+                <Paper sx={{ p: 3, mb: 3 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                        <Typography variant="h5">Report Management</Typography>
+                        <Button
+                            variant="contained"
+                            startIcon={<AddIcon />}
+                            onClick={handleCreateReport}
+                        >
+                            Create Report
+                        </Button>
                     </Box>
-                ) : (
-                    <TableContainer>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>ID</TableCell>
-                                    <TableCell>Title</TableCell>
-                                    <TableCell>Type</TableCell>
-                                    <TableCell>Year</TableCell>
-                                    <TableCell>Month</TableCell>
-                                    <TableCell>Aircraft</TableCell>
-                                    <TableCell>Actions</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {reports.map(report => (
-                                    <TableRow key={report.id}>
-                                        <TableCell>{report.id}</TableCell>
-                                        <TableCell>{report.title}</TableCell>
-                                        <TableCell>{report.type}</TableCell>
-                                        <TableCell>{report.year}</TableCell>
-                                        <TableCell>{report.month ? getMonthName(report.month) : '-'}</TableCell>
-                                        <TableCell>{report.aircraftCount}</TableCell>
-                                        <TableCell>
-                                            <IconButton
-                                                size="small"
-                                                onClick={() => handleEditReport(report)}
-                                                title="Edit"
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                size="small"
-                                                color="error"
-                                                onClick={() => handleDeleteReport(report.id)}
-                                                title="Delete"
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </TableCell>
+
+                    {operationSuccess && (
+                        <Alert severity="success" sx={{ mb: 2 }}>{operationSuccess}</Alert>
+                    )}
+
+                    {loading ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : (
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Title</TableCell>
+                                        <TableCell>Type</TableCell>
+                                        <TableCell>Year</TableCell>
+                                        <TableCell>Month</TableCell>
+                                        <TableCell>Aircraft</TableCell>
+                                        <TableCell>Actions</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                )}
-            </Paper>
+                                </TableHead>
+                                <TableBody>
+                                    {reports.map(report => (
+                                        <TableRow key={report.id}>
+                                            <TableCell>{report.id}</TableCell>
+                                            <TableCell>{report.title}</TableCell>
+                                            <TableCell>{report.type}</TableCell>
+                                            <TableCell>{report.year}</TableCell>
+                                            <TableCell>{report.month ? getMonthName(report.month) : '-'}</TableCell>
+                                            <TableCell>{report.aircraftCount}</TableCell>
+                                            <TableCell>
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() => navigate(`/admin/report/${report.id}`)}
+                                                    title="Edit"
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton
+                                                    size="small"
+                                                    color="error"
+                                                    onClick={() => handleDeleteReport(report.id)}
+                                                    title="Delete"
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                                {publishedReports.includes(report.id) ? (
+                                                    <Tooltip title="Unpublish">
+                                                        <IconButton size="small" color="warning" onClick={() => handleUnpublish(report.id)}>
+                                                            <UnpublishedIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                ) : (
+                                                    <Tooltip title="Publish">
+                                                        <IconButton size="small" color="success" onClick={() => handlePublish(report.id)}>
+                                                            <PublishIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )}
+                </Paper>
+            )}
+            {tab === 'published' && (
+                <Paper sx={{ p: 3, mb: 3 }}>
+                    <Typography variant="h5" sx={{ mb: 2 }}>Published Reports</Typography>
+                    {publishedLoading ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : publishedError ? (
+                        <Alert severity="error">{publishedError}</Alert>
+                    ) : (
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Title</TableCell>
+                                        <TableCell>Type</TableCell>
+                                        <TableCell>Year</TableCell>
+                                        <TableCell>Month</TableCell>
+                                        <TableCell>Aircraft</TableCell>
+                                        <TableCell>Actions</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {published.map(report => (
+                                        <TableRow key={report.id}>
+                                            <TableCell>{report.id}</TableCell>
+                                            <TableCell>{report.title}</TableCell>
+                                            <TableCell>{report.type}</TableCell>
+                                            <TableCell>{report.year}</TableCell>
+                                            <TableCell>{report.month ? getMonthName(report.month) : '-'}</TableCell>
+                                            <TableCell>{report.aircraftCount}</TableCell>
+                                            <TableCell>
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() => navigate(`/report/${report.id}`)}
+                                                    title="View"
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <Tooltip title="Unpublish">
+                                                    <IconButton size="small" color="warning" onClick={() => handleUnpublish(report.id)}>
+                                                        <UnpublishedIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )}
+                </Paper>
+            )}
 
             {/* Create/Edit Report Dialog */}
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
@@ -475,6 +632,71 @@ export const AdminReportManager = () => {
                     <Typography variant="body2" sx={{ mt: 1 }}>
                         {selectedAircraftIds.length} aircraft selected
                     </Typography>
+
+                    <Typography variant="h6" sx={{ mt: 3, mb: 1 }}>Edit Votes</Typography>
+                    <TableContainer sx={{ maxHeight: 300, mb: 2 }}>
+                        <Table stickyHeader size="small">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Manufacturer</TableCell>
+                                    <TableCell>Votes</TableCell>
+                                    <TableCell>Edit</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {selectedAircraftIds.map((id) => {
+                                    const aircraft = allAircraft.find(a => a.id === id);
+                                    if (!aircraft) return null;
+                                    // Find the vote for this aircraft
+                                    const voteObj = editAircraftVotes.find(v => v.aircraftId === id) || { votes: 0 };
+                                    return (
+                                        <TableRow key={id}>
+                                            <TableCell>{aircraft.name}</TableCell>
+                                            <TableCell>{aircraft.manufacturer}</TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    type="number"
+                                                    size="small"
+                                                    value={voteObj.votes}
+                                                    inputProps={{ min: 0, style: { width: 60 } }}
+                                                    onChange={async (e) => {
+                                                        const newVotes = parseInt(e.target.value, 10) || 0;
+                                                        // Update local state
+                                                        setEditAircraftVotes(prevVotes => prevVotes.map(v => v.aircraftId === id ? { ...v, votes: newVotes } : v));
+                                                        // Auto-save
+                                                        if (editingReport && editingReport.id) {
+                                                            const payload: ReportUpdatePayload = { ...editingReport, aircraftVotes: editAircraftVotes.map(v => v.aircraftId === id ? { ...v, votes: newVotes } : v) };
+                                                            if (!guardToken()) return;
+                                                            await ReportService.update(editingReport.id, payload);
+                                                            setVoteEditSnackbar(true);
+                                                        }
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Tooltip title="Quick Edit Aircraft Info">
+                                                    <IconButton size="small" onClick={() => {
+                                                        setQuickEditAircraft(aircraft);
+                                                        setQuickEditFields(aircraft);
+                                                    }}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Snackbar
+                        open={voteEditSnackbar}
+                        autoHideDuration={1200}
+                        onClose={() => setVoteEditSnackbar(false)}
+                        message="Votes updated"
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Cancel</Button>
@@ -503,6 +725,70 @@ export const AdminReportManager = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {/* Quick Edit Aircraft Modal */}
+            <Dialog open={!!quickEditAircraft} onClose={() => setQuickEditAircraft(null)} maxWidth="sm" fullWidth>
+                <DialogTitle>Quick Edit Aircraft</DialogTitle>
+                <DialogContent>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
+                        <TextField
+                            label="Name"
+                            value={quickEditFields.name || ''}
+                            onChange={e => setQuickEditFields(f => ({ ...f, name: e.target.value }))}
+                            fullWidth
+                        />
+                        <TextField
+                            label="Manufacturer"
+                            value={quickEditFields.manufacturer || ''}
+                            onChange={e => setQuickEditFields(f => ({ ...f, manufacturer: e.target.value }))}
+                            fullWidth
+                        />
+                        <TextField
+                            label="Category"
+                            value={quickEditFields.category || ''}
+                            onChange={e => setQuickEditFields(f => ({ ...f, category: e.target.value }))}
+                            fullWidth
+                        />
+                        <TextField
+                            label="Payware"
+                            value={quickEditFields.payware || ''}
+                            onChange={e => setQuickEditFields(f => ({ ...f, payware: e.target.value }))}
+                            fullWidth
+                        />
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setQuickEditAircraft(null)}>Cancel</Button>
+                    <Button
+                        variant="contained"
+                        startIcon={<SaveIcon />}
+                        disabled={quickEditSaving}
+                        onClick={async () => {
+                            if (!quickEditAircraft || !quickEditAircraft.id) return;
+                            setQuickEditSaving(true);
+                            try {
+                                await AircraftService.update(quickEditAircraft.id, quickEditFields);
+                                setAllAircraft(allAircraft.map(a => a.id === quickEditAircraft.id ? { ...a, ...quickEditFields } : a));
+                                setQuickEditAircraft(null);
+                            } catch (err) {
+                                // Optionally show error
+                            } finally {
+                                setQuickEditSaving(false);
+                            }
+                        }}
+                    >
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Snackbar
+                open={!!snackbarMsg}
+                autoHideDuration={2000}
+                onClose={() => setSnackbarMsg(null)}
+                message={snackbarMsg}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            />
         </Box>
     );
 };

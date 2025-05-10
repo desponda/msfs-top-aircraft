@@ -1,0 +1,435 @@
+OLD,NOW,,DEVELOPER,AIRCRAFT,VOTES,,CATEGORY,$,,ADDED,DAYS,
+1,1,=,A2A Simulations,Piper Comanche 250,26,98,Piston GA,P,,18 Jul 2023,684,0.265
+2,2,=,Fenix,Airbus A320,17,159,Airliner,P,,19 May 2022,1109,0.107
+5,3,2,Black Square,Beechcraft B60 Duke (Piston / Grand),15,55,Piston GA,P,,19 May 2024,378,0.273
+4,4,=,SimWorks Studio,Quest Kodiak 100,14,167,Turboprop,P,,27 Mar 2022,1162,0.084
+6,5,1,Flysimware,Cessna 414 AW Chancellor,14,167,Piston GA,P,,27 Mar 2022,1162,0.084
+7,6,1,COWS,Diamond DA42,13,68,Piston GA,P,,12 Feb 2024,475,0.191
+3,7,4,FlightFX & MS 2024,Cirrus SF50 Vision Jet G2 (combined),12,131,Business Jet,B,,3 Dec 2022,911,0.092
+15,8,7,COWS,Diamond DA40-XLS,10,15,Piston GA,P,,17 Feb 2025,104,0.667
+8,9,1,Just Flight,Avro RJ,10,29,Airliner,P,,11 Nov 2024,202,0.345
+11,10,1,Just Flight,BAe Hawk T1/A,10,167,Military (Modern),P,,27 Mar 2022,1162,0.060
+9,11,2,Black Square,Beechcraft B60 Duke (Turbine),8,56,Turboprop,P,,11 May 2024,386,0.143
+16,12,4,SimWorks Studio,Pilatus PC-12,8,76,Turboprop,P,,21 Dec 2023,528,0.105
+14,13,1,Microsoft / Carenado,Cessna C185 Skywagon,7,15,Piston GA,F,,23 Feb 2025,98,0.467
+24,14,10,Classic Aircraft Simulations,Piper J3C-65 Cub,7,50,Piston GA,P,,22 Jun 2024,344,0.140
+10,15,5,FSReborn,Piper M500 (FSR500) Meridian,7,82,Turboprop,P,,6 Nov 2023,573,0.085
+17,16,1,Black Square,Daher TBM 850,7,85,Turboprop,P,,16 Oct 2023,594,0.082
+21,17,4,Microsoft / Mike Johnson,Grumman Amphibian Albatross G111/HU16,6,25,Seaplane,D,,11 Dec 2024,172,0.240
+13,18,5,PMDG,Boeing 777-300ER,6,49,Airliner,P,,26 Jun 2024,340,0.122
+30,19,11,MilViz / Blackbird,BB310R,6,161,Piston GA,P,,5 May 2022,1123,0.037
+31,20,11,Flying Iron,Spitfire Mk. IX,6,167,Warbird (Classic),P,,27 Mar 2022,1162,0.036
+65,21,44,Flying Fries,Blackshape Gabriel BK160-TR,5,10,Piston GA,P,,28 Mar 2025,65,0.500
+33,22,11,iniBuilds,Airbus A350,5,13,Airliner,P,,7 Mar 2025,86,0.385
+20,23,3,PMDG,Boeing 777F,5,18,Airliner,P,,27 Jan 2025,125,0.278
+22,24,2,Got Friends,Zlin Norden,5,27,Piston GA,D,,27 Nov 2024,186,0.185
+25,25,=,Flysimware,Bombardier Learjet 35A,5,75,Business Jet,P,,31 Dec 2023,518,0.067
+18,26,,Got Friends,PZL-104 Wilga 35/80,5,130,Piston GA,P,,10 Dec 2022,904,0.038
+19,27,,PMDG,Boeing 737-600,5,145,Airliner,P,,22 Aug 2022,1014,0.034
+35,28,,FlightFX,Piaggio P.180 Avanti II,4,15,Turboprop,P,,23 Feb 2025,98,0.267
+12,29,,Got Friends,Draco X,4,27,Piston GA,F,,27 Nov 2024,186,0.148
+48,30,,Fenix,Airbus A319/A321 (Expansion),4,41,Airliner,P,,20 Aug 2024,285,0.098
+51,31,,Miltech Simulations,Boeing CH47D Chinook,4,63,Helicopter,P,,20 Mar 2024,438,0.063
+38,32,,Just Flight,Avro Vulcan B Mk. 2,4,79,Military (Modern),P,,30 Nov 2023,549,0.051
+26,33,,Asobo,Guimbal Cabri G2,4,133,Helicopter,F,,15 Nov 2022,929,0.030
+29,34,,Microsoft,"Beechcraft Model 18 
+(with & without mods)",4,155,Piston GA,P,,16 Jun 2022,1081,0.026
+32,35,,Asobo,Cessna 152 (with WB-Sim / JPL mod),4,167,Piston GA,F,,27 Mar 2022,1162,0.024
+57,36,,Asobo,Diamond DA62[X] (Modded),4,166,Piston GA,F,,30 Mar 2022,1159,0.024
+37,37,,Microsoft / BlueMesh,Magni Gyro M-24 Orion,3,24,Ultralight / Sports,F,,22 Dec 2024,161,0.125
+23,38,,FlyByWire,Airbus A380 (X),3,31,Airliner,F,,3 Nov 2024,210,0.097
+50,39,,IndiaFoxtEcho,Panavia Tornado,3,43,Military (Modern),P,,9 Aug 2024,296,0.070
+93,40,,Taog’s Hangar,Bell UH-1H “Huey” / Bell 205,3,50,Helicopter,P,,21 Jun 2024,345,0.060
+107,41,,Got Friends,F4F-4 Wildcat,3,88,Warbird (Classic),P,,29 Sep 2023,611,0.034
+27,42,,Aeroplane Heaven,Douglas DC-3 (with & without mod),3,134,Vintage / Biplane,F,,12 Nov 2022,932,0.022
+39,43,,Microsoft / iniBuilds,Airbus A310-300,3,133,Airliner,F,,14 Nov 2022,930,0.023
+28,44,,PMDG,Boeing 737-800,3,145,Airliner,P,,27 Aug 2022,1009,0.021
+55,45,,FlightFX,Honda HA420 (Marwan Gharib HJet),3,157,Business Jet,P,,1 Jun 2022,1096,0.019
+41,46,,FlyByWire,A320 (NX),3,167,Airliner,F,,27 Mar 2022,1162,0.018
+63,47,,MilViz / Blackbird,Pilatus PC-6 Porter ,3,167,Turboprop,P,,27 Mar 2022,1162,0.018
+,48,,AzurPoly,Dassault SEPECAT Jaguar,2,8,Military (Modern),P,,11 Apr 2025,51,0.250
+67,49,,Skyward Simulations,Diamond DA-50RG,2,10,Piston GA,P,,27 Mar 2025,66,0.200
+42,50,,MilViz / Blackbird,Beechcraft T6A ADV Texan II,2,11,Turboprop,P,,18 Mar 2025,75,0.182
+72,51,,Miltech Simulations,M2K-C (Mirage 2000),2,13,Military (Modern),P,,6 Mar 2025,87,0.154
+36,52,,Got Friends,AeroElvira EA-7 Optica (MSFS 2024),2,21,Piston GA,F,,7 Jan 2025,145,0.095
+44,53,,FlightFX,Joby S4,2,21,Helicopter,F,,7 Jan 2025,145,0.095
+46,54,,Microsoft / Carenado,Cessna 400 Corvalis TT,2,25,Piston GA,F,,14 Dec 2024,169,0.080
+86,55,,Asobo / Carenado,Robinson R66,2,27,Helicopter,F,,27 Nov 2024,186,0.074
+47,56,,iFly,Boeing 737 MAX8,2,32,Airliner,P,,25 Oct 2024,219,0.063
+49,57,,Sim Skunk Works,Vans RV-8,2,41,Piston GA,P,,24 Aug 2024,281,0.049
+98,58,,Just Flight,Piper PA-38 Tomahawk,2,57,Piston GA,P,,29 Apr 2024,398,0.035
+99,59,,Cowan Sim,Robinson R22,2,57,Helicopter,P,,29 Apr 2024,398,0.035
+103,60,,Cockspur,Embraer Phenom 100,2,71,Business Jet,P,,27 Jan 2024,491,0.028
+102,61,,Mario Noriega,Nardi FN-333 Riviera,2,71,Piston GA,P,,25 Jan 2024,493,0.028
+52,62,,Heatblur / IndiaFoxtEcho,F-14 Tomcat A/B,2,77,Military (Modern),P,,11 Dec 2023,538,0.026
+53,63,,Flying Iron,Messerschmitt Bf 109G-6,2,102,Warbird (Classic),P,,19 Jun 2023,713,0.020
+112,64,,FlyBoy Simulations,Rans S6S Coyote II,2,108,Piston GA,P,,9 May 2023,754,0.019
+54,65,,Microsoft / S&H Software,ATR 600 Series,2,110,Airliner,P,,27 Apr 2023,766,0.018
+125,66,,PMDG,Boeing 737-700,2,160,Airliner,P,,10 May 2022,1118,0.013
+40,67,,Just Flight,BAe 146 (any),2,161,Airliner,P,,3 May 2022,1125,0.012
+56,68,,Got Friends,Discus 2c (Free & Premium),2,165,Glider,B,,7 Apr 2022,1151,0.012
+60,69,,Just Flight,Piper Turbo Arrow 3/4 (and non-Turbo),2,167,Piston GA,P,,27 Mar 2022,1162,0.012
+61,70,,Asobo,Cessna C208B Grand Caravan EX (with & without mod),2,166,Turboprop,F,,28 Mar 2022,1161,0.012
+62,71,,PMDG,Douglas DC-6,2,167,Vintage / Biplane,P,,27 Mar 2022,1162,0.012
+137,72,,Asobo,Diamond DA40 (with & without mod),2,166,Piston GA,F,,28 Mar 2022,1161,0.012
+140,73,,Asobo / WT,Cessna Citation CJ4 ,2,167,Business Jet,F,,27 Mar 2022,1162,0.012
+395,74,,Asobo,Cessna 172 (with & without Improvement / Bush Kit / Turbo Diesel / Tail Dragger mods),2,167,Piston GA,F,,27 Mar 2022,1162,0.012
+,75,,Microsoft / iniBuilds,"Airbus A330 (-200, -300, 300P2F)",1,5,Airliner,F,,29 Apr 2025,33,0.200
+,76,,Microsoft / iniBuilds,CAP-4 Paulistinha,1,5,Piston GA,P,,29 Apr 2025,33,0.200
+,77,,Carenado,Cessna C182T,1,5,Piston GA,P,,28 Apr 2025,34,0.200
+,78,,Captain Sim,Boeing 717,1,8,Airliner,P,,13 Apr 2025,49,0.125
+64,79,,61tree Studio,Proto T1,1,10,Glider,P,,28 Mar 2025,65,0.100
+66,80,,Carenado,Cessna C182Q,1,10,Piston GA,P,,27 Mar 2025,66,0.100
+68,81,,Got Friends,Pipistrel Taurus M,1,11,Glider,D,,19 Mar 2025,74,0.091
+69,82,,f7 Simulations,ASK 21,1,11,Glider,P,,17 Mar 2025,76,0.091
+71,83,,Flight Replicas,Supermarine Spitfire Mk.V,1,12,Warbird (Classic),P,,10 Mar 2025,83,0.083
+34,84,,Carenado,Pilatus PC-12 NGX,1,13,Turboprop,F,,6 Mar 2025,87,0.077
+73,85,,SkySimulations,McDonnell Douglas DC-9,1,15,Airliner,P,,18 Feb 2025,103,0.067
+74,86,,Parallel 42,Juice Goose (offroad buggy),1,15,Other,P,,17 Feb 2025,104,0.067
+75,87,,Classics Hangar,Klemm L25,1,15,Vintage / Biplane,P,,17 Feb 2025,104,0.067
+43,88,,Asobo,Powrachute Sky Rascal,1,19,Other,F,,21 Jan 2025,131,0.053
+76,89,,Bgaurant,Fokker F27-MK 500,1,19,Airliner,F,,21 Jan 2025,131,0.053
+78,90,,Got Friends,Stemme S12,1,21,Glider,D,,7 Jan 2025,145,0.048
+79,91,,Got Friends,Pipstrel Taurus M2,1,21,Glider,D,,7 Jan 2025,145,0.048
+45,92,,Microsoft / Carenado,Saab 340B,1,22,Turboprop,D,,31 Dec 2024,152,0.045
+80,93,,Carenado,Cessna 408 SkyCourier,1,22,Turboprop,D,,31 Dec 2024,152,0.045
+83,94,,Asobo,Hot Air Balloon,1,24,Other,F,,22 Dec 2024,161,0.042
+85,95,,HPG,Airbus H225,1,27,Helicopter,D,,27 Nov 2024,186,0.037
+87,96,,FSReborn,TL Ultralight Sirius TL3000,1,34,Piston GA,P,,13 Oct 2024,231,0.029
+88,97,,Flying Iron,Focke-Wulf Fw 190 A-8,1,34,Warbird (Classic),P,,13 Oct 2024,231,0.029
+89,98,,Flysimware,Beechcraft Sierra C24R,1,36,Piston GA,P,,28 Sep 2024,246,0.028
+157,99,,jXt Simulations,Bell 505,1,35,Helicopter,F,,2 Oct 2024,242,0.029
+90,100,,Microsoft,Focke-Wulf Condor 200,1,38,Vintage / Biplane,P,,11 Sep 2024,263,0.026
+91,101,,The Flying Freja,Blackburn Buccaneer,1,42,Military (Modern),F,,14 Aug 2024,291,0.024
+166,102,,iniBuilds / Microsoft,Westland Scout / Wasp,1,43,Helicopter,P,,9 Aug 2024,296,0.023
+92,103,,LatinVFR,Airbus A330-900,1,48,Airliner,P,,1 Jul 2024,335,0.021
+94,104,,Aeroplane Heaven,Hawker Hurricane,1,50,Warbird (Classic),P,,17 Jun 2024,349,0.020
+95,105,,FlynDive,Smaug,1,52,Piston GA,F,,4 Jun 2024,362,0.019
+96,106,,Alpha60,Dassault Rafale M,1,52,Military (Modern),F,,3 Jun 2024,363,0.019
+97,107,,Shrike Simulations,North American F-86 Sabre,1,57,Military (Modern),P,,30 Apr 2024,397,0.018
+186,108,,TFDi,McDonnell Douglas MD-11,1,64,Airliner,P,,12 Mar 2024,446,0.016
+187,109,,Flying Fries,Hughes XF-11,1,64,Warbird (Classic),P,,13 Mar 2024,445,0.016
+193,110,,Golden Age Simulations,"Boeing Stearman Model 75
+(PT-17 / PT-13)",1,67,Vintage / Biplane,P,,21 Feb 2024,466,0.015
+101,111,,iniBuilds,Airbus A300-600R,1,71,Airliner,P,,26 Jan 2024,492,0.014
+100,112,,Cowan Sim,Robinson R66,1,71,Helicopter,P,,23 Jan 2024,495,0.014
+104,113,,FlightSim Studio,Tecnam P2012 Traveller,1,76,Piston GA,P,,21 Dec 2023,528,0.013
+105,114,,Flight Replicas,Spitfire Mk.Ia / Mk.IIa,1,79,Warbird (Classic),P,,1 Dec 2023,548,0.013
+202,115,,Horizon Simulations,Boeing 787-9,1,78,Airliner,F,,6 Dec 2023,543,0.013
+205,116,,Taog’s Hangar,SA315B Lama,1,79,Helicopter,P,,29 Nov 2023,550,0.013
+106,117,,HPG,Airbus H160,1,84,Helicopter,P,,25 Oct 2023,585,0.012
+108,118,,Sim Skunk Works,Leonardo (SIAI Marchetti) SF-260,1,91,Piston GA,P,,4 Sep 2023,636,0.011
+109,119,,Just Flight,Fokker F28 Fellowship ,1,99,Airliner,P,,14 Jul 2023,688,0.010
+110,120,,Got Friends,DoubleEnder,1,101,Piston GA,P,,30 Jun 2023,702,0.010
+111,121,,Carenado,Cessna 182RG II,1,101,Piston GA,P,,26 Jun 2023,706,0.010
+113,122,,PilotExperienceSim,Maule M7-235,1,110,Piston GA,P,,28 Apr 2023,765,0.009
+114,123,,Black Square,"Beechcraft Baron B58 
+(Steam Gauge Overhaul)",1,114,Piston GA,P,,27 Mar 2023,797,0.009
+115,124,,Microsoft / iniBuilds,Antonov An-225 Mriya,1,118,Other,P,,5 Mar 2023,819,0.008
+116,125,,Microsoft / Orbx,de Havilland Canada DHC-4 Caribou,1,118,Piston GA,P,,3 Mar 2023,821,0.008
+117,126,,MADolo Simulations,Rolladen-Schneider LS4,1,120,Glider,F,,13 Feb 2023,839,0.008
+267,127,,PMDG,Boeing 737-900,1,120,Airliner,P,,14 Feb 2023,838,0.008
+118,128,,Asobo,CubCrafters NX Cub,1,123,Piston GA,F,,25 Jan 2023,858,0.008
+282,129,,LatinVFR,Airbus A318,1,125,Airliner,P,,12 Jan 2023,871,0.008
+119,130,,DC Designs,AV-8B / GR9 Harrier II,1,131,Military (Modern),P,,29 Nov 2022,915,0.008
+120,131,,Asobo / Blackbird,DHC-2 Beaver,1,134,Piston GA,F,,12 Nov 2022,932,0.007
+303,132,,Cockspur,Cessna 510 Mustang,1,137,Business Jet,P,,19 Oct 2022,956,0.007
+121,133,,Ant’s Airplanes,de Havilland Tiger Moth,1,140,Vintage / Biplane,P,,30 Sep 2022,975,0.007
+307,134,,Asobo / Carenado,Cessna 195 Businessliner,1,139,Piston GA,P,,4 Oct 2022,971,0.007
+122,135,,Carenado,Pilatus PC-12,1,143,Turboprop,P,,6 Sep 2022,999,0.007
+324,136,,Black Square,Cessna C208B Grand Caravan (Steam Gauge Overhaul),1,150,Turboprop,P,,24 Jul 2022,1043,0.007
+325,137,,Got Gravel,Zlin & Gravel Savage Grravel,1,151,Piston GA,F,,14 Jul 2022,1053,0.007
+123,138,,Dave Garwood,Hawker Hunter,1,153,Military (Modern),F,,27 Jun 2022,1070,0.007
+124,139,,Black Square,Velocity XL,1,154,Piston GA,P,,25 Jun 2022,1072,0.006
+347,140,,GotGravel,Zlin Savage Carbon,1,160,Piston GA,F,,12 May 2022,1116,0.006
+354,141,,Asobo ,Boeing 737 Max,1,161,Airliner,F,,5 May 2022,1123,0.006
+126,142,,Asobo,North American Aviation T-6 Texan,1,162,Piston GA,F,,25 Apr 2022,1133,0.006
+127,143,,Asobo,Aviat Husky A-1C,1,166,Piston GA,P,,2 Apr 2022,1156,0.006
+128,144,,Wing42,Boeing 247D,1,165,Vintage / Biplane,P,,4 Apr 2022,1154,0.006
+129,145,,Red Wing,Lockheed L-1049 Super-Constellation,1,166,Airliner,P,,2 Apr 2022,1156,0.006
+131,146,,Microsoft ,Dornier Do J Wal,1,166,Seaplane,P,,2 Apr 2022,1156,0.006
+58,147,,Flying Iron,P-38 Lightning ,1,167,Warbird (Classic),P,,27 Mar 2022,1162,0.006
+59,148,,HPG,Airbus H145,1,167,Helicopter,P,,27 Mar 2022,1162,0.006
+130,149,,Asobo,"CubCrafters XCub
+(stock and with Bush League mod)",1,166,Piston GA,F,,30 Mar 2022,1159,0.006
+132,150,,Asobo,Zlin Shock Ultra,1,166,Piston GA,D,,29 Mar 2022,1160,0.006
+133,151,,Asobo ,Bonanza G36 (with & without mods),1,167,Piston GA,F,,27 Mar 2022,1162,0.006
+134,152,,Asobo,Cessna Longitude,1,167,Business Jet,D,,27 Mar 2022,1162,0.006
+135,153,,Black Box Sim,BN 2 Islander,1,167,Piston GA,P,,27 Mar 2022,1162,0.006
+136,154,,Asobo,Cirrus SR-22 / SR-22T G6,1,167,Piston GA,D,,27 Mar 2022,1162,0.006
+138,155,,IndiaFoxtEcho,F-35 Lightning II,1,167,Military (Modern),P,,27 Mar 2022,1162,0.006
+139,156,,Parallel 42,Freedom Fox / Fox2,1,167,Piston GA,P,,27 Mar 2022,1162,0.006
+141,157,,MilViz / Blackbird,FG-1D Corsair,1,167,Warbird (Classic),P,,27 Mar 2022,1162,0.006
+142,158,,Mario Noriega,Caproni-Vizzola C-22J Ventura,1,167,Business Jet,P,,27 Mar 2022,1162,0.006
+143,159,,AT Simulations,Focke-Wulf / Piaggio 149D,1,167,Piston GA,P,,27 Mar 2022,1162,0.006
+374,160,,GotGravel,Vertigo,1,166,Turboprop,F,,30 Mar 2022,1159,0.006
+379,161,,DC Designs ,Concorde,1,166,Airliner,P,,30 Mar 2022,1159,0.006
+383,162,,Asobo,"Daher TBM 930 
+(inc. with improvement mod)",1,166,Turboprop,F,,28 Mar 2022,1161,0.006
+397,163,,Aerosoft ,Bombardier CRJ (any variant),1,167,Airliner,P,,27 Mar 2022,1162,0.006
+403,164,,Got Friends,Monster NXCub,1,167,Piston GA,F,,27 Mar 2022,1162,0.006
+412,165,,Salty Simulations,Boeing B747-8,1,167,Airliner,F,,27 Mar 2022,1162,0.006
+70,166,,Carenado,Pilatus PC-24,0,12,Business Jet,D,,12 Mar 2025,81,0.000
+144,167,,Hangar Studios 713,American Champion Super Decathlon,0,18,Piston GA,P,,29 Jan 2025,123,0.000
+77,168,,iniBuilds,Airbus A321 LR,0,19,Airliner,F,,21 Jan 2025,131,0.000
+81,169,,Carenado,Cessna 404 Titan,0,22,Piston GA,D,,31 Dec 2024,152,0.000
+82,170,,Asobo,Airbus H125,0,22,Helicopter,F,,30 Dec 2024,153,0.000
+145,171,,Asobo,Air Tractor AT-802,0,23,Piston GA,F,,29 Dec 2024,154,0.000
+84,172,,Microsoft / Carenado,Beechcraft C90 GTX King Air,0,24,Turboprop,D,,22 Dec 2024,161,0.000
+146,173,,iniBuilds / Hans Hartmann,de Havilland DHC-6 Twin Otter (2024),0,24,Turboprop,F,,22 Dec 2024,161,0.000
+147,174,,AT Simulations,Dornier Seastar,0,27,Piston GA,D,,25 Nov 2024,188,0.000
+148,175,,Black Box Sim,BN2T Islander Turboprop,0,28,Piston GA,P,,24 Nov 2024,189,0.000
+149,176,,Restauravia,Nord N3400,0,29,Piston GA,F,,11 Nov 2024,202,0.000
+150,177,,iniBuilds,Lockheed T-33,0,31,Military (Modern),P,,28 Oct 2024,216,0.000
+151,178,,LatinVFR,Airbus A340,0,34,Airliner,P,,11 Oct 2024,233,0.000
+152,179,,Got Friends,Experimental MXA,0,34,Piston GA,F,,11 Oct 2024,233,0.000
+153,180,,FlynDive,Grumman J2F Duck,0,34,Seaplane,F,,11 Oct 2024,233,0.000
+154,181,,Virtavia,Grumman HU-16 Albatross,0,34,Seaplane,F,,11 Oct 2024,233,0.000
+155,182,,RPSimulations,Embraer EMB-312 Tucano,0,34,Turboprop,P,,11 Oct 2024,233,0.000
+156,183,,Kuro,Boeing 787-8,0,34,Airliner,F,,13 Oct 2024,231,0.000
+158,184,,Golden Key Studios,Mikoyan-Gurevich MiG-25PD “Foxbat”,0,35,Military (Modern),P,,2 Oct 2024,242,0.000
+159,185,,EZMods,XCub Extreme,0,36,Piston GA,F,,29 Sep 2024,245,0.000
+160,186,,FlyInside ,Rotorway RW162F / JetExec,0,36,Helicopter,P,,28 Sep 2024,246,0.000
+161,187,,TukanFlightSim,Ford Trimotor 5AT ,0,40,Vintage / Biplane,P,,30 Aug 2024,275,0.000
+162,188,,Hangar Studios 713,Ryan Nation B,0,41,Piston GA,P,,24 Aug 2024,281,0.000
+163,189,,MADolo Simulations,Jonker JS3,0,41,Glider,F,,24 Aug 2024,281,0.000
+165,190,,FastCow Simulation,Cicaré 8R,0,42,Helicopter,P,,18 Aug 2024,287,0.000
+164,191,,FlightSim Studio,Boeing 727-200,0,42,Airliner,P,,15 Aug 2024,290,0.000
+167,192,,Captain Sim,"Lockheed C-130 Hercules
+(all variants)",0,46,Military (Modern),P,,17 Jul 2024,319,0.000
+168,193,,Virtavia,Handley Page Hampden,0,46,Warbird (Classic),P,,17 Jul 2024,319,0.000
+169,194,,Heaven Designs / Giba,Airbus H120 (HVN-120),0,46,Helicopter,P,,17 Jul 2024,319,0.000
+170,195,,Deimos Inc.,Grumman A-6 Intruder,0,46,Military (Modern),P,,17 Jul 2024,319,0.000
+171,196,,Sal1800,Cessna T206H Stationair,0,47,Piston GA,F,,14 Jul 2024,322,0.000
+172,197,,Deimos Inc.,Sukhoi Su-27 Flanker,0,48,Military (Modern),P,,1 Jul 2024,335,0.000
+173,198,,Aviacion Espanola,Hispano Aviacion HA-200 / HA-220 “Saeta”,0,50,Military (Modern),P,,21 Jun 2024,345,0.000
+174,199,,Microsoft / iniBuilds,Short SC.7 Skyvan,0,51,Turboprop,P,,16 Jun 2024,350,0.000
+175,200,,Red Wing,Z139 Hindenburg Zeppelin,0,57,Other,P,,30 Apr 2024,397,0.000
+176,201,,Aeroplane Heaven,Republic P-47 D Razorback,0,57,Warbird (Classic),P,,30 Apr 2024,397,0.000
+177,202,,Heaven Designs / Giba,Maule MX-7-180,0,57,Piston GA,P,,29 Apr 2024,398,0.000
+178,203,,Microsoft / iniBuilds,Dornier Do 31,0,58,Vintage / Biplane,P,,26 Apr 2024,401,0.000
+179,204,,Golden Key Studios,General Dynamics F-111E Aardvark,0,59,Military (Modern),P,,19 Apr 2024,408,0.000
+180,205,,BT Studio,Piper J3C-65 Cub,0,59,Piston GA,P,,19 Apr 2024,408,0.000
+181,206,,AzurPoly,North American Rockwell OV-10 Bronco,0,59,Military (Modern),P,,15 Apr 2024,412,0.000
+182,207,,Virtavia,Douglas A-4 Skyhawk,0,61,Military (Modern),P,,4 Apr 2024,423,0.000
+183,208,,HCG,Mosquito XE,0,61,Helicopter,F,,2 Apr 2024,425,0.000
+184,209,,Leonardo,Maddog MD-83/88,0,61,Airliner,P,,2 Apr 2024,425,0.000
+185,210,,iniBuilds,Airbus A320neo (V2),0,62,Airliner,F,,26 Mar 2024,432,0.000
+188,211,,Carenado,Piper PA28R-201 Arrow III,0,64,Piston GA,P,,14 Mar 2024,444,0.000
+189,212,,iniBuilds / Microsoft,Bell 47J Ranger,0,65,Helicopter,P,,5 Mar 2024,453,0.000
+190,213,,Flight Replicas,de Havilland DH.82 Fox Moth,0,65,Vintage / Biplane,P,,5 Mar 2024,453,0.000
+191,214,,AzurPoly,Bede BD-5J,0,66,Ultralight / Sports,P,,2 Mar 2024,456,0.000
+192,215,,Microsoft,"Ornithopter
+(Dune Expansion DLC)",0,66,Other,F,,2 Mar 2024,456,0.000
+194,216,,CJ Simulations,Dassault Rafale (R-FAL),0,68,Military (Modern),P,,12 Feb 2024,475,0.000
+195,217,,A1R Design,Shavrov Sh-2 amphibian,0,71,Seaplane,P,,27 Jan 2024,491,0.000
+196,218,,Cera Simulations,Mil Mi-17,0,71,Helicopter,P,,27 Jan 2024,491,0.000
+197,219,,LatinVFR,Airbus A320neo,0,72,Airliner,P,,16 Jan 2024,502,0.000
+198,220,,PILOT’S,de Havilland Canada DHC-7 Dash 7,0,74,Turboprop,P,,7 Jan 2024,511,0.000
+199,221,,Lionheart Creations,Ballanca Super Viking,0,75,Piston GA,P,,25 Dec 2023,524,0.000
+200,222,,Microsoft / Carenado,Cessna T207A Turbo Stationair ,0,76,Piston GA,P,,24 Dec 2023,525,0.000
+201,223,,Ant’s Airplanes,CAC-25 Winjeel,0,77,Vintage / Biplane,P,,15 Dec 2023,534,0.000
+203,224,,iniBuilds / Microsoft,Mitsubishi MU-2,0,78,Turboprop,P,,6 Dec 2023,543,0.000
+204,225,,Heaven Designs,HVN-4B Global Hawk,0,78,Military (Modern),P,,6 Dec 2023,543,0.000
+206,226,,iniBuilds / Microsoft,Saab B-17,0,79,Vintage / Biplane,P,,1 Dec 2023,548,0.000
+207,227,,Ariebaba,North American Rockwell OV-10 Bronco,0,79,Warbird (Classic),F,,27 Nov 2023,552,0.000
+208,228,,Fsadnis ,Messerschmitt Me 262 A-1a,0,79,Warbird (Classic),F,,27 Nov 2023,552,0.000
+209,229,,Fsadnis ,Avro Vulcan B2,0,79,Military (Modern),F,,27 Nov 2023,552,0.000
+210,230,,VrilleAPlat,Cessna A-37B Dragonfly,0,79,Military (Modern),F,,27 Nov 2023,552,0.000
+211,231,,Scheny,Beast Horus Microjet,0,79,Ultralight / Sports,F,,27 Nov 2023,552,0.000
+212,232,,Got Friends,Fokker Dr.1,0,81,Vintage / Biplane,F,,13 Nov 2023,566,0.000
+213,233,,Black Box Sim,Shorts SD-30 Series,0,82,Turboprop,P,,6 Nov 2023,573,0.000
+214,234,,Rara-Avis Sims,English Electric Wren,0,88,Vintage / Biplane,P,,29 Sep 2023,611,0.000
+215,235,,KwikFlight,B-2 Spirit,0,88,Military (Modern),P,,25 Sep 2023,615,0.000
+216,236,,Bear Studios ,MiG-15bis,0,90,Military (Modern),P,,11 Sep 2023,629,0.000
+217,237,,Microsoft,Aero Vodochody Ae-45,0,91,Vintage / Biplane,P,,4 Sep 2023,636,0.000
+218,238,,MScenery,Grumman X-47B,0,91,Other,P,,4 Sep 2023,636,0.000
+219,239,,Microsoft / Aeroplane Heaven,Ford 4-AT Trimotor,0,92,Vintage / Biplane,P,,29 Aug 2023,642,0.000
+220,240,,Cowan Sim,Bell 206-L3 LongRanger,0,94,Helicopter,P,,17 Aug 2023,654,0.000
+221,241,,Asobo,Wright Flyer,0,94,Vintage / Biplane,F,,14 Aug 2023,657,0.000
+222,242,,Ysim,SubSonex JSX-2,0,96,Ultralight / Sports,P,,3 Aug 2023,668,0.000
+223,243,,Shrike Simulations,MD-530F,0,97,Helicopter,P,,28 Jul 2023,674,0.000
+224,244,,iniBuilds,Messerschmitt Bf 108 B Typhoon,0,97,Warbird (Classic),P,,25 Jul 2023,677,0.000
+225,245,,BlueMesh,Caudron C.430 Rafale,0,97,Piston GA,P,,24 Jul 2023,678,0.000
+226,246,,DC Designs,F-4 Phantom,0,97,Military (Modern),P,,24 Jul 2023,678,0.000
+227,247,,VrilleAPlat,Cessna T-37 Tweet,0,97,Piston GA,P,,24 Jul 2023,678,0.000
+228,248,,Microsoft / Aeroplane Heaven,Boeing 307 Stratoliner ,0,100,Vintage / Biplane,P,,3 Jul 2023,699,0.000
+229,249,,Microsoft / BlueMesh,Latécoère 631,0,101,Seaplane,P,,30 Jun 2023,702,0.000
+230,250,,Orbx ,Blackwing BW635RG,0,101,Piston GA,P,,30 Jun 2023,702,0.000
+231,251,,Nemeth Designs,Schweizer S300,0,101,Helicopter,P,,27 Jun 2023,705,0.000
+232,252,,Cowan Sim,Bell 222B,0,101,Helicopter,P,,27 Jun 2023,705,0.000
+233,253,,HCG,Spartan 7W Executive,0,102,Piston GA,P,,19 Jun 2023,713,0.000
+234,254,,Flying Fries,Scrapyard Monster,0,102,Piston GA,F,,19 Jun 2023,713,0.000
+235,255,,Dave Garwood,Twin Hawker Hunter,0,105,Military (Modern),F,,3 Jun 2023,729,0.000
+237,256,,Flight Replicas,PA-11 Cub Special,0,106,Piston GA,P,,27 May 2023,736,0.000
+236,257,,Deimos Inc.,A-10C Thunderbolt II “Warthog”,0,106,Military (Modern),P,,25 May 2023,738,0.000
+238,258,,BRsim Designs,Embraer EMB121A1-Xingu II,0,106,Piston GA,P,,23 May 2023,740,0.000
+239,259,,Rara-Avis Sims,Bulldog Autogyro,0,106,Ultralight / Sports,P,,22 May 2023,741,0.000
+240,260,,AzurPoly,C-160 Transall ,0,108,Turboprop,P,,9 May 2023,754,0.000
+241,261,,Taog’s Hangar,Aérospatiale Alouette III,0,108,Helicopter,P,,9 May 2023,754,0.000
+242,262,,ROPROD Audiovisual,Sea Ray L510,0,110,Other,P,,24 Apr 2023,769,0.000
+243,263,,Got Friends,Astro ONE,0,111,Helicopter,P,,22 Apr 2023,771,0.000
+244,264,,Asobo,Diamond DV20,0,111,Piston GA,D,,21 Apr 2023,772,0.000
+245,265,,Flysimware,Nieuport 24,0,111,Vintage / Biplane,P,,23 Apr 2023,770,0.000
+246,266,,TouchingCloud,JW1 Jetpack,0,111,Ultralight / Sports,F,,21 Apr 2023,772,0.000
+247,267,,Flight Replicas,P-40N WarHawk,0,111,Warbird (Classic),P,,19 Apr 2023,774,0.000
+248,268,,Big Radials,Noorduyn Norseman,0,112,Piston GA,P,,16 Apr 2023,777,0.000
+250,269,,Rara-Avis Sims,Zippy Sport,0,113,Ultralight / Sports,P,,9 Apr 2023,784,0.000
+249,270,,PILOT’S,Boeing B-314 Clipper,0,113,Vintage / Biplane,P,,5 Apr 2023,788,0.000
+251,271,,SimWorks Studio,Vans RV-10,0,114,Piston GA,P,,1 Apr 2023,792,0.000
+252,272,,Cowan Sim,Airbus H125,0,114,Helicopter,P,,30 Mar 2023,794,0.000
+253,273,,Microsoft / AT Simulations,Antonov An-2,0,115,Piston GA,P,,26 Mar 2023,798,0.000
+254,274,,Got Friends,Lake Skipper,0,115,Ultralight / Sports,F,,25 Mar 2023,799,0.000
+255,275,,FlightSim Studio,Embraer E-Jets Series,0,116,Airliner,P,,17 Mar 2023,807,0.000
+256,276,,FlightSim Studio,Tecnam P2006T MKII,0,116,Piston GA,P,,17 Mar 2023,807,0.000
+257,277,,LivToAir,Sbach 342 (XA42),0,116,Ultralight / Sports,P,,15 Mar 2023,809,0.000
+259,278,,Rara-Avis Sims,"Mignet Pou-du-Ciel HM.14(The “Flying Flea”)",0,117,Ultralight / Sports,P,,12 Mar 2023,812,0.000
+260,279,,Lightsim,TL Stream Ultralight,0,117,Ultralight / Sports,P,,12 Mar 2023,812,0.000
+258,280,,Black Square,"Beechcraft Bonanza A36 
+(Steam Gauge Overhaul)",0,117,Piston GA,P,,9 Mar 2023,815,0.000
+261,281,,Asobo,Pipistrel Virus SW 121,0,118,Piston GA,D,,28 Feb 2023,824,0.000
+262,282,,Asobo,Curtiss JN-4D Jenny,0,119,Vintage / Biplane,F,,24 Feb 2023,828,0.000
+263,283,,Golden Key Studios,MiG-21Bis Fishbed,0,119,Military (Modern),P,,24 Feb 2023,828,0.000
+264,284,,TouchingCloud,Kamov Ka-10M HAT,0,119,Helicopter,P,,24 Feb 2023,828,0.000
+265,285,,Asobo,DG Aviation LS8-18,0,119,Glider,F,,24 Feb 2023,828,0.000
+266,286,,RealPhysics,Dorand AR.1,0,119,Vintage / Biplane,P,,20 Feb 2023,832,0.000
+268,287,,Deimos Inc.,G39 Griffin / Jas-39 Gripen,0,120,Military (Modern),P,,18 Feb 2023,834,0.000
+269,288,,WombiiActual,Witch,0,120,Other,F,,14 Feb 2023,838,0.000
+270,289,,WombiiActual,Ducky,0,120,Other,F,,14 Feb 2023,838,0.000
+271,290,,Got Friends,Revolution Mini-500,0,120,Helicopter,P,,13 Feb 2023,839,0.000
+272,291,,Orangener,Flying Toile,0,120,Other,F,,13 Feb 2023,839,0.000
+273,292,,Cowan Sim,McDonnell Douglas 500E,0,121,Helicopter,P,,11 Feb 2023,841,0.000
+274,293,,Red Wing,Farman F.60 Goliath,0,121,Vintage / Biplane,P,,11 Feb 2023,841,0.000
+275,294,,Sal1800,Brown B-2 Racer,0,121,Vintage / Biplane,F,,11 Feb 2023,841,0.000
+276,295,,Carenado,Piper Archer II,0,122,Piston GA,P,,1 Feb 2023,851,0.000
+277,296,,Cowan Sim,Bell 206-B JetRanger,0,123,Helicopter,P,,28 Jan 2023,855,0.000
+278,297,,Lionheart Creations,Pasped Skylark,0,123,Vintage / Biplane,P,,28 Jan 2023,855,0.000
+279,298,,Asobo,Extra 330-LT,0,123,Ultralight / Sports,F,,24 Jan 2023,859,0.000
+281,299,,Miltech Simulations,Bell Boeing V-22 Osprey,0,125,Helicopter,P,,15 Jan 2023,868,0.000
+284,300,,Microsoft / Mike Johnson,Savoia-Marchetti S.55,0,125,Seaplane,P,,15 Jan 2023,868,0.000
+285,301,,Project Mega Pack,Airbus A330-300,0,125,Airliner,F,,15 Jan 2023,868,0.000
+280,302,,IndiaFoxtEcho,Ratan Model 61 Long-EZ,0,125,Ultralight / Sports,P,,10 Jan 2023,873,0.000
+283,303,,Aerosoft,SeaRey Elite,0,125,Ultralight / Sports,P,,12 Jan 2023,871,0.000
+286,304,,Microsoft / iniBuilds,Grumman G-21A Goose,0,126,Vintage / Biplane,F,,4 Jan 2023,879,0.000
+287,305,,Orbx ,PAC P-750 XSTOL,0,126,Turboprop,P,,3 Jan 2023,880,0.000
+288,306,,V.G.P,PowerSTOL,0,126,Piston GA,P,,3 Jan 2023,880,0.000
+289,307,,Microsoft / BlueMesh,Ryan NYP Spirit of St. Louis,0,126,Vintage / Biplane,F,,2 Jan 2023,881,0.000
+290,308,,FlyInside ,Bell 206 JetRanger,0,128,Helicopter,P,,25 Dec 2022,889,0.000
+291,309,,CJ Simulations,Eurofighter Typhoon,0,128,Military (Modern),P,,24 Dec 2022,890,0.000
+292,310,,OzWookiee,Grumman Goose G21-A Redux II,0,129,Vintage / Biplane,F,,17 Dec 2022,897,0.000
+293,311,,Aeroplane Heaven,de Havilland Canada DHC-1 Chipmunk,0,129,Piston GA,P,,16 Dec 2022,898,0.000
+295,312,,Captain Sim,Boeing 777-300ER,0,130,Airliner,P,,9 Dec 2022,905,0.000
+294,313,,iniBuilds,Curtiss P-40F Warhawk,0,130,Warbird (Classic),P,,7 Dec 2022,907,0.000
+296,314,,Asobo / FlightSim Studio,DG Aviation DG1001E neo,0,133,Glider,F,,16 Nov 2022,928,0.000
+297,315,,Microsoft / Nemeth,Bell 407,0,133,Helicopter,F,,14 Nov 2022,930,0.000
+298,316,,Microsoft / BlueMesh,"Hughes H-4 Hercules ""Spruce Goose""",0,134,Military (Modern),F,,12 Nov 2022,932,0.000
+299,317,,Headwind,Airbus A330-900,0,134,Airliner,F,,12 Nov 2022,932,0.000
+300,318,,P McDonell & Philippe Wallaert,Avro Canada CF-105 Arrow Mk.2,0,134,Military (Modern),F,,9 Nov 2022,935,0.000
+301,319,,Iris Simulations,Pilatus PC-21,0,134,Turboprop,P,,7 Nov 2022,937,0.000
+302,320,,Asobo,Junkers F13,0,134,Vintage / Biplane,P,,7 Nov 2022,937,0.000
+304,321,,Black Square,"King Air 350 
+(Steam Gauge Overhaul)",0,138,Turboprop,P,,12 Oct 2022,963,0.000
+305,322,,Aerial Sim,F-117A Nighthawk,0,138,Military (Modern),P,,13 Oct 2022,962,0.000
+306,323,,HPG,Hot Air Balloon,0,139,Other,P,,6 Oct 2022,969,0.000
+308,324,,IndiaFoxtEcho,Leonardo M-346,0,139,Military (Modern),P,,4 Oct 2022,971,0.000
+309,325,,Flying Iron,Grumman F6F-5 Hellcat,0,140,Warbird (Classic),P,,26 Sep 2022,979,0.000
+310,326,,LatinVFR,Airbus A319,0,140,Airliner,P,,26 Sep 2022,979,0.000
+311,327,,LatinVFR,Airbus A321neo (with & without mods),0,142,Airliner,P,,14 Sep 2022,991,0.000
+312,328,,Delta Simulations (Destroyer121),Boeing C-17 Globemaster III,0,142,Military (Modern),F,,14 Sep 2022,991,0.000
+313,329,,Roland Laborie,Canadair CL-215,0,142,Seaplane,F,,14 Sep 2022,991,0.000
+314,330,,Deimos Inc.,Air Creation Tanarg 912,0,142,Ultralight / Sports,P,,12 Sep 2022,993,0.000
+315,331,,Lionheart Creations,LearAvia Lear Fan 2100 ,0,143,Turboprop,P,,6 Sep 2022,999,0.000
+316,332,,Hangar Studios 713,Camair 480 Twin Navion,0,144,Piston GA,P,,2 Sep 2022,1003,0.000
+317,333,,HCG,Guimbal Cabri G2,0,144,Helicopter,F,,2 Sep 2022,1003,0.000
+318,334,,WB-Sim,Cessna 172SP Classic  Enhancement,0,145,Piston GA,P,,26 Aug 2022,1010,0.000
+319,335,,Microsoft / Carenado,Beechcraft Bonanza V35B V-Tail,0,146,Piston GA,P,,20 Aug 2022,1016,0.000
+320,336,,Flight Replicas,Piper L-4 Grasshopper,0,146,Piston GA,P,,15 Aug 2022,1021,0.000
+321,337,,Aeroplane Heaven,Globe Swift GC-1A,0,147,Piston GA,P,,13 Aug 2022,1023,0.000
+322,338,,Top Mach Studio,F-22 Raptor,0,149,Military (Modern),P,,26 Jul 2022,1041,0.000
+323,339,,Got Friends,Gee Bee R3 Special,0,149,Ultralight / Sports,P,,26 Jul 2022,1041,0.000
+326,340,,Deejing ,B&F Technik Vertriebs FK9 Mark 4,0,151,Piston GA,F,,14 Jul 2022,1053,0.000
+327,341,,Asobo,L-39 Albatross,0,152,Military (Modern),P,,7 Jul 2022,1060,0.000
+328,342,,Deimos Inc.,MiG 29 Fulcrum,0,152,Military (Modern),P,,7 Jul 2022,1060,0.000
+329,343,,Aeroplane Heaven,Spitfire Mk. 1A,0,153,Warbird (Classic),P,,27 Jun 2022,1070,0.000
+330,344,,AzurPoly,Socata TB-30 Epsilon,0,154,Piston GA,P,,25 Jun 2022,1072,0.000
+331,345,,MADolo Simulations,Alexander Schleicher AS33-me,0,154,Glider,F,,20 Jun 2022,1077,0.000
+332,346,,Sim Skunk Works,Aeritalia-Fiat G-91,0,154,Military (Modern),P,,20 Jun 2022,1077,0.000
+333,347,,Asobo,DA-77 Pelican,0,155,Other,F,,16 Jun 2022,1081,0.000
+334,348,,Black Box Sim,Scottish Aviation Bulldog,0,155,Piston GA,P,,14 Jun 2022,1083,0.000
+335,349,,Big Radials,Curtiss P40-B Tomahawk,0,155,Warbird (Classic),P,,13 Jun 2022,1084,0.000
+336,350,,FSReborn,Sting S4,0,157,Ultralight / Sports,P,,3 Jun 2022,1094,0.000
+337,351,,Carenado,Waco YMF 5,0,157,Vintage / Biplane,P,,3 Jun 2022,1094,0.000
+338,352,,Asobo,P51D Mustang,0,157,Warbird (Classic),P,,2 Jun 2022,1095,0.000
+339,353,,IndiaFoxtEcho,Goshawk T-45,0,157,Military (Modern),P,,2 Jun 2022,1095,0.000
+340,354,,Asobo,SR-72 Darkstar  (Top Gun DLC | fictional),0,158,Military (Modern),F,,26 May 2022,1102,0.000
+341,355,,Asobo,Gee Bee R-2 & Z,0,158,Turboprop,P,,26 May 2022,1102,0.000
+342,356,,Asobo,Aero L-39 Albatross,0,158,Military (Modern),P,,26 May 2022,1102,0.000
+343,357,,Asobo,JMB VL3 (with & without mods),0,159,Piston GA,F,,20 May 2022,1108,0.000
+344,358,,FrenchVFR,PBY Catalina,0,159,Seaplane,F,,22 May 2022,1106,0.000
+345,359,,BRsim Designs,Bonanza H35 V-Tail,0,159,Piston GA,P,,22 May 2022,1106,0.000
+346,360,,Asobo,Zlin Savage Cub (with & without mod),0,160,Piston GA,F,,10 May 2022,1118,0.000
+348,361,,BT Studio,Kitfox S7 STi,0,160,Piston GA,P,,11 May 2022,1117,0.000
+349,362,,Wing42,Blériot XI (any variant),0,160,Vintage / Biplane,P,,10 May 2022,1118,0.000
+350,363,,NextGen Simulations,Embraer EMB 110 Bandeirante,0,161,Airliner,P,,4 May 2022,1124,0.000
+351,364,,Asobo ,Boeing 787-10 Dreamliner,0,161,Airliner,D,,5 May 2022,1123,0.000
+352,365,,Black Box Sim,BN2A Trislander,0,161,Piston GA,P,,4 May 2022,1124,0.000
+353,366,,Leonardo,Maddog MD-82,0,161,Airliner,P,,3 May 2022,1125,0.000
+355,367,,Big Radials,Nieuport 17,0,162,Vintage / Biplane,P,,28 Apr 2022,1130,0.000
+356,368,,Carenado,Cessna CT182-T Skylane,0,162,Piston GA,P,,25 Apr 2022,1133,0.000
+357,369,,SimWorks Studio,Vans RV-14/14A,0,163,Ultralight / Sports,P,,22 Apr 2022,1136,0.000
+358,370,,Lionheart Creations,Bucker Bu-131 Jungmann,0,163,Vintage / Biplane,P,,19 Apr 2022,1139,0.000
+359,371,,Aeroplane Heaven,Electra 10-A,0,163,Vintage / Biplane,P,,19 Apr 2022,1139,0.000
+360,372,,HPG,Airbus H135,0,164,Helicopter,F,,17 Apr 2022,1141,0.000
+370,373,,Asobo,King Air 350i,0,165,Turboprop,F,,10 Apr 2022,1148,0.000
+361,374,,Carenado,Cessna C170-B,0,165,Piston GA,P,,5 Apr 2022,1153,0.000
+362,375,,SimWorks Studio,Zenith CH701 STOL,0,165,Piston GA,P,,6 Apr 2022,1152,0.000
+363,376,,Asobo ,Boeing 747,0,165,Airliner,F,,6 Apr 2022,1152,0.000
+364,377,,AzurPoly,Fouga CM.170 Magister,0,165,Military (Modern),P,,7 Apr 2022,1151,0.000
+365,378,,Asobo,Icon A5,0,165,Ultralight / Sports,F,,7 Apr 2022,1151,0.000
+366,379,,TouchingCloud,DG-808S,0,165,Glider,F,,7 Apr 2022,1151,0.000
+367,380,,Asobo,Volocity (Volocopter),0,165,Helicopter,F,,6 Apr 2022,1152,0.000
+368,381,,Virtualcol,Embraer 170/175,0,165,Airliner,P,,6 Apr 2022,1152,0.000
+369,382,,Asobo,Beechcraft / Textron Baron G58,0,165,Piston GA,D,,7 Apr 2022,1151,0.000
+371,383,,Flysimware,Grumman G44A Widgeon,0,165,Piston GA,P,,7 Apr 2022,1151,0.000
+372,384,,Asobo,Pilatus PC-6 Porter (+GotGravel mod),0,165,Turboprop,F,,6 Apr 2022,1152,0.000
+373,385,,Captain Sim,Boeing 777-200ER,0,165,Airliner,P,,6 Apr 2022,1152,0.000
+380,386,,Dave Garwood,DeHaviiland DH89 Dragon Rapide,0,166,Vintage / Biplane,F,,2 Apr 2022,1156,0.000
+381,387,,Rotorsim Pilot,H125,0,166,Helicopter,F,,1 Apr 2022,1157,0.000
+375,388,,Asobo,Top Rudder 103 Solo Aerolite,0,166,Ultralight / Sports,P,,29 Mar 2022,1160,0.000
+376,389,,Asobo,Aviat Pitts Special,0,166,Ultralight / Sports,F,,31 Mar 2022,1158,0.000
+377,390,,A1R Design,Ryan ST-A Special,0,166,Vintage / Biplane,P,,30 Mar 2022,1159,0.000
+378,391,,Rotorsim Pilot,Robinson R44,0,166,Helicopter,F,,29 Mar 2022,1160,0.000
+382,392,,Aeroplane Heaven,P51D Mustang,0,166,Warbird (Classic),P,,30 Mar 2022,1159,0.000
+384,393,,Asobo,Junkers JU52,0,166,Vintage / Biplane,P,,28 Mar 2022,1161,0.000
+385,394,,Asobo,Beechcraft Staggerwing,0,166,Vintage / Biplane,P,,28 Mar 2022,1161,0.000
+386,395,,Asobo,Robin DR400-180,0,166,Piston GA,F,,28 Mar 2022,1161,0.000
+387,396,,Asobo,F-18 Hornet,0,166,Military (Modern),F,,28 Mar 2022,1161,0.000
+388,397,,Aeroplane Heaven,Cessna 140,0,166,Piston GA,P,,28 Mar 2022,1161,0.000
+389,398,,Sim Skunk Works,TF-104 G Starfighter,0,166,Military (Modern),P,,28 Mar 2022,1161,0.000
+390,399,,Fsadnis ,Hawker Hurricane,0,166,Warbird (Classic),F,,28 Mar 2022,1161,0.000
+391,400,,Iris Simulations,Jabiru J160 / 170,0,166,Piston GA,P,,28 Mar 2022,1161,0.000
+392,401,,Ants Airplanes,Drifter Ultralight ,0,166,Ultralight / Sports,P,,28 Mar 2022,1161,0.000
+393,402,,Asobo,Flight Design CTSL,0,166,Piston GA,F,,28 Mar 2022,1161,0.000
+394,403,,Top Mach Studio,F-22 Raptor,0,166,Military (Modern),F,,28 Mar 2022,1161,0.000
+396,404,,Big Radials,Grumman JRF-6B Goose,0,167,Vintage / Biplane,P,,27 Mar 2022,1162,0.000
+398,405,,Got Friends,EA-7 Edgley Optica,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+399,406,,Black Box Sim,Cessna L-19 Bird Dog,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+400,407,,Aerosoft (removed from sale in 2023),DHC-6 Twin Otter,0,167,Turboprop,P,,27 Mar 2022,1162,0.000
+401,408,,FlyInside ,Bell 47G,0,167,Helicopter,P,,27 Mar 2022,1162,0.000
+402,409,,Just Flight,Piper Warrior II,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+404,410,,DC Designs,Boeing Stearman PT-17,0,167,Vintage / Biplane,P,,27 Mar 2022,1162,0.000
+405,411,,Carenado,Mooney M20R Ovation,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+406,412,,Carenado,Piper PA44 Seminole,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+407,413,,Carenado,C337H Skymaster,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+408,414,,IndiaFoxtEcho,Aermacchi MB-339 ,0,167,Military (Modern),P,,27 Mar 2022,1162,0.000
+409,415,,SC Designs,F-16 Falcon,0,167,Military (Modern),P,,27 Mar 2022,1162,0.000
+410,416,,DC Designs,F-15 Eagle,0,167,Military (Modern),P,,27 Mar 2022,1162,0.000
+411,417,,DC Designs,F-14 Tomcat,0,167,Military (Modern),P,,27 Mar 2022,1162,0.000
+413,418,,Carenado,Piper PA-34 Seneca V,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+414,419,,Heavy Division,Boeing B78X,0,167,Airliner,F,,27 Mar 2022,1162,0.000
+415,420,,Asobo,Airbus A320neo,0,167,Airliner,F,,27 Mar 2022,1162,0.000
+416,421,,Iris Simulations,Grob Tutor,0,167,Piston GA,P,,27 Mar 2022,1162,0.000
+417,422,,Deejing ,Vans RV-7/7A,0,167,Ultralight / Sports,F,,27 Mar 2022,1162,0.000
+,,,,,,,,,,,,
+,,,,Total VOTES,458,,,,,,,
+,,,,Total AIRCRAFT,422,,,,,,,

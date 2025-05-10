@@ -10,6 +10,12 @@ const publishedDir = path.join(__dirname, '../data/published');
 const unpublishedDir = path.join(__dirname, '../data/unpublished');
 const aircraftDataPath = path.join(__dirname, '../data/aircraft.json');
 
+// Log every request to this router
+router.use((req, res, next) => {
+    console.log(`[API] ${req.method} ${req.originalUrl}`);
+    next();
+});
+
 // Ensure directories exist
 if (!fs.existsSync(publishedDir)) {
     fs.mkdirSync(publishedDir, { recursive: true });
@@ -18,26 +24,12 @@ if (!fs.existsSync(unpublishedDir)) {
     fs.mkdirSync(unpublishedDir, { recursive: true });
 }
 
-// Middleware for basic authentication - only for admin routes
+// Middleware for session-based authentication - only for admin routes
 const authenticate = (req: any, res: any, next: any) => {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Basic ')) {
-        return res.status(401).json({ message: 'Authentication required' });
+    if (req.session && req.session.user && req.session.user.role === 'admin') {
+        return next();
     }
-
-    // In a real app, we would validate against a real user database
-    // For now, we'll use a simple hardcoded admin:admin123 credential
-    const base64Credentials = authHeader.split(' ')[1];
-    const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
-    const [username, password] = credentials.split(':');
-
-    if (username === 'admin' && password === 'admin123') {
-        req.user = { username, role: 'admin' };
-        next();
-    } else {
-        res.status(401).json({ message: 'Invalid credentials' });
-    }
+    res.status(401).json({ message: 'Authentication required' });
 };
 
 // Helper function to get aircraft data
@@ -136,6 +128,7 @@ function mergeAircraftWithVotes(reportData: ReportData): Report {
     return report;
 }
 
+// ===================== PUBLIC ROUTES =====================
 // Get all published reports (just metadata, not full aircraft data)
 router.get('/', (req, res) => {
     try {
@@ -255,29 +248,28 @@ router.get('/:id', (req, res) => {
     }
 });
 
-// Admin routes
-// Get all reports (published and unpublished) - admin only
-router.get('/admin/all', authenticate, (req, res) => {
+// ===================== ADMIN ROUTES =====================
+// All admin routes require authentication
+
+// Get all unpublished reports (summary) - admin only
+router.get('/admin/unpublished', authenticate, (req, res) => {
     try {
-        const published = getPublishedReportsData();
         const unpublished = getUnpublishedReportsData();
-
-        const publishedSummaries = published.map(report => ({
-            ...report,
-            aircraftCount: report.aircraftVotes.length,
-            status: 'published'
+        const summaries = unpublished.map(report => ({
+            id: report.id,
+            type: report.type,
+            year: report.year,
+            month: report.month,
+            title: report.title,
+            description: report.description,
+            createdAt: report.createdAt,
+            updatedAt: report.updatedAt,
+            aircraftCount: report.aircraftVotes.length
         }));
-
-        const unpublishedSummaries = unpublished.map(report => ({
-            ...report,
-            aircraftCount: report.aircraftVotes.length,
-            status: 'unpublished'
-        }));
-
-        res.json([...publishedSummaries, ...unpublishedSummaries]);
+        res.json(summaries);
     } catch (error) {
-        console.error('Error fetching all reports:', error);
-        res.status(500).json({ message: 'Failed to fetch reports' });
+        console.error('Error fetching unpublished reports:', error);
+        res.status(500).json({ message: 'Failed to fetch unpublished reports' });
     }
 });
 
@@ -300,8 +292,8 @@ router.get('/admin/unpublished/:id', authenticate, (req, res) => {
     }
 });
 
-// Create a new report - admin only
-router.post('/', authenticate, (req, res) => {
+// Create a new unpublished report (draft) - admin only
+router.post('/admin/unpublished', authenticate, (req, res) => {
     try {
         const { title, description, type, year, month, aircraftIds } = req.body;
 
@@ -371,48 +363,28 @@ router.post('/', authenticate, (req, res) => {
     }
 });
 
-// Update a report - admin only
-router.put('/:id', authenticate, (req, res) => {
+// Update an unpublished report - admin only
+router.put('/admin/unpublished/:id', authenticate, (req, res) => {
     try {
         const { title, description, aircraftVotes } = req.body;
         const reportId = req.params.id;
 
-        // Try to find in unpublished, then published
-        let report;
-        let isPublished = false;
-        let reportFilePath;
-
+        // Only allow editing unpublished reports
         const unpublishedReports = getUnpublishedReportsData();
-        report = unpublishedReports.find(r => r.id === reportId);
-
-        if (report) {
-            reportFilePath = path.join(unpublishedDir, `${reportId}.json`);
-        } else {
-            const publishedReports = getPublishedReportsData();
-            report = publishedReports.find(r => r.id === reportId);
-
-            if (report) {
-                reportFilePath = path.join(publishedDir, `${reportId}.json`);
-                isPublished = true;
-            }
+        const report = unpublishedReports.find(r => r.id === reportId);
+        if (!report) {
+            return res.status(404).json({ message: 'Unpublished report not found' });
         }
-
-        if (!report || !reportFilePath) {
-            return res.status(404).json({ message: 'Report not found' });
-        }
+        const reportFilePath = path.join(unpublishedDir, `${reportId}.json`);
 
         // Update the report
         const updatedReport: ReportData = {
             ...report,
             title: title || report.title,
             description: description !== undefined ? description : report.description,
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            aircraftVotes: aircraftVotes || report.aircraftVotes
         };
-
-        // Update aircraft votes if provided
-        if (aircraftVotes) {
-            updatedReport.aircraftVotes = aircraftVotes;
-        }
 
         // Save the updated report
         fs.writeFileSync(reportFilePath, JSON.stringify(updatedReport, null, 2));
@@ -421,8 +393,29 @@ router.put('/:id', authenticate, (req, res) => {
         const fullReport = mergeAircraftWithVotes(updatedReport);
         res.json(fullReport);
     } catch (error) {
-        console.error('Error updating report:', error);
+        console.error('Error updating unpublished report:', error);
         res.status(500).json({ message: 'Failed to update report' });
+    }
+});
+
+// Delete an unpublished report - admin only
+router.delete('/admin/unpublished/:id', authenticate, (req, res) => {
+    try {
+        const reportId = req.params.id;
+        const unpublishedFile = path.join(unpublishedDir, `${reportId}.json`);
+        const publishedFile = path.join(publishedDir, `${reportId}.json`);
+        // Disallow deletion if a published report exists
+        if (fs.existsSync(publishedFile)) {
+            return res.status(409).json({ message: 'Cannot delete draft: published report exists. Unpublish first.' });
+        }
+        if (fs.existsSync(unpublishedFile)) {
+            fs.unlinkSync(unpublishedFile);
+            return res.json({ message: 'Unpublished report deleted successfully' });
+        }
+        return res.status(404).json({ message: 'Unpublished report not found' });
+    } catch (error) {
+        console.error('Error deleting unpublished report:', error);
+        res.status(500).json({ message: 'Failed to delete unpublished report' });
     }
 });
 
@@ -430,68 +423,52 @@ router.put('/:id', authenticate, (req, res) => {
 router.post('/admin/publish/:id', authenticate, (req, res) => {
     try {
         const reportId = req.params.id;
-
         // Check if report exists in unpublished
         const unpublishedReports = getUnpublishedReportsData();
         const report = unpublishedReports.find(r => r.id === reportId);
-
         if (!report) {
             return res.status(404).json({ message: 'Unpublished report not found' });
         }
-
         const sourceFile = path.join(unpublishedDir, `${reportId}.json`);
         const destFile = path.join(publishedDir, `${reportId}.json`);
-
         // Check if report already exists in published
         if (fs.existsSync(destFile)) {
-            return res.status(409).json({ message: 'Report is already published' });
+            // Overwrite the published report with the latest draft
+            const updatedReport = {
+                ...report,
+                updatedAt: new Date().toISOString()
+            };
+            fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
+            return res.json({ message: 'Report re-published successfully' });
+        } else {
+            // Publish for the first time
+            const updatedReport = {
+                ...report,
+                updatedAt: new Date().toISOString()
+            };
+            fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
+            return res.json({ message: 'Report published successfully' });
         }
-
-        // Update the publish date
-        const updatedReport = {
-            ...report,
-            updatedAt: new Date().toISOString()
-        };
-
-        // Write to published and delete from unpublished
-        fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
-        fs.unlinkSync(sourceFile);
-
-        res.json({ message: 'Report published successfully' });
+        // Note: Do NOT remove the draft after publishing
     } catch (error) {
         console.error('Error publishing report:', error);
         res.status(500).json({ message: 'Failed to publish report' });
     }
 });
 
-// Delete a report - admin only
-router.delete('/:id', authenticate, (req, res) => {
+// Unpublish (delete) a published report - admin only
+router.delete('/admin/published/:id', authenticate, (req, res) => {
     try {
         const reportId = req.params.id;
-        let found = false;
-
-        // Check if report exists in unpublished first
-        const unpublishedFile = path.join(unpublishedDir, `${reportId}.json`);
-        if (fs.existsSync(unpublishedFile)) {
-            fs.unlinkSync(unpublishedFile);
-            found = true;
-        }
-
-        // Then check published
         const publishedFile = path.join(publishedDir, `${reportId}.json`);
         if (fs.existsSync(publishedFile)) {
             fs.unlinkSync(publishedFile);
-            found = true;
+            return res.json({ message: 'Published report deleted (unpublished) successfully' });
         }
-
-        if (!found) {
-            return res.status(404).json({ message: 'Report not found' });
-        }
-
-        res.json({ message: 'Report deleted successfully' });
+        return res.status(404).json({ message: 'Published report not found' });
     } catch (error) {
-        console.error('Error deleting report:', error);
-        res.status(500).json({ message: 'Failed to delete report' });
+        console.error('Error unpublishing report:', error);
+        res.status(500).json({ message: 'Failed to unpublish report' });
     }
 });
 

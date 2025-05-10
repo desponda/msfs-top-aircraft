@@ -1,12 +1,52 @@
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const { parse } = require('csv-parse/sync');
 
 // Get command line arguments
 const args = process.argv.slice(2);
 const csvFile = args[0]; // First argument should be the CSV file name
 const year = args[1]; // Second argument should be the year
 const month = args[2]; // Third argument is optional - if provided, it's the month
+
+// Add CLI option for validation only
+const validateOnly = args.includes('--validate-only');
+
+if (validateOnly) {
+    // Path setup for validation
+    const publishedDir = path.join(__dirname, '..', 'app', 'data', 'published');
+    const unpublishedDir = path.join(__dirname, '..', 'app', 'data', 'unpublished');
+    const aircraftOutputPath = path.join(__dirname, '..', 'app', 'data', 'aircraft.json');
+    let existingAircraft = [];
+    if (fs.existsSync(aircraftOutputPath)) {
+        try {
+            existingAircraft = JSON.parse(fs.readFileSync(aircraftOutputPath, 'utf8'));
+        } catch (error) {
+            console.error('Error reading existing aircraft data:', error);
+            process.exit(1);
+        }
+    }
+    const aircraftIdSet = new Set(existingAircraft.map(a => a.id));
+    const reportsDirs = [publishedDir, unpublishedDir];
+    let allValid = true;
+    for (const dir of reportsDirs) {
+        const files = fs.readdirSync(dir).filter(f => f.endsWith('.json'));
+        for (const file of files) {
+            const report = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+            const missing = (report.aircraftVotes || []).filter(v => !aircraftIdSet.has(v.aircraftId));
+            if (missing.length > 0) {
+                allValid = false;
+                console.error(`Validation failed for ${dir}/${file}:`, missing);
+            }
+        }
+    }
+    if (allValid) {
+        console.log('All reports are valid: all aircraftIds exist in aircraft.json');
+    } else {
+        process.exit(1);
+    }
+    process.exit(0);
+}
 
 // Check if required arguments are provided
 if (!csvFile || !year) {
@@ -63,272 +103,125 @@ const reportId = isMonthly
 
 console.log(`Report ID: ${reportId}`);
 
-// Parse CSV and create aircraft data
-const parseCSV = (csvContent) => {
-    const lines = csvContent.split('\n');
+// Read CSV file content
+const csvContent = fs.readFileSync(csvPath, 'utf8');
 
-    // Extract header line
-    const header = lines[0].trim();
+// Parse CSV using csv-parse (handles multiline and quoted fields)
+const records = parse(csvContent, {
+    columns: false,
+    skip_empty_lines: true,
+    relax_column_count: true,
+    trim: true,
+});
 
-    // Determine CSV format based on headers
-    let format;
-    if (header.includes('Developer,Aircraft,Votes')) {
-        format = 'simple';
-    } else if (header.includes('Developer,Aircraft,Category,P/F,Votes,Days')) {
-        format = 'detailed';
-    } else {
-        throw new Error('Unknown CSV format. Expected headers not found.');
-    }
+// Remove header row
+const dataRows = records.slice(1);
 
-    console.log(`Detected CSV format: ${format}`);
+const aircraftVotes = [];
+const errorRows = [];
 
-    const aircraft = [];
-    const aircraftVotes = [];
-    const errorLines = [];
-
-    // Parse data lines
-    lines.slice(1).forEach((line, index) => {
-        if (!line.trim()) return; // Skip empty lines
-
-        try {
-            // Split the line by commas, but handle quoted values
-            const values = [];
-            let currentValue = '';
-            let inQuotes = false;
-
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    values.push(currentValue.trim());
-                    currentValue = '';
-                } else {
-                    currentValue += char;
-                }
-            }
-
-            // Add the last value
-            values.push(currentValue.trim());
-
-            let developer, name, category, paywareCode, votes, days, dateAdded, weeksInChart;
-
-            if (format === 'simple') {
-                [developer, name, votes] = values;
-                category = 'Unknown';
-                paywareCode = 'U';
-                days = '0';
-                dateAdded = '';
-                weeksInChart = '0';
-            } else { // detailed format
-                [developer, name, category, paywareCode, votes, days, dateAdded, weeksInChart] = values;
-
-                // Handle missing values
-                weeksInChart = weeksInChart || '0';
-            }
-
-            // Check if the critical fields are valid
-            if (!developer || !name) {
-                errorLines.push({ lineNumber: index + 1, line, error: 'Missing developer or aircraft name' });
-                return;
-            }
-
-            // Determine the payware status
-            let paywareStatus;
-            switch (paywareCode?.trim()) {
-                case 'P':
-                    paywareStatus = 'Payware';
-                    break;
-                case 'F':
-                    paywareStatus = 'Freeware';
-                    break;
-                case 'D':
-                    paywareStatus = 'Deluxe Edition';
-                    break;
-                case 'B':
-                    paywareStatus = 'Both Free & Premium';
-                    break;
-                default:
-                    paywareStatus = 'Unknown';
-            }
-
-            // Parse the date
-            let dateAddedFormatted;
-            try {
-                if (dateAdded && dateAdded.trim()) {
-                    const [day, month, year] = dateAdded.trim().split(' ');
-                    const monthMap = {
-                        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-                        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-                    };
-                    const monthNum = monthMap[month];
-                    if (monthNum !== undefined && day && year) {
-                        dateAddedFormatted = new Date(parseInt(year), monthNum, parseInt(day)).toISOString();
-                    } else {
-                        dateAddedFormatted = null;
-                    }
-                }
-            } catch (e) {
-                console.warn(`Error parsing date on line ${index + 1}: ${dateAdded}`);
-                dateAddedFormatted = null;
-            }
-
-            // Create a unique key for lookups using cleaned names
-            const cleanedName = name.trim().toLowerCase();
-            const cleanedDeveloper = developer.trim().toLowerCase();
-            const key = `${cleanedDeveloper}|${cleanedName}`;
-
-            // Check if aircraft already exists in our data
-            let aircraftId;
-            const existingAircraft = existingAircraftMap.get(key);
-
-            if (existingAircraft) {
-                // Use existing aircraft ID
-                aircraftId = existingAircraft.id;
-
-                // Update any fields that might have changed (but preserve the ID)
-                const updatedAircraft = {
-                    ...existingAircraft,
-                    category: category?.trim() || existingAircraft.category,
-                    payware: paywareStatus || existingAircraft.payware,
-                    dateAdded: dateAddedFormatted || existingAircraft.dateAdded,
-                };
-
-                // Update both the map and the array
-                existingAircraftMap.set(key, updatedAircraft);
-
-                console.log(`Updated existing aircraft: ${developer.trim()} - ${name.trim()} (ID: ${aircraftId})`);
-            } else {
-                // Create new aircraft with a unique ID
-                aircraftId = uuidv4();
-
-                // Basic aircraft data (without votes)
-                const aircraftObj = {
-                    id: aircraftId,
-                    name: name.trim(),
-                    manufacturer: developer.trim(),
-                    category: category?.trim() || 'Unknown',
-                    payware: paywareStatus,
-                    buyUrl: "", // We don't have this data in the CSV
-                    dateAdded: dateAddedFormatted
-                };
-
-                // Add to both the map and array
-                existingAircraftMap.set(key, aircraftObj);
-
-                console.log(`Added new aircraft: ${developer.trim()} - ${name.trim()} (ID: ${aircraftId})`);
-            }
-
-            // Now create the vote data separately
-            const voteData = {
-                aircraftId,
-                votes: parseInt(votes) || 0,
-                daysOnList: parseInt(days) || 0,
-                weeksInChart: parseInt(weeksInChart) || 0
-            };
-
-            aircraftVotes.push(voteData);
-        } catch (error) {
-            errorLines.push({ lineNumber: index + 1, line, error: error.message });
-        }
-    });
-
-    // Print any errors
-    if (errorLines.length > 0) {
-        console.error('Errors encountered while parsing:');
-        errorLines.forEach(err => {
-            console.error(`Line ${err.lineNumber}: ${err.error}`);
-            console.error(`  ${err.line}`);
-        });
-    }
-
-    return { aircraftData: existingAircraft, aircraftVotes, errorLines };
-};
-
-// Create report from the aircraft votes data
-const createReport = (aircraftVotes) => {
-    const now = new Date().toISOString();
-
-    // Get the month name if it's a monthly report
-    const getMonthName = (monthNum) => {
-        const months = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
-        return months[parseInt(monthNum) - 1] || '';
+// Helper to parse date in 'dd mon yyyy' format
+function parseDateAdded(dateStr) {
+    if (!dateStr) return null;
+    const [day, mon, year] = dateStr.trim().split(' ');
+    const monthMap = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
     };
+    if (!day || !mon || !year) return null;
+    const monthNum = monthMap[mon];
+    if (monthNum === undefined) return null;
+    return new Date(parseInt(year), monthNum, parseInt(day));
+}
 
-    if (isMonthly) {
-        // Create monthly report
-        const monthName = getMonthName(month);
-        const report = {
-            id: reportId,
-            type: "monthly",
-            year: parseInt(year),
-            month: parseInt(month),
-            title: `Top Aircraft - ${monthName} ${year}`,
-            description: `Monthly report of the most popular MSFS aircraft for ${monthName} ${year}.`,
-            createdAt: now,
-            updatedAt: now,
-            aircraftVotes: aircraftVotes
+// Today's date for days/weeks calculation
+const today = new Date();
+
+for (let i = 0; i < dataRows.length; i++) {
+    const row = dataRows[i];
+    // Defensive: some rows may be shorter/longer due to CSV issues
+    // Columns: skip 3, then developer, aircraft, votes, skip, category, type, skip, date added
+    const developer = row[3]?.trim();
+    const name = row[4]?.trim();
+    const votes = parseInt(row[5], 10) || 0;
+    const category = row[7]?.trim() || 'Unknown';
+    const payware = row[8]?.trim() || 'Unknown';
+    const dateAddedStr = row[10]?.trim();
+    const dateAdded = parseDateAdded(dateAddedStr);
+    if (!developer || !name) {
+        errorRows.push({ row: i + 2, error: 'Missing developer or aircraft name', rowData: row });
+        continue;
+    }
+    // Calculate daysOnList and weeksInChart
+    let daysOnList = 0, weeksInChart = 0, dateAddedISO = null;
+    if (dateAdded) {
+        daysOnList = Math.floor((today - dateAdded) / (1000 * 60 * 60 * 24));
+        weeksInChart = Math.floor(daysOnList / 7);
+        dateAddedISO = dateAdded.toISOString();
+    }
+    // Aircraft uniqueness key
+    const key = `${developer.toLowerCase()}|${name.toLowerCase()}`;
+    let aircraftId;
+    let aircraftObj = existingAircraftMap.get(key);
+    if (!aircraftObj) {
+        // Add new aircraft
+        aircraftId = uuidv4();
+        aircraftObj = {
+            id: aircraftId,
+            name,
+            manufacturer: developer,
+            category,
+            payware,
+            buyUrl: '',
+            dateAdded: dateAddedISO,
         };
-        return report;
+        existingAircraftMap.set(key, aircraftObj);
     } else {
-        // Create yearly report
-        const report = {
-            id: reportId,
-            type: "yearly",
-            year: parseInt(year),
-            title: `Top Aircraft - ${year}`,
-            description: `Yearly report of the most popular MSFS aircraft for ${year}.`,
-            createdAt: now,
-            updatedAt: now,
-            aircraftVotes: aircraftVotes
-        };
-        return report;
+        aircraftId = aircraftObj.id;
+        // Optionally update missing fields if needed
+        if (!aircraftObj.category && category) aircraftObj.category = category;
+        if (!aircraftObj.payware && payware) aircraftObj.payware = payware;
+        if (!aircraftObj.dateAdded && dateAddedISO) aircraftObj.dateAdded = dateAddedISO;
     }
+    // Add to aircraftVotes
+    aircraftVotes.push({
+        aircraftId,
+        votes,
+    });
+}
+
+// Save updated aircraft.json
+const updatedAircraft = Array.from(existingAircraftMap.values());
+fs.writeFileSync(aircraftOutputPath, JSON.stringify(updatedAircraft, null, 2));
+console.log(`Updated aircraft.json with ${updatedAircraft.length} aircraft.`);
+
+// Build report object
+const report = {
+    id: reportId,
+    type: reportType,
+    year: parseInt(year, 10),
+    ...(isMonthly ? { month: parseInt(month, 10) } : {}),
+    title: isMonthly ? `Top Aircraft - ${new Date(year, month - 1).toLocaleString('default', { month: 'long' })} ${year}` : `Top Aircraft - ${year}`,
+    description: isMonthly ? `Monthly report of the most popular MSFS aircraft for ${new Date(year, month - 1).toLocaleString('default', { month: 'long' })} ${year}.` : `Yearly report of the most popular MSFS aircraft for ${year}.`,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    aircraftVotes,
 };
 
-// Save the aircraft data separately
-const saveAircraftData = (aircraftMap) => {
-    const aircraftArray = Array.from(aircraftMap.values());
-    console.log(`Saving ${aircraftArray.length} aircraft to ${aircraftOutputPath}`);
-    fs.writeFileSync(aircraftOutputPath, JSON.stringify(aircraftArray, null, 2));
-};
-
-// Save the report data to the unpublished directory
-const saveReportData = (report) => {
-    // Create the filename based on the report type and ID
-    const filename = `${report.id}.json`;
-    const filePath = path.join(unpublishedDir, filename);
-
-    console.log(`Saving unpublished report to ${filePath}`);
-    fs.writeFileSync(filePath, JSON.stringify(report, null, 2));
-};
-
-// Main execution
-try {
-    // Read the CSV file
-    const csvContent = fs.readFileSync(csvPath, 'utf8');
-
-    // Parse the CSV and create aircraft data
-    const { aircraftData, aircraftVotes, errorLines } = parseCSV(csvContent);
-
-    // Create the report object
-    const report = createReport(aircraftVotes);
-
-    // Save all the data
-    saveAircraftData(existingAircraftMap);
-    saveReportData(report);
-
-    console.log(`Successfully created report with ${aircraftVotes.length} aircraft`);
-
-    // Exit with error if there were parsing errors
-    if (errorLines.length > 0) {
-        process.exit(1);
-    }
-} catch (error) {
-    console.error('Error processing CSV:', error);
+// Validation: ensure all aircraftIds in aircraftVotes exist in aircraft.json
+const aircraftIdSet = new Set(updatedAircraft.map(a => a.id));
+const missingIds = report.aircraftVotes.filter(v => !aircraftIdSet.has(v.aircraftId));
+if (missingIds.length > 0) {
+    console.error('Validation failed: Some aircraftIds in report are missing from aircraft.json:', missingIds);
     process.exit(1);
+}
+
+// Save report to published and unpublished
+const outName = isMonthly ? `${year}-${month.toString().padStart(2, '0')}.json` : `${year}.json`;
+fs.writeFileSync(path.join(publishedDir, outName), JSON.stringify(report, null, 2));
+fs.writeFileSync(path.join(unpublishedDir, outName), JSON.stringify(report, null, 2));
+console.log(`Saved report to published/${outName} and unpublished/${outName}`);
+
+if (errorRows.length > 0) {
+    console.warn('Some rows had errors and were skipped:', errorRows);
 }
