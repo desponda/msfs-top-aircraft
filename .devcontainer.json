@@ -1,1 +1,11 @@
-{"image":"mcr.microsoft.com/devcontainers/javascript-node"}
+{
+  "image": "mcr.microsoft.com/devcontainers/javascript-node",
+  "mounts": [
+    "type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    }
+  }
+}
