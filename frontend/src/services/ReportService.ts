@@ -35,7 +35,7 @@ export const ReportService = {
         return fresh;
     },
     getAllNoCache: async (params?: Record<string, string | number>): Promise<ReportSummary[]> => {
-        const response = await axios.get(`${API_URL}/reports`, { params });
+        const response = await axios.get(`${API_URL}/reports`, { params: { published: true, ...params } });
         return response.data;
     },
     clearCache: () => localStorage.removeItem(CACHE_KEY),

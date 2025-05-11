@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Aircraft {
+  id                    String               @id @default(uuid())
+  name                  String
+  manufacturer          String
+  category              String
+  payware               String
+  msrp                  Int?
+  buyUrl                String
+  previewImageUrl       String?
+  description           String?
+  tags                  String[]
+  dateAdded             DateTime?
+  msfs2020Compatibility CompatibilityStatus?
+  msfs2024Compatibility CompatibilityStatus?
+  votes                 AircraftVote[]
+}
+
+enum CompatibilityStatus {
+  Native
+  Compatible
+  Not_Compatible
+}
+
+model Report {
+  id          String         @id @default(uuid())
+  type        ReportType
+  year        Int
+  month       Int?
+  title       String
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  votes       AircraftVote[]
+}
+
+enum ReportType {
+  monthly
+  yearly
+}
+
+model AircraftVote {
+  id             String   @id @default(uuid())
+  report         Report   @relation(fields: [reportId], references: [id])
+  reportId       String
+  aircraft       Aircraft @relation(fields: [aircraftId], references: [id])
+  aircraftId     String
+  votes          Int
+  daysOnList     Int
+  weeksInChart   Int
+  positionChange Int?
+  rank           Int?
+}

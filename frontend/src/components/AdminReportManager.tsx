@@ -18,6 +18,7 @@ import { Aircraft } from '../types/Aircraft';
 import { Report, ReportType } from '../types/Report';
 import { ReportService } from '../services/ReportService';
 import { AircraftService } from '../services/AircraftService';
+import { ReportSummary } from '../types/Report';
 
 // Add a type for the report update payload
 interface ReportUpdatePayload extends Partial<Report> {
@@ -90,6 +91,7 @@ export const AdminReportManager = () => {
     const [publishingId, setPublishingId] = useState<string | null>(null);
     const navigate = useNavigate();
     const errorSnackbar = useErrorSnackbar();
+    const [createError, setCreateError] = useState<string | null>(null);
 
     const {
         reports,
@@ -109,6 +111,7 @@ export const AdminReportManager = () => {
         setSelectedAircraftIds([]);
         setEditAircraftVotes([]);
         setOpenDialog(true);
+        setCreateError(null);
     };
 
     const handleDeleteReport: (reportId: string) => void = (reportId) => {
@@ -247,6 +250,11 @@ export const AdminReportManager = () => {
         }
     };
 
+    // Helper to check if a draft exists for a given type/year/month
+    const draftExists = (type: string, year: number, month?: number) => {
+        return reports.some(r => r.type === type && r.year === year && r.month === month);
+    };
+
     if (!isLoggedIn) {
         return (
             <AdminLogin
@@ -276,6 +284,7 @@ export const AdminReportManager = () => {
             {tab === 'drafts' && (
                 <DraftsTable
                     reports={reports}
+                    publishedReports={published}
                     loading={loading}
                     onCreate={handleCreateReport}
                     onEdit={(id) => navigate(`/admin/report/${id}`)}
@@ -328,6 +337,9 @@ export const AdminReportManager = () => {
                 ReportService={ReportService}
                 setQuickEditAircraft={setQuickEditAircraft}
                 setQuickEditFields={setQuickEditFields}
+                createError={createError}
+                setCreateError={setCreateError}
+                draftExists={draftExists}
             />
 
             {/* Delete Confirmation Dialog */}
@@ -364,6 +376,14 @@ export const AdminReportManager = () => {
                 autoHideDuration={2000}
                 onClose={errorSnackbar.handleClose}
                 message={errorSnackbar.snackbarMsg}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            />
+
+            <Snackbar
+                open={!!createError}
+                autoHideDuration={4000}
+                onClose={() => setCreateError(null)}
+                message={createError}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             />
         </Box>

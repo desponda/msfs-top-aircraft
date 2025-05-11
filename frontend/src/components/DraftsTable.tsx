@@ -7,6 +7,7 @@ import { ReportSummary } from '../types/Report';
 
 interface DraftsTableProps {
     reports: ReportSummary[];
+    publishedReports: ReportSummary[];
     loading: boolean;
     operationSuccess?: string;
     onCreate: () => void;
@@ -19,6 +20,7 @@ interface DraftsTableProps {
 
 const DraftsTable: React.FC<DraftsTableProps> = ({
     reports,
+    publishedReports,
     loading,
     operationSuccess,
     onCreate,
@@ -70,9 +72,25 @@ const DraftsTable: React.FC<DraftsTableProps> = ({
                                     <IconButton size="small" onClick={() => onEdit(report.id)} title="Edit">
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton size="small" color="error" onClick={() => onDelete(report.id)} title="Delete">
-                                        <DeleteIcon />
-                                    </IconButton>
+                                    {(() => {
+                                        const hasPublished = publishedReports.some(pub => pub.type === report.type && pub.year === report.year && pub.month === report.month);
+                                        if (hasPublished) {
+                                            return (
+                                                <Tooltip title="Cannot delete draft while published report exists. Unpublish first.">
+                                                    <span>
+                                                        <IconButton size="small" color="error" disabled>
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </span>
+                                                </Tooltip>
+                                            );
+                                        }
+                                        return (
+                                            <IconButton size="small" color="error" onClick={() => onDelete(report.id)} title="Delete">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        );
+                                    })()}
                                     <Tooltip title="Publish">
                                         <span>
                                             <IconButton

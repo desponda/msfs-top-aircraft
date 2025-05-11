@@ -46,7 +46,7 @@ const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPosit
         },
       }}
     >
-      <TableCell sx={{ color: '#f4f4fa', fontWeight: 700, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as any).rank !== undefined ? (aircraft as any).rank : '-'}</TableCell>
+      <TableCell sx={{ color: '#f4f4fa', fontWeight: 700, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as any).rank != null ? (aircraft as any).rank : '-'}</TableCell>
       {showPositionChange && (
         <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '1.1rem', md: '1.1rem' }, textAlign: 'center' }}>{posChangeDisplay}</TableCell>
       )}
@@ -65,7 +65,7 @@ const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPosit
         </Tooltip>
       </TableCell>
       <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{aircraft.manufacturer}</TableCell>
-      <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{typeof aircraft.votes === 'number' ? aircraft.votes : '-'}</TableCell>
+      <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{aircraft.votes != null ? aircraft.votes : '-'}</TableCell>
       <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
         <Chip
           label={aircraft.category}
@@ -106,7 +106,7 @@ const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPosit
           }}
         />
       </TableCell>
-      <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{typeof (aircraft as any).weeksInChart === 'number' ? (aircraft as any).weeksInChart : '-'}</TableCell>
+      <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as any).weeksInChart != null ? (aircraft as any).weeksInChart : '-'}</TableCell>
       <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
         <CompatibilityChips msfs2020Compatibility={(aircraft as any).msfs2020Compatibility} msfs2024Compatibility={(aircraft as any).msfs2024Compatibility} />
       </TableCell>

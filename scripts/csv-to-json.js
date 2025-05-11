@@ -87,10 +87,15 @@ if (fs.existsSync(aircraftOutputPath)) {
     }
 }
 
-// Create a map of existing aircraft by name + manufacturer for fast lookups
+// Helper to clean aircraft name for deduplication
+function cleanAircraftName(name) {
+    return name.replace(/\s*\([^)]*\)/g, '').trim();
+}
+
+// Create a map of existing aircraft by cleaned name + manufacturer for fast lookups
 const existingAircraftMap = new Map();
 existingAircraft.forEach(aircraft => {
-    const key = `${aircraft.manufacturer.trim().toLowerCase()}|${aircraft.name.trim().toLowerCase()}`;
+    const key = `${aircraft.manufacturer.trim().toLowerCase()}|${cleanAircraftName(aircraft.name).toLowerCase()}`;
     existingAircraftMap.set(key, aircraft);
 });
 
@@ -160,7 +165,7 @@ for (let i = 0; i < dataRows.length; i++) {
         dateAddedISO = dateAdded.toISOString();
     }
     // Aircraft uniqueness key
-    const key = `${developer.toLowerCase()}|${name.toLowerCase()}`;
+    const key = `${developer.toLowerCase()}|${cleanAircraftName(name).toLowerCase()}`;
     let aircraftId;
     let aircraftObj = existingAircraftMap.get(key);
     if (!aircraftObj) {
@@ -191,9 +196,9 @@ for (let i = 0; i < dataRows.length; i++) {
 }
 
 // Save updated aircraft.json
-const updatedAircraft = Array.from(existingAircraftMap.values());
-fs.writeFileSync(aircraftOutputPath, JSON.stringify(updatedAircraft, null, 2));
-console.log(`Updated aircraft.json with ${updatedAircraft.length} aircraft.`);
+const dedupedAircraft = Array.from(existingAircraftMap.values());
+fs.writeFileSync(aircraftOutputPath, JSON.stringify(dedupedAircraft, null, 2));
+console.log(`Deduplicated aircraft.json: kept ${dedupedAircraft.length} unique aircraft.`);
 
 // Build report object
 const report = {
@@ -209,7 +214,7 @@ const report = {
 };
 
 // Validation: ensure all aircraftIds in aircraftVotes exist in aircraft.json
-const aircraftIdSet = new Set(updatedAircraft.map(a => a.id));
+const aircraftIdSet = new Set(dedupedAircraft.map(a => a.id));
 const missingIds = report.aircraftVotes.filter(v => !aircraftIdSet.has(v.aircraftId));
 if (missingIds.length > 0) {
     console.error('Validation failed: Some aircraftIds in report are missing from aircraft.json:', missingIds);
