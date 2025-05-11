@@ -7,17 +7,14 @@ frontend:
     ingressClassName: nginx
   env:
     VITE_API_URL: "https://msfs.example.com/api"
-
 backend:
   image: "my-backend-image:latest"
   replicaCount: 2
   env:
     NODE_ENV: "production"
-
 migrate:
-  image: "prisma-migrate:latest"
+  image: "ghcr.io/desponda/msfs-top-aircraft/migrate:14c0ed6e12ca90f24e95a0a35cc20fb57a5f52d4"
   env: {}
-
 secret:
   enabled: true
   name: msfs-secrets
@@ -25,4 +22,4 @@ secret:
     DATABASE_URL: ""
     SESSION_SECRET: ""
     ADMIN_USER: ""
-    ADMIN_PASS: "" 
+    ADMIN_PASS: ""
