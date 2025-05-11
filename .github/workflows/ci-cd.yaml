@@ -1,5 +1,9 @@
 name: CI/CD
 
+permissions:
+  contents: write
+  packages: write
+
 on:
   push:
     branches: [main]
@@ -64,6 +68,10 @@ jobs:
             dockerfile: prisma/Dockerfile
             image: ghcr.io/${{ github.repository }}/migrate
             path: prisma/**
+    outputs:
+      frontend_image: ${{ steps.set-outputs.outputs.frontend_image }}
+      backend_image: ${{ steps.set-outputs.outputs.backend_image }}
+      migrate_image: ${{ steps.set-outputs.outputs.migrate_image }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -90,20 +98,33 @@ jobs:
           tags: ${{ matrix.image }}:${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+      - name: Set image output
+        id: set-outputs
+        run: |
+          if [ "${{ matrix.name }}" = "frontend" ]; then
+            echo "frontend_image=${{ matrix.image }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.name }}" = "backend" ]; then
+            echo "backend_image=${{ matrix.image }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.name }}" = "migrate" ]; then
+            echo "migrate_image=${{ matrix.image }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
+  update-helm-values:
+    needs: build-push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up yq
+        run: |
+          sudo wget -O /usr/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.43.1/yq_linux_amd64"
+          sudo chmod +x /usr/bin/yq
       - name: Update Helm values.yaml
-        if: matrix.name != 'migrate'
         run: |
-          yq e '.${{ matrix.name }}.image = "${{ matrix.image }}:${{ github.sha }}"' -i helm/values.yaml
-      - name: Update migrate image in Helm values.yaml
-        if: matrix.name == 'migrate'
-        run: |
-          yq e '.migrate.image = "${{ matrix.image }}:${{ github.sha }}"' -i helm/values.yaml
+          yq e '.frontend.image = "${{ needs.build-push.outputs.frontend_image }}"' -i helm/values.yaml
+          yq e '.backend.image = "${{ needs.build-push.outputs.backend_image }}"' -i helm/values.yaml
+          yq e '.migrate.image = "${{ needs.build-push.outputs.migrate_image }}"' -i helm/values.yaml
       - name: Commit and push updated Helm values.yaml
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'ci: update Helm values.yaml with new image tags [skip ci]'
-          file_pattern: helm/values.yaml
-
-permissions:
-  contents: write
-  packages: write 
+          file_pattern: helm/values.yaml 
