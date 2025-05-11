@@ -105,5 +105,5 @@ jobs:
           file_pattern: helm/values.yaml
 
 permissions:
-  contents: read
+  contents: write
   packages: write 
