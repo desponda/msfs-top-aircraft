@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Paper, Box, Typography, Button, Alert, CircularProgress, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip
+    Paper, Box, Typography, Button, CircularProgress, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip
 } from '@mui/material';
 import { Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon, Publish as PublishIcon } from '@mui/icons-material';
 import { ReportSummary } from '../types/Report';
@@ -9,7 +9,6 @@ interface DraftsTableProps {
     reports: ReportSummary[];
     publishedReports: ReportSummary[];
     loading: boolean;
-    operationSuccess?: string;
     onCreate: () => void;
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
@@ -22,7 +21,6 @@ const DraftsTable: React.FC<DraftsTableProps> = ({
     reports,
     publishedReports,
     loading,
-    operationSuccess,
     onCreate,
     onEdit,
     onDelete,

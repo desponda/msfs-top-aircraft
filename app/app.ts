@@ -8,6 +8,10 @@ import session from 'express-session';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const isDev = process.env.NODE_ENV !== 'production';
+const ADMIN_USER = isDev ? 'admin' : process.env.ADMIN_USER;
+const ADMIN_PASS = isDev ? 'admin123' : process.env.ADMIN_PASS;
+
 app.use(cors({
   origin: 'http://localhost:5173', // your frontend URL
   credentials: true                // allow cookies to be sent
@@ -15,7 +19,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use(session({
-  secret: 'change-this-to-a-strong-secret', // use a strong secret in production!
+  secret: process.env.SESSION_SECRET || 'dev-secret', // use a strong secret in production!
   resave: false,
   saveUninitialized: false,
   cookie: { secure: false } // set to true if using HTTPS
@@ -23,7 +27,7 @@ app.use(session({
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === 'admin' && password === 'admin123') {
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
     req.session.user = { username, role: 'admin' };
     res.json({ success: true });
   } else {

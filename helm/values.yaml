@@ -1,0 +1,28 @@
+frontend:
+  image: "my-frontend-image:latest"
+  replicaCount: 2
+  ingress:
+    enabled: true
+    host: msfs.example.com
+    ingressClassName: nginx
+  env:
+    VITE_API_URL: "https://msfs.example.com/api"
+
+backend:
+  image: "my-backend-image:latest"
+  replicaCount: 2
+  env:
+    NODE_ENV: "production"
+
+migrate:
+  image: "prisma-migrate:latest"
+  env: {}
+
+secret:
+  enabled: true
+  name: msfs-secrets
+  data:
+    DATABASE_URL: ""
+    SESSION_SECRET: ""
+    ADMIN_USER: ""
+    ADMIN_PASS: "" 

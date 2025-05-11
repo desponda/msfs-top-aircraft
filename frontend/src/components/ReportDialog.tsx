@@ -34,7 +34,6 @@ interface ReportDialogProps {
     ReportService: any;
     setQuickEditAircraft: (aircraft: Aircraft | null) => void;
     setQuickEditFields: (fields: Partial<Aircraft>) => void;
-    createError?: string | null;
     setCreateError?: (err: string | null) => void;
     draftExists?: (type: string, year: number, month?: number) => boolean;
 }
@@ -67,7 +66,6 @@ export const ReportDialog: React.FC<ReportDialogProps> = ({
     ReportService,
     setQuickEditAircraft,
     setQuickEditFields,
-    createError,
     setCreateError,
     draftExists
 }) => {

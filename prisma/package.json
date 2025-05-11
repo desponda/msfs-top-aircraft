@@ -1,0 +1,9 @@
+{
+  "name": "prisma-migrate",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "prisma": "^5.0.0",
+    "@prisma/client": "^5.0.0"
+  }
+} 

@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+DB_USER="msfs"
+DB_PASS="msfs"
+DB_NAME="msfs_top_aircraft"
+
 # 1. Install PostgreSQL if not present
 if ! command -v psql > /dev/null; then
   echo "Installing PostgreSQL..."
@@ -11,41 +15,41 @@ fi
 # 2. Ensure PostgreSQL is running
 sudo service postgresql start
 
-# 3. Create user and database if not exist
+# 3. Create user and database if not exist, and grant CREATEDB privilege
 sudo -u postgres psql <<EOF
 DO
 \$do\$
 BEGIN
    IF NOT EXISTS (
-      SELECT FROM pg_catalog.pg_roles WHERE rolname = 'msfs'
+      SELECT FROM pg_catalog.pg_roles WHERE rolname = '$DB_USER'
    ) THEN
-      CREATE ROLE msfs LOGIN PASSWORD 'msfs';
+      CREATE ROLE $DB_USER LOGIN PASSWORD '$DB_PASS';
    END IF;
 END
 \$do\$;
+
+ALTER USER $DB_USER WITH PASSWORD '$DB_PASS';
+ALTER USER $DB_USER CREATEDB;
 
 DO
 \$do\$
 BEGIN
    IF NOT EXISTS (
-      SELECT FROM pg_database WHERE datname = 'msfs_top_aircraft'
+      SELECT FROM pg_database WHERE datname = '$DB_NAME'
    ) THEN
-      CREATE DATABASE msfs_top_aircraft OWNER msfs;
+      CREATE DATABASE $DB_NAME OWNER $DB_USER;
    END IF;
 END
 \$do\$;
 EOF
 
-# 4. Set password for msfs user (idempotent)
-sudo -u postgres psql -c "ALTER USER msfs WITH PASSWORD 'msfs';"
+# 4. Set DATABASE_URL for all following commands
+export DATABASE_URL="postgresql://$DB_USER:$DB_PASS@localhost:5432/$DB_NAME"
 
-# 5. Set DATABASE_URL for all following commands
-export DATABASE_URL="postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft"
-
-# 6. Run migrations (if using Prisma)
+# 5. Run migrations (if using Prisma)
 npx prisma migrate deploy
 
-# 7. Hydrate with dev data
+# 6. Hydrate with dev data
 make import-dev-data
 
 echo "Dev database setup and hydrated!" 

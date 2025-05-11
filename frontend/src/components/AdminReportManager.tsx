@@ -18,7 +18,6 @@ import { Aircraft } from '../types/Aircraft';
 import { Report, ReportType } from '../types/Report';
 import { ReportService } from '../services/ReportService';
 import { AircraftService } from '../services/AircraftService';
-import { ReportSummary } from '../types/Report';
 
 // Add a type for the report update payload
 interface ReportUpdatePayload extends Partial<Report> {
@@ -337,7 +336,6 @@ export const AdminReportManager = () => {
                 ReportService={ReportService}
                 setQuickEditAircraft={setQuickEditAircraft}
                 setQuickEditFields={setQuickEditFields}
-                createError={createError}
                 setCreateError={setCreateError}
                 draftExists={draftExists}
             />

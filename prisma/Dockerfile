@@ -1,8 +1,7 @@
-FROM node:20-alpine
+FROM node:22.15.0-alpine
 WORKDIR /prisma
-COPY ../package.json ../package-lock.json ./
+COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 COPY . .
-COPY ../node_modules ./node_modules
 ENV NODE_ENV=production
 CMD ["npx", "prisma", "migrate", "deploy"] 

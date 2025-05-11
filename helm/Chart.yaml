@@ -1,0 +1,11 @@
+apiVersion: v2
+name: msfs-top-aircraft
+version: 0.1.0
+description: MSFS Top Aircraft - Fullstack App
+keywords:
+  - msfs
+  - aircraft
+  - prisma
+  - react
+  - express
+  - kubernetes 

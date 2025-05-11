@@ -1,5 +1,4 @@
-import { Box, Container, Typography, Link, Divider } from '@mui/material';
-import { blue } from '@mui/material/colors';
+import { Box, Container, Typography, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = () => {

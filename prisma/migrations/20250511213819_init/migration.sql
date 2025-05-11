@@ -33,6 +33,7 @@ CREATE TABLE "Report" (
     "description" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "published" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Report_pkey" PRIMARY KEY ("id")
 );
@@ -43,8 +44,6 @@ CREATE TABLE "AircraftVote" (
     "reportId" TEXT NOT NULL,
     "aircraftId" TEXT NOT NULL,
     "votes" INTEGER NOT NULL,
-    "daysOnList" INTEGER NOT NULL,
-    "weeksInChart" INTEGER NOT NULL,
     "positionChange" INTEGER,
     "rank" INTEGER,
 

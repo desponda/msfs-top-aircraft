@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ReportService } from '../services/ReportService';
-import { Report, ReportSummary } from '../types/Report';
+import { ReportSummary } from '../types/Report';
 
 interface ReportSelectorProps {
   onReportSelected: (reportId: string) => void;

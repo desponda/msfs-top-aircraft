@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "dev": "DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft nodemon --watch './**/*.ts' --exec ts-node app.ts",
-        "start": "DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft ts-node app.ts"
+        "start": "DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft ts-node app.ts",
+        "build": "tsc"
     },
     "dependencies": {
         "@types/uuid": "^10.0.0",

@@ -1,7 +1,5 @@
-import { Box, Typography, Container, Button } from '@mui/material';
+import { Box, Container, Button } from '@mui/material';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
-
-const BANNER_HEIGHT = { xs: 80, sm: 120, md: 180, lg: 220 };
 
 const MinimalHeader = () => {
   const location = useLocation();

@@ -1,5 +1,4 @@
-import { Box, Container, CssBaseline, ThemeProvider, createTheme, Button } from '@mui/material';
-import { blue, indigo } from '@mui/material/colors';
+import { Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import AircraftTable from './components/AircraftTable';
 import MinimalHeader from './components/Header';
 import Footer from './components/Footer';
