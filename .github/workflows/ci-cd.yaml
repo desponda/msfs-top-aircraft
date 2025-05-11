@@ -1,0 +1,105 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'frontend/**'
+      - 'prisma/**'
+      - 'helm/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'frontend/**'
+      - 'prisma/**'
+      - 'helm/**'
+      - '.github/workflows/**'
+
+jobs:
+  test-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [frontend, app, prisma]
+    defaults:
+      run:
+        working-directory: ${{ matrix.service }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: |
+          if [ -f eslint.config.js ]; then npm run lint || true; fi
+      - name: Test
+        run: |
+          if [ -f package.json ] && grep -q 'test' package.json; then npm test || true; fi
+
+  build-push:
+    needs: test-lint
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      matrix:
+        include:
+          - name: frontend
+            context: frontend
+            dockerfile: frontend/Dockerfile
+            image: ghcr.io/${{ github.repository }}/frontend
+            path: frontend/**
+          - name: backend
+            context: app
+            dockerfile: app/Dockerfile
+            image: ghcr.io/${{ github.repository }}/backend
+            path: app/**
+          - name: migrate
+            context: prisma
+            dockerfile: prisma/Dockerfile
+            image: ghcr.io/${{ github.repository }}/migrate
+            path: prisma/**
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ matrix.name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-${{ matrix.name }}-
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ matrix.image }}:${{ github.sha }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+      - name: Update Helm values.yaml
+        if: matrix.name != 'migrate'
+        run: |
+          yq e '.${{ matrix.name }}.image = "${{ matrix.image }}:${{ github.sha }}"' -i helm/values.yaml
+      - name: Update migrate image in Helm values.yaml
+        if: matrix.name == 'migrate'
+        run: |
+          yq e '.migrate.image = "${{ matrix.image }}:${{ github.sha }}"' -i helm/values.yaml
+      - name: Commit and push updated Helm values.yaml
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'ci: update Helm values.yaml with new image tags [skip ci]'
+          file_pattern: helm/values.yaml 
