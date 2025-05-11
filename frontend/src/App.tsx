@@ -1,4 +1,4 @@
-import { Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { Box, Container, CssBaseline, ThemeProvider, createTheme, Button } from '@mui/material';
 import { blue, indigo } from '@mui/material/colors';
 import AircraftTable from './components/AircraftTable';
 import MinimalHeader from './components/Header';
@@ -10,6 +10,36 @@ import { useState } from 'react';
 import { ReportSelector } from './components/ReportSelector';
 import AircraftEditor from './components/AircraftEditor';
 import ReportEditorPage from './components/ReportEditorPage';
+
+function DopplerBackground() {
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 0,
+        pointerEvents: 'none',
+        overflow: 'hidden',
+      }}
+    >
+      <svg width="100%" height="100%" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', width: '100vw', height: '100vh' }}>
+        <defs>
+          <radialGradient id="bgGradient" cx="60%" cy="40%" r="1" gradientTransform="matrix(0.7 0 0 1 0.5 0.5)" >
+            <stop offset="0%" stopColor="#232347" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#181826" stopOpacity="1" />
+          </radialGradient>
+        </defs>
+        <rect width="1920" height="1080" fill="url(#bgGradient)" />
+        <path d="M0,200 Q600,400 1920,200" stroke="#3B82F6" strokeWidth="2" opacity="0.10" fill="none" />
+        <path d="M0,600 Q900,900 1920,600" stroke="#2DD4BF" strokeWidth="2" opacity="0.08" fill="none" />
+        <path d="M0,900 Q1200,1200 1920,900" stroke="#fff" strokeWidth="1.5" opacity="0.06" fill="none" />
+      </svg>
+    </Box>
+  );
+}
 
 function App() {
   // Define a dark theme with diversified accent palette
@@ -185,12 +215,13 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <DopplerBackground />
         <Box
           sx={{
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
-            background: 'linear-gradient(120deg, #191A23 0%, #232946 100%)',
+            background: 'transparent',
             position: 'relative',
           }}
         >
