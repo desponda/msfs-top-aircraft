@@ -1,4 +1,4 @@
-import { Aircraft, AircraftWithVotes } from './Aircraft';
+import { AircraftWithVotes } from './Aircraft';
 
 export enum ReportType {
     MONTHLY = 'monthly',
