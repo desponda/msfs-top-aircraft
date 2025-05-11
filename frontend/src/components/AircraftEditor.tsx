@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Paper, Tooltip, Snackbar
+  Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Paper, Tooltip, Snackbar, CircularProgress
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, Save as SaveIcon } from '@mui/icons-material';
 import { AircraftService } from '../services/AircraftService';
@@ -16,6 +16,7 @@ export default function AircraftEditor() {
   const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [snackbar, setSnackbar] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetchAircraft();
@@ -76,6 +77,16 @@ export default function AircraftEditor() {
     }
   };
 
+  // Filtered aircraft list
+  const filteredAircraft = aircraft.filter(a => {
+    const term = searchTerm.toLowerCase();
+    return (
+      a.name.toLowerCase().includes(term) ||
+      a.manufacturer.toLowerCase().includes(term) ||
+      (a.category || '').toLowerCase().includes(term)
+    );
+  });
+
   return (
     <Box sx={{ mt: 4 }}>
       <Paper sx={{ p: 3, mb: 3 }}>
@@ -83,37 +94,55 @@ export default function AircraftEditor() {
           <Typography variant="h5">Aircraft Management</Typography>
           <Button variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>Add Aircraft</Button>
         </Box>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Manufacturer</TableCell>
-                <TableCell>Category</TableCell>
-                <TableCell>Payware</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {aircraft.map(a => (
-                <TableRow key={a.id}>
-                  <TableCell>{a.name}</TableCell>
-                  <TableCell>{a.manufacturer}</TableCell>
-                  <TableCell>{a.category}</TableCell>
-                  <TableCell>{a.payware}</TableCell>
-                  <TableCell>
-                    <Tooltip title="Edit">
-                      <IconButton size="small" onClick={() => handleEdit(a)}><EditIcon /></IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <IconButton size="small" color="error" onClick={() => setDeleteId(a.id)}><DeleteIcon /></IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 200 }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            {/* Search Bar */}
+            <TextField
+              label="Search Aircraft"
+              variant="outlined"
+              size="small"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              fullWidth
+              sx={{ mb: 2 }}
+            />
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Manufacturer</TableCell>
+                    <TableCell>Category</TableCell>
+                    <TableCell>Payware</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {filteredAircraft.map(a => (
+                    <TableRow key={a.id}>
+                      <TableCell>{a.name}</TableCell>
+                      <TableCell>{a.manufacturer}</TableCell>
+                      <TableCell>{a.category}</TableCell>
+                      <TableCell>{a.payware}</TableCell>
+                      <TableCell>
+                        <Tooltip title="Edit">
+                          <IconButton size="small" onClick={() => handleEdit(a)}><EditIcon /></IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <IconButton size="small" color="error" onClick={() => setDeleteId(a.id)}><DeleteIcon /></IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
       </Paper>
       {/* Edit/Add Modal */}
       <Dialog open={editModalOpen} onClose={() => setEditModalOpen(false)} maxWidth="sm" fullWidth>

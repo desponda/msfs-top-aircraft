@@ -16,6 +16,25 @@ router.get('/', (req, res) => {
     let data = getAircraftData();
     const { manufacturer, category, tag, search } = req.query;
 
+    // Fallback calculation for weeksInChart and daysOnList if missing or zero
+    const today = new Date();
+    data = data.map(a => {
+        let daysOnList = (a as any).daysOnList;
+        let weeksInChart = (a as any).weeksInChart;
+        if ((!daysOnList || daysOnList === 0 || !weeksInChart || weeksInChart === 0) && a.dateAdded) {
+            const dateAdded = new Date(a.dateAdded);
+            if (!isNaN(dateAdded.getTime())) {
+                daysOnList = Math.floor((today.getTime() - dateAdded.getTime()) / (1000 * 60 * 60 * 24));
+                weeksInChart = Math.floor(daysOnList / 7);
+            }
+        }
+        return {
+            ...a,
+            daysOnList,
+            weeksInChart
+        };
+    });
+
     if (manufacturer) {
         data = data.filter(a => a.manufacturer.toLowerCase() === String(manufacturer).toLowerCase());
     }

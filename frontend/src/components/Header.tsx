@@ -70,30 +70,6 @@ const MinimalHeader = () => {
             >
               Legacy Charts
             </Button>
-            <Button
-              component={RouterLink}
-              to="/admin"
-              disableElevation
-              variant="outlined"
-              sx={{
-                color: location.pathname === '/admin' ? 'primary.main' : '#f4f4fa',
-                borderColor: '#23233a',
-                fontWeight: 600,
-                fontSize: '1rem',
-                px: 2,
-                minWidth: 0,
-                borderRadius: 2,
-                background: 'none',
-                textTransform: 'none',
-                '&:hover': {
-                  color: 'primary.main',
-                  borderColor: 'primary.main',
-                  background: 'rgba(59,130,246,0.08)',
-                },
-              }}
-            >
-              Admin
-            </Button>
           </Box>
         </Container>
       </Box>

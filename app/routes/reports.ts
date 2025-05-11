@@ -85,11 +85,26 @@ function mergeAircraftWithVotes(reportData: ReportData): Report {
             return null;
         }
 
+        // Always calculate daysOnList and weeksInChart from dateAdded
+        let daysOnList = 0, weeksInChart = 0;
+        if (baseAircraft.dateAdded) {
+            const dateAdded = new Date(baseAircraft.dateAdded);
+            if (!isNaN(dateAdded.getTime())) {
+                daysOnList = Math.floor((Date.now() - dateAdded.getTime()) / (1000 * 60 * 60 * 24));
+                weeksInChart = Math.floor(daysOnList / 7);
+            }
+        }
+
+        // Include positionChange if present
+        const { positionChange, ...restVoteData } = voteData as any;
+
         return {
             ...baseAircraft,
             votes: voteData.votes,
-            daysOnList: voteData.daysOnList,
-            weeksInChart: voteData.weeksInChart
+            daysOnList,
+            weeksInChart,
+            ...(positionChange !== undefined ? { positionChange } : {}),
+            ...((voteData as any).rank !== undefined ? { rank: (voteData as any).rank } : {})
         };
     }).filter((a): a is AircraftWithVotes => a !== null);
 
@@ -431,23 +446,71 @@ router.post('/admin/publish/:id', authenticate, (req, res) => {
         }
         const sourceFile = path.join(unpublishedDir, `${reportId}.json`);
         const destFile = path.join(publishedDir, `${reportId}.json`);
-        // Check if report already exists in published
-        if (fs.existsSync(destFile)) {
-            // Overwrite the published report with the latest draft
-            const updatedReport = {
-                ...report,
-                updatedAt: new Date().toISOString()
-            };
-            fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
-            return res.json({ message: 'Report re-published successfully' });
+
+        // --- Position Change Calculation ---
+        let updatedReport = { ...report };
+        if (
+            report.type === 'monthly' &&
+            typeof report.year === 'number' &&
+            typeof report.month === 'number' &&
+            report.month > 1
+        ) {
+            // Find previous month
+            const prevMonth = report.month - 1;
+            const prevReportId = `${report.year}-${prevMonth.toString().padStart(2, '0')}`;
+            const prevReportPath = path.join(publishedDir, `${prevReportId}.json`);
+            if (fs.existsSync(prevReportPath)) {
+                const prevReport = JSON.parse(fs.readFileSync(prevReportPath, 'utf-8'));
+                // Helper to get dateAdded for an aircraftId
+                const getDateAdded = (aircraftId: string) => {
+                    const aircraft = updatedReport.aircraftVotes.find((a: any) => a.aircraftId === aircraftId) || (prevReport.aircraftVotes || []).find((a: any) => a.aircraftId === aircraftId);
+                    if (!aircraft) return null;
+                    const aircraftData = JSON.parse(fs.readFileSync(aircraftDataPath, 'utf-8'));
+                    const found = aircraftData.find((a: any) => a.id === aircraftId);
+                    return found && found.dateAdded ? new Date(found.dateAdded).getTime() : null;
+                };
+                // Sort function: by votes desc, then by dateAdded desc
+                const sortVotes = (a: any, b: any) => {
+                    if (b.votes !== a.votes) return b.votes - a.votes;
+                    const dateA = getDateAdded(a.aircraftId);
+                    const dateB = getDateAdded(b.aircraftId);
+                    if (dateA && dateB) return dateB - dateA;
+                    if (dateB) return -1;
+                    if (dateA) return 1;
+                    return 0;
+                };
+                // Sort both arrays
+                const sortedCurrent = [...report.aircraftVotes].sort(sortVotes);
+                const sortedPrev = [...(prevReport.aircraftVotes || [])].sort(sortVotes);
+                // Build a map of aircraftId to previous position (index)
+                const prevOrder = sortedPrev.map((v) => v.aircraftId);
+                const prevPosMap = new Map<string, number>();
+                prevOrder.forEach((id: string, idx: number) => prevPosMap.set(id, idx));
+                // Calculate positionChange for each aircraft in current report (sorted)
+                updatedReport.aircraftVotes = sortedCurrent.map((v: any, idx: number) => {
+                    const prevIdx = prevPosMap.has(v.aircraftId) ? prevPosMap.get(v.aircraftId) : null;
+                    return {
+                        ...v,
+                        positionChange: (prevIdx === null || prevIdx === undefined) ? null : prevIdx - idx,
+                        rank: idx + 1
+                    };
+                });
+            } else {
+                // No previous report found, set all to null
+                updatedReport.aircraftVotes = report.aircraftVotes.map((v, idx) => ({ ...v, positionChange: null, rank: idx + 1 }));
+            }
         } else {
-            // Publish for the first time
-            const updatedReport = {
-                ...report,
-                updatedAt: new Date().toISOString()
-            };
-            fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
+            // Not a monthly report or first month, set all to null
+            updatedReport.aircraftVotes = report.aircraftVotes.map((v, idx) => ({ ...v, positionChange: null, rank: idx + 1 }));
+        }
+        updatedReport.updatedAt = new Date().toISOString();
+
+        // Save to published
+        fs.writeFileSync(destFile, JSON.stringify(updatedReport, null, 2));
+        if (fs.existsSync(destFile)) {
             return res.json({ message: 'Report published successfully' });
+        } else {
+            return res.status(500).json({ message: 'Failed to publish report' });
         }
         // Note: Do NOT remove the draft after publishing
     } catch (error) {

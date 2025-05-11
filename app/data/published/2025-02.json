@@ -6,1627 +6,2032 @@
   "title": "Top Aircraft - February 2025",
   "description": "Monthly report of the most popular MSFS aircraft for February 2025.",
   "createdAt": "2025-05-10T02:50:18.760Z",
-  "updatedAt": "2025-05-10T02:50:18.760Z",
+  "updatedAt": "2025-05-10T21:19:52.516Z",
   "aircraftVotes": [
     {
-      "aircraftId": "a692e366-44b5-4fdf-b56e-640fe26ca9ca",
-      "votes": 7
+      "aircraftId": "7d02e236-6ed6-4a68-af42-b713fb1d217e",
+      "votes": 7,
+      "positionChange": 2
     },
     {
-      "aircraftId": "7d02e236-6ed6-4a68-af42-b713fb1d217e",
-      "votes": 7
+      "aircraftId": "a692e366-44b5-4fdf-b56e-640fe26ca9ca",
+      "votes": 7,
+      "positionChange": -1
     },
     {
       "aircraftId": "05df259a-27d8-42ce-bd96-66a935d1e11c",
-      "votes": 5
+      "votes": 5,
+      "positionChange": 5
     },
     {
       "aircraftId": "474c3655-046e-45df-9c51-b4f65b6e1312",
-      "votes": 5
+      "votes": 5,
+      "positionChange": 24
     },
     {
       "aircraftId": "9c6f04fd-6305-4cc0-8444-1ffd262c3f0f",
-      "votes": 4
+      "votes": 4,
+      "positionChange": -3
     },
     {
       "aircraftId": "7eb9b0d5-9539-4108-8efb-d3d273046b5d",
-      "votes": 4
+      "votes": 4,
+      "positionChange": 62
     },
     {
       "aircraftId": "55bd8028-dc18-4bce-a43f-00ccebf75d12",
-      "votes": 4
+      "votes": 4,
+      "positionChange": 2
     },
     {
       "aircraftId": "2542751d-dfa7-4fd1-bc8b-4fec899bc990",
-      "votes": 4
+      "votes": 4,
+      "positionChange": 371
     },
     {
       "aircraftId": "e0d12658-b45e-4be6-8483-2c2c8375cec8",
-      "votes": 3
+      "votes": 3,
+      "positionChange": null
     },
     {
       "aircraftId": "57a4c54b-99ca-470d-b4e7-507c77bb1d28",
-      "votes": 3
+      "votes": 3,
+      "positionChange": 9
     },
     {
       "aircraftId": "d0dd7adc-acf7-437e-82b7-d373e7a61aac",
-      "votes": 3
+      "votes": 3,
+      "positionChange": 9
     },
     {
       "aircraftId": "3cdc9b2b-123b-4f22-bebf-7455ec7f5109",
-      "votes": 3
+      "votes": 3,
+      "positionChange": -6
     },
     {
       "aircraftId": "82f33a16-f1e6-41b6-ba4c-7a75602f7bf0",
-      "votes": 3
+      "votes": 3,
+      "positionChange": -3
     },
     {
       "aircraftId": "81cd67c1-b247-4236-a473-4579fb10767a",
-      "votes": 3
+      "votes": 3,
+      "positionChange": -10
     },
     {
       "aircraftId": "166f76ed-a6dc-4be8-b037-981eb2707640",
-      "votes": 3
+      "votes": 3,
+      "positionChange": 8
     },
     {
       "aircraftId": "5154d280-c3bd-4e2e-bec7-0dc35c1e631f",
-      "votes": 3
+      "votes": 3,
+      "positionChange": 153
     },
     {
       "aircraftId": "36bf010c-ed3f-4fca-b9ae-30544649edca",
-      "votes": 3
+      "votes": 3,
+      "positionChange": -6
     },
     {
       "aircraftId": "00902223-3376-4f0f-a209-8708f666c893",
-      "votes": 3
+      "votes": 3,
+      "positionChange": -5
     },
     {
       "aircraftId": "74ee6118-61f3-4505-9460-44fbe4d000df",
-      "votes": 3
+      "votes": 3,
+      "positionChange": -4
     },
     {
       "aircraftId": "43802861-7834-4bf9-b480-13008c7718b6",
-      "votes": 2
+      "votes": 2,
+      "positionChange": null
     },
     {
       "aircraftId": "fce2b91f-b390-4a03-b9c0-4342aa9dd778",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 28
     },
     {
       "aircraftId": "07a074e2-9681-4aae-8d86-c622e5bdf2d9",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 28
     },
     {
       "aircraftId": "891f0a18-f926-478b-928d-5622cbec1956",
-      "votes": 2
+      "votes": 2,
+      "positionChange": -16
     },
     {
       "aircraftId": "9e7459e1-2290-4e7b-9864-a997a520eb4f",
-      "votes": 2
+      "votes": 2,
+      "positionChange": -2
     },
     {
       "aircraftId": "49deaf9c-c34c-41ee-b8fc-fb1e6674bda1",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 1
     },
     {
       "aircraftId": "006a756e-a2d0-4ec6-a597-8fbb77469a0d",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 144
     },
     {
       "aircraftId": "0a305bd0-1941-47b5-95bf-cf308a1eb639",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 33
     },
     {
       "aircraftId": "b8cb723e-4ae8-4e4a-8f52-4edbdb86c53a",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 37
     },
     {
       "aircraftId": "f0bb8da4-a66b-494a-a716-5e24dfb80cbc",
-      "votes": 2
+      "votes": 2,
+      "positionChange": 310
     },
     {
       "aircraftId": "5a37298d-24a5-4c24-94af-916d91326ad5",
-      "votes": 2
+      "votes": 2,
+      "positionChange": -14
     },
     {
       "aircraftId": "9f017dc9-65cb-4820-8738-29d83cb31579",
-      "votes": 2
+      "votes": 2,
+      "positionChange": -2
     },
     {
       "aircraftId": "6ff854f2-a332-4297-b2fb-ab6b04ad95ca",
-      "votes": 2
-    },
-    {
-      "aircraftId": "09e4658e-5c81-4b46-859e-f9108ed56c7f",
-      "votes": 1
-    },
-    {
-      "aircraftId": "512b0988-4ede-4845-a559-348f43807254",
-      "votes": 1
-    },
-    {
-      "aircraftId": "b658ec40-b339-4e4c-ada1-3fef87eac8fe",
-      "votes": 1
-    },
-    {
-      "aircraftId": "7ebe693c-9f0e-4975-bac1-c0fe1a5bb186",
-      "votes": 1
-    },
-    {
-      "aircraftId": "30fb30da-7145-455b-9d0b-32e6af7dd141",
-      "votes": 1
-    },
-    {
-      "aircraftId": "9fb3690f-1ad3-488e-8c47-b71c3b35b471",
-      "votes": 1
-    },
-    {
-      "aircraftId": "edd56fab-e7f5-437d-aabb-6a01052210eb",
-      "votes": 1
-    },
-    {
-      "aircraftId": "156f6be2-ac6f-48fa-9585-12ec3a75d106",
-      "votes": 1
+      "votes": 2,
+      "positionChange": 345
     },
     {
       "aircraftId": "71d5ae9c-22e0-42b8-8fbb-39877a2360d7",
-      "votes": 1
+      "votes": 1,
+      "positionChange": null
+    },
+    {
+      "aircraftId": "9fb3690f-1ad3-488e-8c47-b71c3b35b471",
+      "votes": 1,
+      "positionChange": null
+    },
+    {
+      "aircraftId": "edd56fab-e7f5-437d-aabb-6a01052210eb",
+      "votes": 1,
+      "positionChange": null
+    },
+    {
+      "aircraftId": "156f6be2-ac6f-48fa-9585-12ec3a75d106",
+      "votes": 1,
+      "positionChange": null
+    },
+    {
+      "aircraftId": "512b0988-4ede-4845-a559-348f43807254",
+      "votes": 1,
+      "positionChange": -5
+    },
+    {
+      "aircraftId": "09e4658e-5c81-4b46-859e-f9108ed56c7f",
+      "votes": 1,
+      "positionChange": -5
+    },
+    {
+      "aircraftId": "b658ec40-b339-4e4c-ada1-3fef87eac8fe",
+      "votes": 1,
+      "positionChange": -22
+    },
+    {
+      "aircraftId": "7ebe693c-9f0e-4975-bac1-c0fe1a5bb186",
+      "votes": 1,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "30fb30da-7145-455b-9d0b-32e6af7dd141",
+      "votes": 1,
+      "positionChange": -6
     },
     {
       "aircraftId": "e100492a-0830-4670-9d84-a4b9cf336c7a",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -4
     },
     {
       "aircraftId": "fcf39370-37d9-40dd-a21b-a843328b1f81",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -4
     },
     {
       "aircraftId": "bdd520e8-c586-4900-b013-9c2c414210e7",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -4
     },
     {
       "aircraftId": "68740226-ac2b-428d-8506-32297f5bd541",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -4
     },
     {
       "aircraftId": "a4ca1044-33dc-4763-bb3f-7b7121e04d74",
-      "votes": 1
-    },
-    {
-      "aircraftId": "a9440435-71f6-4458-85a5-375645d8a948",
-      "votes": 1
-    },
-    {
-      "aircraftId": "c884e3ab-0989-4ab8-bfea-f04a66d14481",
-      "votes": 1
-    },
-    {
-      "aircraftId": "8b31077e-e2f8-4672-91d9-489c4f2ebfc2",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 40
     },
     {
       "aircraftId": "7932caf1-7f3a-4c9e-a321-78cd50095c82",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -4
+    },
+    {
+      "aircraftId": "a9440435-71f6-4458-85a5-375645d8a948",
+      "votes": 1,
+      "positionChange": -4
+    },
+    {
+      "aircraftId": "c884e3ab-0989-4ab8-bfea-f04a66d14481",
+      "votes": 1,
+      "positionChange": -4
+    },
+    {
+      "aircraftId": "8b31077e-e2f8-4672-91d9-489c4f2ebfc2",
+      "votes": 1,
+      "positionChange": -29
     },
     {
       "aircraftId": "05fc1fd4-37d0-4d7a-9d9e-5149093e6b88",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -46
     },
     {
       "aircraftId": "1c148e1f-1a31-42aa-aaab-064bfec191c2",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 40
     },
     {
       "aircraftId": "f78f7417-eaf7-445f-9e43-cfe4b6971313",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -7
     },
     {
       "aircraftId": "3e2ee4d6-dff1-484b-84dc-7fec7a68b3a2",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 51
     },
     {
       "aircraftId": "b1c050b1-0929-4d75-a45d-e41a9a3755db",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 55
     },
     {
       "aircraftId": "5385885b-8afd-4945-a52b-b48f7165aaaa",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 65
     },
     {
       "aircraftId": "921fa026-955d-4dcf-8093-ddb2d8737de5",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -6
     },
     {
       "aircraftId": "3d1372fa-1a87-4192-a78c-cbc2ce084731",
-      "votes": 1
-    },
-    {
-      "aircraftId": "ed878593-eb46-4a4f-a01b-b8d04f51ab0a",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -6
     },
     {
       "aircraftId": "e62b9981-d95a-40eb-b20f-70323255a1c7",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -5
+    },
+    {
+      "aircraftId": "ed878593-eb46-4a4f-a01b-b8d04f51ab0a",
+      "votes": 1,
+      "positionChange": -5
     },
     {
       "aircraftId": "b9a8968f-0fa3-4e13-84dc-3fb97c48b668",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -37
     },
     {
       "aircraftId": "9ccbc74d-20b7-4e4d-8e32-8a4f3fba0871",
-      "votes": 1
-    },
-    {
-      "aircraftId": "58460c17-2aae-47cd-9dd4-13c0ffad77e5",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -6
     },
     {
       "aircraftId": "52e8fb58-be24-4354-a983-b379884e07d0",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 95
+    },
+    {
+      "aircraftId": "58460c17-2aae-47cd-9dd4-13c0ffad77e5",
+      "votes": 1,
+      "positionChange": -39
     },
     {
       "aircraftId": "41bacdf0-51cb-4fb9-9636-f552ef928d90",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 103
     },
     {
       "aircraftId": "80eba3c1-2a38-4445-8649-dd7036dd41a9",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -8
     },
     {
       "aircraftId": "42d68ecb-30ff-47ea-9cff-a2488223bf3f",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 136
     },
     {
       "aircraftId": "c4d8436a-2839-42eb-9d58-a56726acdefe",
-      "votes": 1
-    },
-    {
-      "aircraftId": "cc9fb8d2-15cc-4a17-8be9-47ea14f0261e",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -7
     },
     {
       "aircraftId": "8c3734b1-e349-4a50-8cce-6d01c75bc93e",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 153
+    },
+    {
+      "aircraftId": "cc9fb8d2-15cc-4a17-8be9-47ea14f0261e",
+      "votes": 1,
+      "positionChange": 163
     },
     {
       "aircraftId": "8d227bf9-d1be-4784-b8e2-7487696a669a",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 170
     },
     {
       "aircraftId": "d777c7d5-1271-49fb-858d-8dce9840ac60",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -8
     },
     {
       "aircraftId": "c20e5b44-9dcb-4db8-a6f7-d9676c4ff8ca",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 185
     },
     {
       "aircraftId": "969a909b-9cd6-495c-b147-9d9e638945ac",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -62
     },
     {
       "aircraftId": "eddc0732-737d-423f-b1ff-c9106740009d",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 185
     },
     {
       "aircraftId": "d9d722f1-9f03-4d23-a768-674b50f9ef64",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 186
     },
     {
       "aircraftId": "cfcc20c1-c411-4e38-bc86-0c3d68d01542",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 197
     },
     {
       "aircraftId": "60b7ceaf-2b32-494e-aa7e-53ccde8173e7",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 197
     },
     {
       "aircraftId": "2aaaf855-74e9-4195-b8e3-792e5f34e898",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 202
     },
     {
       "aircraftId": "a399d704-d14f-426f-bb47-c5336ca71329",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -66
     },
     {
       "aircraftId": "339faedc-4d8c-435b-9cbb-eaa4470c8b9b",
-      "votes": 1
-    },
-    {
-      "aircraftId": "e7458618-3624-42dd-bc39-d09d30a23842",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 214
     },
     {
       "aircraftId": "fb2d51a3-2bc6-4aa4-a7d4-4dcf311a5391",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -16
+    },
+    {
+      "aircraftId": "e7458618-3624-42dd-bc39-d09d30a23842",
+      "votes": 1,
+      "positionChange": -16
     },
     {
       "aircraftId": "625eb0b7-411a-4bda-9e7f-87ba7598ac9c",
-      "votes": 1
-    },
-    {
-      "aircraftId": "225f7f68-09f7-4b7d-ae17-6ca0c75886d0",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -12
     },
     {
       "aircraftId": "64b17d6b-298a-4365-9b23-7bbb7707c28b",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 259
+    },
+    {
+      "aircraftId": "225f7f68-09f7-4b7d-ae17-6ca0c75886d0",
+      "votes": 1,
+      "positionChange": 267
     },
     {
       "aircraftId": "de7ab710-358c-49e4-b81d-494f73cc4418",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -56
     },
     {
       "aircraftId": "5e3879a2-06e5-435f-9877-c2797bdcfd4f",
-      "votes": 1
+      "votes": 1,
+      "positionChange": -7
     },
     {
       "aircraftId": "0fa4aae0-1e5d-41b9-8c5d-c179e66f23d4",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 279
     },
     {
       "aircraftId": "574f7d92-1f84-4f0e-a9bd-a8eb831244dc",
-      "votes": 1
+      "votes": 1,
+      "positionChange": 288
     },
     {
       "aircraftId": "34e73f96-2bf0-4b6e-a02c-69ebfc2f96ae",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -73
     },
     {
       "aircraftId": "80fbd4ab-727d-416d-96c7-4bbc791f0ec8",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -56
     },
     {
       "aircraftId": "ffb31042-20f2-48ae-a780-38fdda634ac5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -56
     },
     {
       "aircraftId": "8da20aa5-fba5-4cb1-b44e-c675961b8b5f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "dea97861-bbfa-4191-9b0a-eb5f219cc6f0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -53
     },
     {
       "aircraftId": "54eb4aba-d9c8-43b7-95a5-0b92f05bbe4b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -13
     },
     {
       "aircraftId": "f270623b-07ac-48ab-803d-4a46c6941323",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -13
     },
     {
       "aircraftId": "db5fd812-550e-43fd-b764-2c1441b9e7cd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -13
     },
     {
       "aircraftId": "7378b395-bfe3-4199-b63f-1d0f2a3ed69b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "0a266227-ff81-4fa9-be1c-4d1415b06468",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "28ed78c0-41be-4d1b-af02-3fc3b23b587d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "0a1a8295-12cb-4c41-86e4-dc19b220fa2b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "44760677-5e47-4327-ac3f-ed7284f51b6d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "0a3d382b-f039-4b92-b261-f372ae68d886",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -57
     },
     {
       "aircraftId": "bcb474a0-a7f8-47f9-a50a-dfc3315c48d6",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "83f8f683-3f12-4bc4-a66e-b57b38939db5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "f7b5279e-bb21-4422-bba6-96c0cef21e27",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "bcc35355-75fe-4bcf-9060-ebfe99ed939b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "0904ff93-a5f8-4cee-930c-baa8523cfdfa",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "d2655ab5-8a2b-4904-bd76-0b7ffd9e7171",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "0c45e0b9-88a6-45a0-b214-bfb51bbafe08",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "032439d2-7be1-47b8-a88f-6cc80d9ec749",
-      "votes": 0
-    },
-    {
-      "aircraftId": "200428a6-540b-4ffe-99d5-1a1277221375",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "81377ad8-77d9-4d41-a8d1-79a7f503ab57",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
+    },
+    {
+      "aircraftId": "200428a6-540b-4ffe-99d5-1a1277221375",
+      "votes": 0,
+      "positionChange": -66
     },
     {
       "aircraftId": "90ae7915-ab6a-4b1a-a967-a0178ccf518e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -13
     },
     {
       "aircraftId": "7bddf8b0-2ae5-4f9c-9da5-d93630578b36",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -13
     },
     {
       "aircraftId": "68761216-c01b-40c7-a3b4-7b6cab419f24",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -13
     },
     {
       "aircraftId": "9703568f-509c-461b-a971-eeb92ed61e89",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "2faa5e8f-1745-40d4-adfc-0dbe50b607f6",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "b8317c62-6549-4cd5-b8c4-865bea047305",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "36d443f5-a738-437d-b207-16c626df01f0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -12
     },
     {
       "aircraftId": "39a8d876-5c04-40d2-a5eb-c3e245d2cd43",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "fa7927b4-f783-466c-9a85-e91029a399e5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "8d1e0066-1ea9-4002-9c34-cf8b41bff201",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "a57b460c-2b03-4287-a836-f9210f5bef6a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "919268e8-5022-4826-b390-69dbeaf0df6b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "dcee3ef0-7c16-4ef6-a415-68eeaaf74d9a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "40484a5c-6b0c-4fdc-b39c-8019ea224196",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "362ed029-450b-41e1-87f1-66e228f9a9d9",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "aed72f25-b0b3-40a4-b6e4-2a53c98bbdeb",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "6f43cef0-0ed2-4e08-ba7c-f9bc5fe2aa67",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "fdccf7f5-be9d-4153-8e07-96b8df0bb187",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "e67592e3-9aad-4f1d-9d0d-eb14df9e4323",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "c1072f04-32e4-414a-b78d-0cbf987a29f4",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "55be1f2c-c5cb-4ed2-b95f-7e1e037d5b4d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "e24a9996-18f2-4a20-b307-e3ade2fc2066",
-      "votes": 0
-    },
-    {
-      "aircraftId": "9003f169-f760-4955-9ffd-73f41141b6dd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "b31f4d2d-7d41-42fe-98f8-e64527352633",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
+    },
+    {
+      "aircraftId": "9003f169-f760-4955-9ffd-73f41141b6dd",
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "3987468e-fa0f-41fd-9c89-de144a8eef83",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "f13c5781-0a91-4ee9-b54f-0f6dcbf3b5c0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "dd2856b3-eb0a-472b-a508-60c20691c184",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "db53b76b-09e2-4cf2-8ade-1944e89d7405",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "ed20c4f6-1219-4ec0-8c00-6f7169413eb0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "e4b2f220-8982-4b1b-90e4-a6a4cbda3396",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "300326f6-5e6b-4ef2-bda5-1dfff1eea86f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "dfb86bff-45fd-411c-89d4-1476b430c2c4",
-      "votes": 0
-    },
-    {
-      "aircraftId": "666ef379-bd45-4a57-8dea-8dfa62346009",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "fb7b6716-8809-4673-8ee5-06bed66f580f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
+    },
+    {
+      "aircraftId": "666ef379-bd45-4a57-8dea-8dfa62346009",
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "81be2d27-279f-480e-9347-8457cd66dc02",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "9e58986c-889e-4a7b-b27f-07a53ba8085e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "259fd3f2-8b7f-41a2-aec6-2f9d55a8e2fd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "afd8876a-61f0-4368-afd5-c2663b106798",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "9809ff0c-0848-4e83-b0fd-2afcb75adc92",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "8ce8faaf-9fe5-454c-a4cd-eb6defd786a3",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "ac4c330c-e2bf-4699-a656-7d21561e88cd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "eef3034e-ebc7-4c66-9cff-655ad6b9306a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -103
     },
     {
       "aircraftId": "6c40bb6a-c56f-43f7-8e7c-7a0d694d5504",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "f2812e51-ee98-4ae7-b0f8-71cdd9ca8049",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "fc0c9ba8-91a8-4947-9b09-1b7a4de78e13",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "45ea1a7c-4d12-4f9a-afe3-7197c97ec34e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "37ebcc9a-a86e-4ad8-9f58-cf992aaa7f70",
-      "votes": 0
-    },
-    {
-      "aircraftId": "34d72ea5-7f40-4577-91de-5cbb016590bb",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "1f792adf-2f7b-4325-9aa1-ca05f959facd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
+    },
+    {
+      "aircraftId": "34d72ea5-7f40-4577-91de-5cbb016590bb",
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "90cb6eda-e3ee-47a9-81f4-6e41ffe6b67b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "0614b1af-d05f-4d16-b817-d309ebf675f7",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "0b4c1e98-65d2-4a23-819c-2b677be20a3d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "7ddecebf-1f8d-4e04-a78c-8f6cd7935b9a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "edcb24f7-d35e-49b0-a41a-500f76efc014",
-      "votes": 0
-    },
-    {
-      "aircraftId": "701c28ed-18c5-4319-8016-6ca8aa0d5ae7",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -11
     },
     {
       "aircraftId": "59921c8a-99f0-4c9f-bbd3-fb1fb0fc533c",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
+    },
+    {
+      "aircraftId": "701c28ed-18c5-4319-8016-6ca8aa0d5ae7",
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "a312f059-d148-44d1-b350-d777da95f571",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "35c983bd-2ec3-4dd1-a5d3-3766aa500fad",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "af595711-fea8-4a96-8ab1-3c2c6258221e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "69831aa0-1457-404c-ab7b-cf2d6d664922",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "89b2e11b-5959-4928-a30a-02ec3a2ccf02",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "65e6f664-a7c7-4405-92d2-b4019903f2f9",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "d3bab284-1430-4fb4-9a2f-5b7abd4c19aa",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "b8d64c32-6b6d-49d5-9884-5b0e18430876",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "258d4640-f466-461d-8957-c09936999a60",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "b10704b7-3406-4345-aa89-51c2f429c738",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "97164545-9e41-4f39-854a-48d3470ac406",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "5b6541ee-0a16-404d-8f4d-8d2100966284",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "1a8176f5-a12f-4075-96d4-ae197e570fc0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "acccdb4f-ccf4-4f59-a734-29970ee77db3",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "ed11ca46-a233-478d-8709-424bd378d082",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "3636cb5b-0e9e-47b0-b77d-0c84855496b8",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "37dccba4-2e17-48f3-82f7-b0a815aef03a",
-      "votes": 0
-    },
-    {
-      "aircraftId": "c5f8898c-7068-456f-a216-a3860342f20b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "d227ff85-83ac-47e1-95e1-ca4d052b3be3",
-      "votes": 0
-    },
-    {
-      "aircraftId": "ff24cec5-0e79-4f16-8d31-80fe783bfbef",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "b6fcccc5-aeff-4c33-89c0-adabe1a70f5d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "c5f8898c-7068-456f-a216-a3860342f20b",
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "ff24cec5-0e79-4f16-8d31-80fe783bfbef",
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "247767bd-a166-4e78-a4f3-2ced67ed6c39",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "ccea07c5-c720-47bc-a287-6add81ee6192",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -136
     },
     {
       "aircraftId": "2b43de08-53b9-43cb-84bd-2ec92f7c7aeb",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "ab2d5498-05ac-4285-b0b2-83984238d018",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "b743b298-cc29-4f40-bfc8-f722f78a0b2b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "6daba498-ae61-49ee-be1f-19b1be79ff8e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "3243f698-2226-4953-831e-1c43c3b69c2f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "5952bda5-2615-4c30-b3d7-823656ba95f2",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "4903f3e6-e917-4d1e-9849-bd150e2659f8",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -141
     },
     {
       "aircraftId": "9df3aa62-2c3d-4799-8e65-06b0983b7a3a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "b484a98c-fd0f-4162-a135-14835f6f3abc",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "6fbc7074-0782-406a-b2db-420893a74b38",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "d9d4ee4e-902e-4be9-8851-9d5ebe70c89b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "018bf207-4d5e-48d5-9638-561a96bd562d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "d9a5e3cb-19f8-435d-ba96-9a1dff6a3046",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "8829bc22-4be4-45ce-80c0-55472e1da5ce",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "fc24fd1c-bd98-4eb1-901a-946d289955d6",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "8849ecb0-e1dd-4ccd-9408-c361c6a49f02",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "2f03a084-cd73-4505-a3de-d108d2a4a019",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "16725932-1c78-4993-b46f-0323a7af20c0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "c6caab30-f6f8-4b61-b183-7e2ba8d12fb6",
-      "votes": 0
-    },
-    {
-      "aircraftId": "61ec4d1a-0b77-44a4-8f31-ab6677dcea6e",
-      "votes": 0
-    },
-    {
-      "aircraftId": "8561e539-2c52-43b9-8c40-ae70e0600fe9",
-      "votes": 0
-    },
-    {
-      "aircraftId": "ae03c6d1-44e2-4533-aec9-6496cc7b77dc",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "31dcdf2d-6ee6-4edd-8bd0-62f85ee5ddc5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
+    },
+    {
+      "aircraftId": "8561e539-2c52-43b9-8c40-ae70e0600fe9",
+      "votes": 0,
+      "positionChange": -8
+    },
+    {
+      "aircraftId": "61ec4d1a-0b77-44a4-8f31-ab6677dcea6e",
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "725986ea-5676-4d27-91a8-4c21b1505ef1",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
+    },
+    {
+      "aircraftId": "ae03c6d1-44e2-4533-aec9-6496cc7b77dc",
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "0a1922dd-3a1b-4c0b-836d-980f92523891",
-      "votes": 0
-    },
-    {
-      "aircraftId": "cfb7f5fa-de12-4b17-bf91-3ce6e39a7f80",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "7f08402c-52ee-4eae-87cf-537cc427d858",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
+    },
+    {
+      "aircraftId": "cfb7f5fa-de12-4b17-bf91-3ce6e39a7f80",
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "893405d0-299b-48d5-8918-ad05f2dfd273",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "d91f0736-66aa-4091-9eba-ad0c664269bf",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "dded5dbd-980b-4165-81ab-fffdb38f861d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "eadfa173-c887-4001-8964-d7580584e333",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "a99777ff-d223-435f-9209-d64390033151",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "f909d211-297f-4ffb-882d-db555ab4467e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "acb7ed77-8656-433e-b13a-bb2745d7bb73",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "557c6a82-9aa8-4c6f-a9e7-a0e917ef2002",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "a8dff7ed-21ba-4699-8a81-9efa4f9019b7",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "6524b136-6c8f-4b51-b011-0e9332fc4a2a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -168
     },
     {
       "aircraftId": "e12032ea-dd25-4351-a338-6f441afd6eb2",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "11978145-a6bb-4b4f-9e52-4e1cc78bea8c",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "149c3d7b-dbe7-463d-9450-ca7d9b99af7f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "987b2f5c-1ddc-4f51-b614-d2217b39842c",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "877da7c6-e376-486a-8f36-4526835624c1",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "771178d2-4920-44a6-92c1-5d18f325ac9f",
-      "votes": 0
-    },
-    {
-      "aircraftId": "c3dfc42f-5766-4a74-a8d7-4e5a70a4cb89",
-      "votes": 0
-    },
-    {
-      "aircraftId": "227c007e-6e10-4c07-88e5-ac4852d62c3b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "a0713342-695a-4f3b-9cbe-ba1982a779ec",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
+    },
+    {
+      "aircraftId": "227c007e-6e10-4c07-88e5-ac4852d62c3b",
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "e236382a-9f54-4601-8453-df41081e3cf8",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "8e78e397-f876-4f5b-8147-7edbc1792dbe",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
+    },
+    {
+      "aircraftId": "c3dfc42f-5766-4a74-a8d7-4e5a70a4cb89",
+      "votes": 0,
+      "positionChange": -178
     },
     {
       "aircraftId": "50d2e1e1-da24-4033-8eeb-8ce4c7120f2e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "f98f1b2b-5d19-4f84-a95d-20b13d3ba3c8",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "c0498709-525b-4094-8cdf-1de96ff9c3ae",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "0016e155-a011-4deb-b3e6-b3c841e8496a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "42855f32-a34d-4e2c-8fcd-9bf1a7c9c8fd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "652588d5-f429-40ed-80a7-39039f4dbeba",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "a689d014-24ae-4ddd-9b4a-a45e80ab0f5e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -8
     },
     {
       "aircraftId": "084c7128-4510-4988-b5ee-b5478d678734",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "7318af74-59c5-4b42-b989-296fc388f314",
-      "votes": 0
-    },
-    {
-      "aircraftId": "62788ddb-e7fa-4da1-b0ef-b4b39190614c",
-      "votes": 0
-    },
-    {
-      "aircraftId": "d6253698-c148-4c02-bf3e-70f0191c55b4",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "203f4b61-102f-44ff-a178-9c192f7ff555",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "b2c427bc-7fd7-4b19-9ba2-5955a7fdf69e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "62788ddb-e7fa-4da1-b0ef-b4b39190614c",
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "d6253698-c148-4c02-bf3e-70f0191c55b4",
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "c3f24aa3-6e10-4c92-9d9b-9e9a5570902e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "28580a62-7ae2-4d98-b9b3-65dcd5d59d90",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "bed0fc93-a2f4-425c-814c-f2783b40bf9d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "d265463d-7ba8-48e3-a3f8-0f8e5b35322b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "11acbddc-f717-4fe8-afe4-d8023aa0160c",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "a2fd70b0-95fb-4656-a971-2686124c025e",
-      "votes": 0
-    },
-    {
-      "aircraftId": "73ae69b3-d23d-4d94-b9a5-0ccb5c4c4164",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "f354af44-fefa-4507-89eb-d11532de7072",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "73ae69b3-d23d-4d94-b9a5-0ccb5c4c4164",
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "9fd2b346-5b9e-4da5-b82f-ef0cc624364f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "47bb354c-445e-4c89-94ee-94ab0ec020ff",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "da479933-b8b7-459a-95ab-4d9bbe4e7903",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "a395f335-2b33-41a9-bdfc-2ebff3307be3",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "e03db09a-edf1-4538-82ec-795081350531",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -240
     },
     {
       "aircraftId": "893c8fec-9669-4645-8c4f-68f6328cb514",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "d0284a34-11fa-4948-aad9-3897fe6a6120",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "a4ca617c-2976-4b6e-a6fd-1e51e9fe4c5d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "939c9934-e306-454a-a4cc-47bf7f7e6338",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "12ea2671-290b-4e30-b445-d7f9106268ba",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "1564127a-f4c4-47c3-96cb-3e1923adc0c8",
-      "votes": 0
-    },
-    {
-      "aircraftId": "1c20f519-04f0-4139-bcd0-53f26739fd9c",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "8f464d2c-1317-4f68-9afc-59413d286e1b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
-      "aircraftId": "bc08163c-c092-4aa8-9539-884d4126d817",
-      "votes": 0
+      "aircraftId": "1c20f519-04f0-4139-bcd0-53f26739fd9c",
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "31f64a41-e740-4b8f-8339-d6a01a7bcb25",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
+    },
+    {
+      "aircraftId": "bc08163c-c092-4aa8-9539-884d4126d817",
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "3eea9042-d1a1-4f2d-8e5d-0594f5bb3beb",
-      "votes": 0
-    },
-    {
-      "aircraftId": "ad93f632-241c-4868-a042-c6b9f32e298d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "c93b4b0a-82c0-48c1-abe2-02003bd02f37",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -3
+    },
+    {
+      "aircraftId": "ad93f632-241c-4868-a042-c6b9f32e298d",
+      "votes": 0,
+      "positionChange": -3
     },
     {
       "aircraftId": "53b50a99-cb91-482e-a214-250340ccb504",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -3
     },
     {
       "aircraftId": "50de1182-9b5a-4ec2-a2d0-88c0bc711222",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -3
     },
     {
       "aircraftId": "34957b0e-e785-4ac2-974a-bbe1d91024b1",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -3
     },
     {
       "aircraftId": "79934ce7-23e7-448f-a573-4ba0fafa622d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "7231d019-798d-47de-8d7d-1c2057ef0338",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "a2f69338-24f0-4a90-b14a-9ab4eb37ab3f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "79a29306-1eff-4fb5-9af1-a92b4bc13966",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "32c818b7-2f1d-418f-9b2e-3947173dadda",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "c976121e-c4cf-4708-a468-729e828ba5c9",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "ba75780b-1135-439a-9a3a-25c5a3cacd6e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "84b85690-4572-4ee0-9f72-ae4862d57d66",
-      "votes": 0
-    },
-    {
-      "aircraftId": "d0d52cc0-5593-46dc-9fbc-ee3117ef2757",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "81af285b-6978-4a20-abc6-abdf18692e9a",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "3afd753e-88d1-4dd2-8cdb-fde912c233a3",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "8a13c9bc-cf38-4122-9058-c3114f04de9d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "c3a113b3-1779-497a-ac24-31de47bae03d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "7f5e2568-5c8b-4487-88b7-fed32bfdcd44",
-      "votes": 0
-    },
-    {
-      "aircraftId": "f24ab5af-6fd2-4ce5-a119-b6de1efa1901",
-      "votes": 0
-    },
-    {
-      "aircraftId": "f98ffcd3-2a6a-43fe-a878-c56e166272ff",
-      "votes": 0
-    },
-    {
-      "aircraftId": "fdb3bace-abb8-408c-971b-f7c40a7f6320",
-      "votes": 0
-    },
-    {
-      "aircraftId": "b24bda74-453a-449e-960f-0e4335004f2c",
-      "votes": 0
-    },
-    {
-      "aircraftId": "8777edbe-2b87-4d2c-bc4c-ce4034bdcd45",
-      "votes": 0
-    },
-    {
-      "aircraftId": "31651fe9-5223-415f-a63b-a4537f94602a",
-      "votes": 0
-    },
-    {
-      "aircraftId": "9e530acb-1932-4b48-aeff-44385e4c83a3",
-      "votes": 0
-    },
-    {
-      "aircraftId": "ad3f4cf3-1dc5-4ecc-a778-f5e218ecbf9b",
-      "votes": 0
-    },
-    {
-      "aircraftId": "fff0b3b8-63f0-44a2-b089-351c78b13ebc",
-      "votes": 0
-    },
-    {
-      "aircraftId": "38854e21-ae28-4115-b058-f381de4d8b53",
-      "votes": 0
-    },
-    {
-      "aircraftId": "376800fa-407d-48c3-99ad-b0dbf1dc512e",
-      "votes": 0
-    },
-    {
-      "aircraftId": "8a09a8eb-db81-4763-9e81-d0b86be85ee1",
-      "votes": 0
-    },
-    {
-      "aircraftId": "a59e98ec-7f3e-4a0e-ab6c-57b1b0692d9d",
-      "votes": 0
-    },
-    {
-      "aircraftId": "32b9516c-7d85-41a7-94f7-a3b204d1f659",
-      "votes": 0
-    },
-    {
-      "aircraftId": "6aaa6739-3727-4053-ae88-36d77f0e9130",
-      "votes": 0
-    },
-    {
-      "aircraftId": "089a6b55-de8d-4866-8210-e255211ca395",
-      "votes": 0
-    },
-    {
-      "aircraftId": "3d200acb-1d9b-4b0e-b5bf-d58f4a772cd6",
-      "votes": 0
-    },
-    {
-      "aircraftId": "7e587302-a8ab-4ae4-82be-5157a082e504",
-      "votes": 0
-    },
-    {
-      "aircraftId": "297171d1-8566-4598-8996-007eecf40fa1",
-      "votes": 0
-    },
-    {
-      "aircraftId": "050ce011-7fd1-4dc4-9123-e51838a6ce22",
-      "votes": 0
-    },
-    {
-      "aircraftId": "26df013f-46b0-4824-9bea-b9ad6458e8e0",
-      "votes": 0
-    },
-    {
-      "aircraftId": "8b8b50f9-6484-4bfc-89a1-a939b2e02294",
-      "votes": 0
-    },
-    {
-      "aircraftId": "cb89888a-8b32-4182-b8d7-6d55d7f016f1",
-      "votes": 0
-    },
-    {
-      "aircraftId": "7436f1dc-fbd1-4b0d-8515-db0aa044bd03",
-      "votes": 0
-    },
-    {
-      "aircraftId": "806fa8d5-5ada-498d-b290-14e1806521d0",
-      "votes": 0
-    },
-    {
-      "aircraftId": "6be3d892-26c7-4799-bbae-9441a3810ae0",
-      "votes": 0
-    },
-    {
-      "aircraftId": "b242731d-3c8e-4f58-ae36-7d60326ad597",
-      "votes": 0
-    },
-    {
-      "aircraftId": "870326d4-06af-4124-bcab-4cd5a707d4db",
-      "votes": 0
-    },
-    {
-      "aircraftId": "c49fa30d-0f82-437a-9c79-18a899db6b19",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -2
     },
     {
       "aircraftId": "0ad90880-4d38-4da7-a07d-5df4d1cee1ad",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "f24ab5af-6fd2-4ce5-a119-b6de1efa1901",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "f98ffcd3-2a6a-43fe-a878-c56e166272ff",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "fdb3bace-abb8-408c-971b-f7c40a7f6320",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "b24bda74-453a-449e-960f-0e4335004f2c",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "8777edbe-2b87-4d2c-bc4c-ce4034bdcd45",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "31651fe9-5223-415f-a63b-a4537f94602a",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "32b9516c-7d85-41a7-94f7-a3b204d1f659",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "9e530acb-1932-4b48-aeff-44385e4c83a3",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "ad3f4cf3-1dc5-4ecc-a778-f5e218ecbf9b",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "fff0b3b8-63f0-44a2-b089-351c78b13ebc",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "38854e21-ae28-4115-b058-f381de4d8b53",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "376800fa-407d-48c3-99ad-b0dbf1dc512e",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "8a09a8eb-db81-4763-9e81-d0b86be85ee1",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "a59e98ec-7f3e-4a0e-ab6c-57b1b0692d9d",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "6aaa6739-3727-4053-ae88-36d77f0e9130",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "3d200acb-1d9b-4b0e-b5bf-d58f4a772cd6",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "089a6b55-de8d-4866-8210-e255211ca395",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "7e587302-a8ab-4ae4-82be-5157a082e504",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "297171d1-8566-4598-8996-007eecf40fa1",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "050ce011-7fd1-4dc4-9123-e51838a6ce22",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "26df013f-46b0-4824-9bea-b9ad6458e8e0",
+      "votes": 0,
+      "positionChange": -1
+    },
+    {
+      "aircraftId": "7436f1dc-fbd1-4b0d-8515-db0aa044bd03",
+      "votes": 0,
+      "positionChange": -250
+    },
+    {
+      "aircraftId": "806fa8d5-5ada-498d-b290-14e1806521d0",
+      "votes": 0,
+      "positionChange": -2
+    },
+    {
+      "aircraftId": "8b8b50f9-6484-4bfc-89a1-a939b2e02294",
+      "votes": 0,
+      "positionChange": -251
+    },
+    {
+      "aircraftId": "cb89888a-8b32-4182-b8d7-6d55d7f016f1",
+      "votes": 0,
+      "positionChange": -251
+    },
+    {
+      "aircraftId": "6be3d892-26c7-4799-bbae-9441a3810ae0",
+      "votes": 0,
+      "positionChange": -4
+    },
+    {
+      "aircraftId": "870326d4-06af-4124-bcab-4cd5a707d4db",
+      "votes": 0,
+      "positionChange": -4
+    },
+    {
+      "aircraftId": "b242731d-3c8e-4f58-ae36-7d60326ad597",
+      "votes": 0,
+      "positionChange": -252
+    },
+    {
+      "aircraftId": "c49fa30d-0f82-437a-9c79-18a899db6b19",
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "7186edac-60a3-4b7c-9d4b-57dd29df9a63",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "3dfedb1f-3a86-482a-937e-7db3f6857afe",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "c32071f3-4635-4e7e-8aea-686864c68783",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "89914e7b-0cdc-4821-b3a7-b79b0bc0b867",
-      "votes": 0
-    },
-    {
-      "aircraftId": "d1106093-8221-4e1d-9b84-72d551b4aa46",
-      "votes": 0
-    },
-    {
-      "aircraftId": "500f8e19-d467-41e3-9663-9e319a1bb382",
-      "votes": 0
-    },
-    {
-      "aircraftId": "f1513e59-8479-44c3-a11e-e8aa36d2a38f",
-      "votes": 0
-    },
-    {
-      "aircraftId": "387d5453-8f9c-4b45-a809-a7b84186ddd3",
-      "votes": 0
-    },
-    {
-      "aircraftId": "b246fe05-4f9d-4d80-b603-a383d587deb1",
-      "votes": 0
-    },
-    {
-      "aircraftId": "e7099405-46ad-4456-8023-67f0848d722d",
-      "votes": 0
-    },
-    {
-      "aircraftId": "e6a91d06-889a-49c7-a9e9-05dce9ff19c7",
-      "votes": 0
-    },
-    {
-      "aircraftId": "9a1e5483-0de6-4be6-b25d-e723ad5d7129",
-      "votes": 0
-    },
-    {
-      "aircraftId": "889f7479-9b08-48c8-be27-3aa5d00f20da",
-      "votes": 0
-    },
-    {
-      "aircraftId": "d44290da-d493-469f-8fcb-bbe7e303e976",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
     },
     {
       "aircraftId": "c30a9afc-f086-4298-bd95-f783644b0253",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -5
+    },
+    {
+      "aircraftId": "500f8e19-d467-41e3-9663-9e319a1bb382",
+      "votes": 0,
+      "positionChange": -258
+    },
+    {
+      "aircraftId": "f1513e59-8479-44c3-a11e-e8aa36d2a38f",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "e7099405-46ad-4456-8023-67f0848d722d",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "d44290da-d493-469f-8fcb-bbe7e303e976",
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "2cb53470-fcc3-4255-97ec-f8804408a4d7",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "b4ca69be-ce31-4ffe-b872-66aaabbef9e4",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "387d5453-8f9c-4b45-a809-a7b84186ddd3",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "e6a91d06-889a-49c7-a9e9-05dce9ff19c7",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "9a1e5483-0de6-4be6-b25d-e723ad5d7129",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "889f7479-9b08-48c8-be27-3aa5d00f20da",
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "f6e0b304-4df9-49b5-9f8d-e645264fcea0",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "10c0f657-5f41-4156-bfdb-2319370ab5bc",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "b246fe05-4f9d-4d80-b603-a383d587deb1",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "d1106093-8221-4e1d-9b84-72d551b4aa46",
+      "votes": 0,
+      "positionChange": -270
     },
     {
       "aircraftId": "eae8300e-4b15-4804-b64c-a3f75380117f",
-      "votes": 0
-    },
-    {
-      "aircraftId": "586b3cab-22c8-44df-918c-e4d4e3491a62",
-      "votes": 0
-    },
-    {
-      "aircraftId": "85f0e0ac-3ade-4796-97af-96d46a0bd951",
-      "votes": 0
-    },
-    {
-      "aircraftId": "237f79ec-8f75-4cee-b19b-aa75804200e5",
-      "votes": 0
-    },
-    {
-      "aircraftId": "5970dbb7-90bf-40f6-ad69-4c69fffbbf77",
-      "votes": 0
-    },
-    {
-      "aircraftId": "5eda0683-69f0-4d37-9566-6b2000ce71e4",
-      "votes": 0
-    },
-    {
-      "aircraftId": "f6cd5b20-bde3-4668-bfa6-74ae3a3efa90",
-      "votes": 0
-    },
-    {
-      "aircraftId": "ba128a10-bfeb-4808-abdc-165b37701f58",
-      "votes": 0
-    },
-    {
-      "aircraftId": "84c2212b-f102-4841-afe1-2faae4090b67",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -270
     },
     {
       "aircraftId": "7e837a2b-4a41-432c-9024-c0a9cd318eb9",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "8cd2b315-ee38-48f6-95c5-b383be2a9ff4",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "84c2212b-f102-4841-afe1-2faae4090b67",
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "ba128a10-bfeb-4808-abdc-165b37701f58",
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "586b3cab-22c8-44df-918c-e4d4e3491a62",
+      "votes": 0,
+      "positionChange": -274
+    },
+    {
+      "aircraftId": "5970dbb7-90bf-40f6-ad69-4c69fffbbf77",
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "5eda0683-69f0-4d37-9566-6b2000ce71e4",
+      "votes": 0,
+      "positionChange": -7
+    },
+    {
+      "aircraftId": "f6cd5b20-bde3-4668-bfa6-74ae3a3efa90",
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "adc247d2-b3ec-4ec7-a307-6b5e07e5b9bf",
-      "votes": 0
-    },
-    {
-      "aircraftId": "6a2c3a25-45fe-4388-b5e7-1dd773d3eb2d",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "63ea2fbf-8a05-4870-95e0-3309eb7f63b8",
-      "votes": 0
-    },
-    {
-      "aircraftId": "b592b278-09a5-4ee0-972e-4d5652012d81",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "ea5a4ed0-e5ff-47b4-84f4-10f9a07b2853",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "72134e5c-b8d2-48b1-a58a-b83374506e65",
-      "votes": 0
-    },
-    {
-      "aircraftId": "ae578da8-775e-43a5-bf18-aaf4e88ea466",
-      "votes": 0
-    },
-    {
-      "aircraftId": "b7b8de79-2f18-41ef-97a1-c78dd46a2490",
-      "votes": 0
-    },
-    {
-      "aircraftId": "6bd39adc-ef02-436a-9429-89f7e5698d24",
-      "votes": 0
-    },
-    {
-      "aircraftId": "a33bd3d0-20ea-4972-b27c-28f7bb6441c0",
-      "votes": 0
-    },
-    {
-      "aircraftId": "009e6904-9849-487a-8c80-1d9d0aedd155",
-      "votes": 0
-    },
-    {
-      "aircraftId": "d04bc0b0-6440-4f56-bf1a-8dd761d013e5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -7
     },
     {
       "aircraftId": "d0d52cc0-5593-46dc-9fbc-ee3117ef2757",
-      "votes": 0
+      "votes": 0,
+      "positionChange": 5
+    },
+    {
+      "aircraftId": "85f0e0ac-3ade-4796-97af-96d46a0bd951",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "237f79ec-8f75-4cee-b19b-aa75804200e5",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "6a2c3a25-45fe-4388-b5e7-1dd773d3eb2d",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "b592b278-09a5-4ee0-972e-4d5652012d81",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "ae578da8-775e-43a5-bf18-aaf4e88ea466",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "b7b8de79-2f18-41ef-97a1-c78dd46a2490",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "6bd39adc-ef02-436a-9429-89f7e5698d24",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "a33bd3d0-20ea-4972-b27c-28f7bb6441c0",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "009e6904-9849-487a-8c80-1d9d0aedd155",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "d04bc0b0-6440-4f56-bf1a-8dd761d013e5",
+      "votes": 0,
+      "positionChange": -6
+    },
+    {
+      "aircraftId": "d0d52cc0-5593-46dc-9fbc-ee3117ef2757",
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "37b3e7d4-973d-4c36-9359-578a0f40699f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "2612567f-7162-4c5e-a3bf-dbb7b8048705",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "b3a566a3-4c5a-4c1d-9cee-36fe86bf6a7b",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -343
     },
     {
       "aircraftId": "52b00334-c106-469b-9a1e-5d638cb70260",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -296
     },
     {
       "aircraftId": "c9a81449-0531-406d-aef2-76b81c0b61c4",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -296
     },
     {
       "aircraftId": "9e165125-79da-499a-a55f-5cdee13cf9ad",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -296
     },
     {
       "aircraftId": "f4a425ef-95ab-4560-8643-16745fb2af97",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -10
     },
     {
       "aircraftId": "8cd1727f-d5f1-46ce-b29e-3566a483e8b8",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "a08f562b-64ae-4f98-a585-db495b9fead2",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "0a0bae47-af4a-49a1-a7f9-96642473adee",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "ce6961bb-d645-4cc2-b081-91d96c9fbf84",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "e94e24a5-ae5f-4757-9ffc-8303200a2379",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "4f48411c-869c-4028-b7b0-70486f19dfcf",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "052c1a90-1f2b-40f6-8f64-087ba1e1c73e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "76194ca7-8a89-4d04-afd8-2d2d3a98d4a9",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -9
     },
     {
       "aircraftId": "09535fe5-1689-4628-99a8-ceac0ec4d772",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "6db53af9-1bfc-45e2-be56-90e828bf59ce",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "e7582b36-2eb6-48a4-8554-05f786816355",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "ec02f076-79ff-4754-b839-23707452196c",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "530b1b73-75ad-4f68-abd6-85cfa76cb6a3",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "939246bb-b679-4344-9119-12e002628f26",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "57ddc60f-6fce-483d-a784-ae09ab99cd89",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "cd1fd007-9ec5-4eee-8811-30322a84cb8f",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "67069822-dee5-4878-9a11-819467126c62",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "f788520a-b2cd-4342-9f18-7271adc0b3d3",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "95f37628-35fa-4aa8-9a78-8062e5ed93cd",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "8341b909-03d7-4471-829a-293755890c52",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "756133e1-ce04-4245-9e43-6ce10bc3ae1e",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "aae3a31e-31f9-4a2a-b78f-6e41ec150db1",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "077f9bfb-f332-4d83-8746-d03b9c2d9219",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "3a49d312-1fa9-40d7-bd99-8c2878baa139",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "c806c5e4-1ce2-4653-8dab-58e4365670ea",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "11cb24a1-3db0-454e-af59-c77d5a469bcc",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "cba7658f-3794-40bb-817e-116db0e141b5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     },
     {
       "aircraftId": "1676c7e5-a5c2-4c7b-b240-c124147a37d5",
-      "votes": 0
+      "votes": 0,
+      "positionChange": -6
     }
   ]
 }

@@ -41,6 +41,7 @@ import { AircraftService } from '../services/AircraftService';
 import { Aircraft } from '../types/Aircraft';
 import { Report, ReportSummary, ReportType } from '../types/Report';
 import { useNavigate } from 'react-router-dom';
+import AircraftEditor from './AircraftEditor';
 
 // Add a type for the report update payload
 interface ReportUpdatePayload extends Partial<Report> {
@@ -49,6 +50,7 @@ interface ReportUpdatePayload extends Partial<Report> {
 
 export const AdminReportManager = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [authToken, setAuthToken] = useState('');
@@ -75,17 +77,21 @@ export const AdminReportManager = () => {
     const [editAircraftVotes, setEditAircraftVotes] = useState<{ aircraftId: string; votes: number }[]>([]);
     const [publishedReports, setPublishedReports] = useState<string[]>([]);
     const [snackbarMsg, setSnackbarMsg] = useState<string | null>(null);
-    const [tab, setTab] = useState<'drafts' | 'published'>('drafts');
+    const [tab, setTab] = useState<'drafts' | 'published' | 'aircraft'>('drafts');
+    const [unpublishingId, setUnpublishingId] = useState<string | null>(null);
+    const [publishingId, setPublishingId] = useState<string | null>(null);
     const navigate = useNavigate();
 
     // On mount, check if session is still valid
     useEffect(() => {
+        setAuthLoading(true);
         fetch('/api/session', { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.loggedIn) setIsLoggedIn(true);
                 else setIsLoggedIn(false);
-            });
+            })
+            .finally(() => setAuthLoading(false));
     }, []);
 
     // Login handler
@@ -141,9 +147,9 @@ export const AdminReportManager = () => {
         }
     }, [isLoggedIn]);
 
-    const fetchReports = async () => {
+    const fetchReports = async (showLoading: boolean = true) => {
         if (!guardToken()) return;
-        setLoading(true);
+        if (showLoading) setLoading(true);
         try {
             const data = await ReportService.getAllUnpublished();
             setReports(data.sort((a, b) => {
@@ -160,7 +166,7 @@ export const AdminReportManager = () => {
             handleAuthError(error);
             console.error('Error fetching reports:', error);
         } finally {
-            setLoading(false);
+            if (showLoading) setLoading(false);
         }
     };
 
@@ -305,25 +311,43 @@ export const AdminReportManager = () => {
     // Handler for publish/unpublish (placeholder)
     const handlePublish = async (reportId: string) => {
         if (!guardToken()) return;
+        setPublishingId(reportId);
         try {
             await ReportService.publish(reportId);
             setSnackbarMsg('Report published');
-            fetchReports();
+            fetchReports(false);
+            // Force no-cache fetch for published reports
+            const fresh = await ReportService.getAllNoCache();
+            setPublished(fresh);
+            ReportService.clearCache();
         } catch (error: any) {
             handleAuthError(error);
             setSnackbarMsg('Failed to publish report');
+        } finally {
+            setPublishingId(null);
         }
     };
 
     const handleUnpublish = async (reportId: string) => {
         if (!guardToken()) return;
+        setUnpublishingId(reportId);
         try {
             await ReportService.unpublish(reportId);
             setSnackbarMsg('Report unpublished');
-            fetchReports();
+            fetchReports(false);
+            // Force no-cache fetch for published reports
+            const fresh = await ReportService.getAllNoCache();
+            setPublished(fresh);
+            ReportService.clearCache();
+            // Clear selected report from localStorage if it matches the unpublished report
+            if (localStorage.getItem('selectedReportId') === reportId) {
+                localStorage.removeItem('selectedReportId');
+            }
         } catch (error: any) {
             handleAuthError(error);
             setSnackbarMsg('Failed to unpublish report');
+        } finally {
+            setUnpublishingId(null);
         }
     };
 
@@ -334,6 +358,14 @@ export const AdminReportManager = () => {
         setUsername('');
         setPassword('');
     };
+
+    if (authLoading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     if (!isLoggedIn) {
         return (
@@ -381,6 +413,7 @@ export const AdminReportManager = () => {
             <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 2 }}>
                 <Tab label="Drafts" value="drafts" />
                 <Tab label="Published" value="published" />
+                <Tab label="Aircraft" value="aircraft" />
             </Tabs>
             {tab === 'drafts' && (
                 <Paper sx={{ p: 3, mb: 3 }}>
@@ -442,19 +475,18 @@ export const AdminReportManager = () => {
                                                 >
                                                     <DeleteIcon />
                                                 </IconButton>
-                                                {publishedReports.includes(report.id) ? (
-                                                    <Tooltip title="Unpublish">
-                                                        <IconButton size="small" color="warning" onClick={() => handleUnpublish(report.id)}>
-                                                            <UnpublishedIcon />
+                                                <Tooltip title="Publish">
+                                                    <span>
+                                                        <IconButton
+                                                            size="small"
+                                                            color="success"
+                                                            onClick={() => handlePublish(report.id)}
+                                                            disabled={publishingId === report.id}
+                                                        >
+                                                            {publishingId === report.id ? <CircularProgress size={20} /> : <PublishIcon />}
                                                         </IconButton>
-                                                    </Tooltip>
-                                                ) : (
-                                                    <Tooltip title="Publish">
-                                                        <IconButton size="small" color="success" onClick={() => handlePublish(report.id)}>
-                                                            <PublishIcon />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                )}
+                                                    </span>
+                                                </Tooltip>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -497,17 +529,17 @@ export const AdminReportManager = () => {
                                             <TableCell>{report.month ? getMonthName(report.month) : '-'}</TableCell>
                                             <TableCell>{report.aircraftCount}</TableCell>
                                             <TableCell>
-                                                <IconButton
-                                                    size="small"
-                                                    onClick={() => navigate(`/report/${report.id}`)}
-                                                    title="View"
-                                                >
-                                                    <EditIcon />
-                                                </IconButton>
                                                 <Tooltip title="Unpublish">
-                                                    <IconButton size="small" color="warning" onClick={() => handleUnpublish(report.id)}>
-                                                        <UnpublishedIcon />
-                                                    </IconButton>
+                                                    <span>
+                                                        <IconButton
+                                                            size="small"
+                                                            color="warning"
+                                                            onClick={() => handleUnpublish(report.id)}
+                                                            disabled={unpublishingId === report.id}
+                                                        >
+                                                            {unpublishingId === report.id ? <CircularProgress size={20} /> : <UnpublishedIcon />}
+                                                        </IconButton>
+                                                    </span>
                                                 </Tooltip>
                                             </TableCell>
                                         </TableRow>
@@ -517,6 +549,9 @@ export const AdminReportManager = () => {
                         </TableContainer>
                     )}
                 </Paper>
+            )}
+            {tab === 'aircraft' && (
+                <AircraftEditor />
             )}
 
             {/* Create/Edit Report Dialog */}
