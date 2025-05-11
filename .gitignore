@@ -81,3 +81,6 @@ temp/
 
 # package-lock.json (optional, remove if you want to commit this)
 # package-lock.json
+
+# App generated files
+/app/generated/
