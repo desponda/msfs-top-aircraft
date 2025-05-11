@@ -1,0 +1,134 @@
+[
+  {
+    "id": "2025-01",
+    "type": "monthly",
+    "year": 2025,
+    "month": 1,
+    "title": "Top Aircraft - January 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for January 2025.",
+    "createdAt": "2025-05-11T18:57:01.960Z",
+    "updatedAt": "2025-05-11T18:57:01.960Z",
+    "published": true
+  },
+  {
+    "id": "2025-02",
+    "type": "monthly",
+    "year": 2025,
+    "month": 2,
+    "title": "Top Aircraft - February 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for February 2025.",
+    "createdAt": "2025-05-11T18:57:06.988Z",
+    "updatedAt": "2025-05-11T18:57:06.988Z",
+    "published": true
+  },
+  {
+    "id": "2025-03",
+    "type": "monthly",
+    "year": 2025,
+    "month": 3,
+    "title": "Top Aircraft - March 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for March 2025.",
+    "createdAt": "2025-05-11T18:57:12.019Z",
+    "updatedAt": "2025-05-11T18:57:12.019Z",
+    "published": true
+  },
+  {
+    "id": "2025-04",
+    "type": "monthly",
+    "year": 2025,
+    "month": 4,
+    "title": "Top Aircraft - April 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for April 2025.",
+    "createdAt": "2025-05-11T18:57:17.311Z",
+    "updatedAt": "2025-05-11T18:57:17.311Z",
+    "published": true
+  },
+  {
+    "id": "2025-05",
+    "type": "monthly",
+    "year": 2025,
+    "month": 5,
+    "title": "Top Aircraft - May 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for May 2025.",
+    "createdAt": "2025-05-11T18:57:22.117Z",
+    "updatedAt": "2025-05-11T18:57:22.117Z",
+    "published": true
+  },
+  {
+    "id": "2025",
+    "type": "yearly",
+    "year": 2025,
+    "month": null,
+    "title": "Top Aircraft - 2025",
+    "description": "Yearly report of the most popular MSFS aircraft for 2025.",
+    "createdAt": "2025-05-11T18:57:29.718Z",
+    "updatedAt": "2025-05-11T18:57:29.718Z",
+    "published": true
+  },
+  {
+    "id": "2025-01-draft",
+    "type": "monthly",
+    "year": 2025,
+    "month": 1,
+    "title": "Top Aircraft - January 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for January 2025.",
+    "createdAt": "2025-05-11T18:57:01.960Z",
+    "updatedAt": "2025-05-11T18:57:01.960Z",
+    "published": false
+  },
+  {
+    "id": "2025-02-draft",
+    "type": "monthly",
+    "year": 2025,
+    "month": 2,
+    "title": "Top Aircraft - February 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for February 2025.",
+    "createdAt": "2025-05-11T18:57:06.988Z",
+    "updatedAt": "2025-05-11T18:57:06.988Z",
+    "published": false
+  },
+  {
+    "id": "2025-03-draft",
+    "type": "monthly",
+    "year": 2025,
+    "month": 3,
+    "title": "Top Aircraft - March 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for March 2025.",
+    "createdAt": "2025-05-11T18:57:12.019Z",
+    "updatedAt": "2025-05-11T18:57:12.019Z",
+    "published": false
+  },
+  {
+    "id": "2025-04-draft",
+    "type": "monthly",
+    "year": 2025,
+    "month": 4,
+    "title": "Top Aircraft - April 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for April 2025.",
+    "createdAt": "2025-05-11T18:57:17.311Z",
+    "updatedAt": "2025-05-11T18:57:17.311Z",
+    "published": false
+  },
+  {
+    "id": "2025-05-draft",
+    "type": "monthly",
+    "year": 2025,
+    "month": 5,
+    "title": "Top Aircraft - May 2025",
+    "description": "Monthly report of the most popular MSFS aircraft for May 2025.",
+    "createdAt": "2025-05-11T18:57:22.117Z",
+    "updatedAt": "2025-05-11T18:57:22.117Z",
+    "published": false
+  },
+  {
+    "id": "2025-draft",
+    "type": "yearly",
+    "year": 2025,
+    "month": null,
+    "title": "Top Aircraft - 2025",
+    "description": "Yearly report of the most popular MSFS aircraft for 2025.",
+    "createdAt": "2025-05-11T18:57:29.718Z",
+    "updatedAt": "2025-05-11T18:57:29.718Z",
+    "published": false
+  }
+]

@@ -23,6 +23,7 @@
     "@types/node": "^22.15.3",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "undici-types": "^7.9.0"
   }

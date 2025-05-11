@@ -17,7 +17,7 @@ GREEN := \033[0;32m
 YELLOW := \033[0;33m
 NC := \033[0m # No Color
 
-.PHONY: help install dev-backend dev-frontend dev-up install-backend install-frontend build clean reset-reports
+.PHONY: help install dev-backend dev-frontend dev-up install-backend install-frontend build clean reset-reports export-dev-data import-dev-data dev-db-setup
 
 # Help command
 help:
@@ -29,6 +29,9 @@ help:
 	@echo -e "  $(YELLOW)make build$(NC)           Build both backend and frontend for production"
 	@echo -e "  $(YELLOW)make clean$(NC)           Remove node_modules and build directories"
 	@echo -e "  $(YELLOW)make reset-reports$(NC)   Reset reports data to a clean slate for testing"
+	@echo -e "  $(YELLOW)make export-dev-data$(NC)  Export current database state to dev-export JSON"
+	@echo -e "  $(YELLOW)make import-dev-data$(NC)  Import dev-export JSON into database"
+	@echo -e "  $(YELLOW)make dev-db-setup$(NC)     Set up and hydrate dev database (idempotent)"
 
 # Install dependencies for both backend and frontend
 install: install-backend install-frontend
@@ -108,3 +111,17 @@ reset-reports:
 	@echo "    }" >> $(APP_DIR)/data/reports.json
 	@echo "]" >> $(APP_DIR)/data/reports.json
 	@echo -e "$(GREEN)Reports reset complete.$(NC)"
+
+# Export current database state to dev-export JSON
+export-dev-data:
+	@echo -e "$(GREEN)Exporting dev data from database...$(NC)"
+	DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft npx tsx scripts/export-dev-data.ts
+
+# Import dev-export JSON into database
+import-dev-data:
+	@echo -e "$(GREEN)Importing dev data into database...$(NC)"
+	DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft npx tsx scripts/import-dev-data.ts
+
+# Set up and hydrate dev database (idempotent)
+dev-db-setup:
+	./scripts/dev-db-setup.sh
