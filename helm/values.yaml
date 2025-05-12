@@ -1,5 +1,5 @@
 frontend:
-  image: "ghcr.io/desponda/msfs-top-aircraft/frontend:eb0c7a31d15ea529ec7b6f664a468e693ce98965"
+  image: "ghcr.io/desponda/msfs-top-aircraft/frontend:c3b50f0a465130e6fdc559bd7d8602fd9a258ad9"
   replicaCount: 2
   ingress:
     enabled: true
@@ -8,12 +8,12 @@ frontend:
   env:
     VITE_API_URL: "https://msfs.example.com/api"
 backend:
-  image: "ghcr.io/desponda/msfs-top-aircraft/backend:eb0c7a31d15ea529ec7b6f664a468e693ce98965"
+  image: "ghcr.io/desponda/msfs-top-aircraft/backend:c3b50f0a465130e6fdc559bd7d8602fd9a258ad9"
   replicaCount: 2
   env:
     NODE_ENV: "production"
 migrate:
-  image: "ghcr.io/desponda/msfs-top-aircraft/migrate:eb0c7a31d15ea529ec7b6f664a468e693ce98965"
+  image: "ghcr.io/desponda/msfs-top-aircraft/migrate:c3b50f0a465130e6fdc559bd7d8602fd9a258ad9"
   env: {}
 secret:
   enabled: true
