@@ -59,7 +59,7 @@ jobs:
             image: ghcr.io/${{ github.repository }}/frontend
             path: frontend/**
           - name: backend
-            context: app
+            context: .
             dockerfile: app/Dockerfile
             image: ghcr.io/${{ github.repository }}/backend
             path: app/**
