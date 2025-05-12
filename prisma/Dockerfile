@@ -5,5 +5,5 @@ RUN npm ci --omit=dev
 RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
 COPY prisma/. ./
 ENV NODE_ENV=production
-RUN npx tsc import-initial-data.ts --outDir dist
+RUN npx tsc --project tsconfig.json
 CMD ["sh"]
