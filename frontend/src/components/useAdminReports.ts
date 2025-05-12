@@ -31,7 +31,7 @@ const useAdminReports = (
                 if (a.year !== b.year) return b.year - a.year;
                 return (b.month || 0) - (a.month || 0);
             }));
-        } catch (error: any) {
+        } catch (error: unknown) {
             // Optionally handle error
             console.error('Error fetching reports:', error);
         } finally {
@@ -43,7 +43,7 @@ const useAdminReports = (
         try {
             const data = await AircraftService.getAll();
             setAllAircraft(data);
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('Error fetching aircraft:', error);
         }
     };
@@ -54,8 +54,8 @@ const useAdminReports = (
         try {
             const data = await ReportService.getAll();
             setPublished(data);
-        } catch (e: any) {
-            setPublishedError(e.message);
+        } catch (e: unknown) {
+            setPublishedError(e instanceof Error ? e.message : String(e));
         } finally {
             setPublishedLoading(false);
         }

@@ -30,8 +30,8 @@ export const ReportDisplay = ({ reportId, hideReportHeader = false, onReportIdCh
             try {
                 const reportData = await ReportService.getById(reportId);
                 setReport(reportData);
-            } catch (err: any) {
-                if (err?.response?.status === 404) {
+            } catch (err: unknown) {
+                if (typeof err === 'object' && err !== null && 'response' in err && (err as { response?: { status?: number } }).response?.status === 404) {
                     setNotFound(true);
                     // Try to get the latest report
                     try {
@@ -42,7 +42,9 @@ export const ReportDisplay = ({ reportId, hideReportHeader = false, onReportIdCh
                         if (fallbackId && onReportIdChange) {
                             onReportIdChange(fallbackId);
                         }
-                    } catch {}
+                    } catch {
+                        // no-op
+                    }
                 } else {
                     setError('Failed to load report');
                 }

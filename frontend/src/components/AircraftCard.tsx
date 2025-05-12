@@ -9,7 +9,7 @@ interface AircraftCardProps {
 }
 
 const AircraftCard: React.FC<AircraftCardProps> = ({ aircraft, showPositionChange }) => {
-  let posChange = (aircraft as any).positionChange;
+  const posChange = (aircraft as AircraftWithVotes & { positionChange?: number }).positionChange;
   let posChangeDisplay = null;
   if (posChange === null || posChange === undefined) {
     posChangeDisplay = <Chip label="NEW" size="small" sx={{ bgcolor: '#22C55E', color: '#fff', fontWeight: 700, ml: 1 }} />;
@@ -25,7 +25,7 @@ const AircraftCard: React.FC<AircraftCardProps> = ({ aircraft, showPositionChang
     <Card sx={{ mb: 2, background: 'rgba(255,255,255,0.01)', borderRadius: 4, boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)', width: '100%' }}>
       <CardContent>
         <Typography variant="h6" sx={{ color: '#a259f7', fontWeight: 700, mb: 1 }}>
-          {(aircraft as any).rank !== undefined ? `#${(aircraft as any).rank}` : '-'} {aircraft.name}
+          {(aircraft as AircraftWithVotes & { rank?: number }).rank !== undefined ? `#${(aircraft as AircraftWithVotes & { rank?: number }).rank}` : '-'} {aircraft.name}
           {showPositionChange && posChangeDisplay}
         </Typography>
         <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 0.5 }}>
@@ -44,10 +44,10 @@ const AircraftCard: React.FC<AircraftCardProps> = ({ aircraft, showPositionChang
           <b>Type:</b> {aircraft.payware === 'Both Free & Premium' ? 'Mixed' : (aircraft.payware || 'Unknown')}
         </Typography>
         <Typography variant="body2" sx={{ mb: 0.5 }}>
-          <b>Weeks in Chart:</b> {typeof (aircraft as any).weeksInChart === 'number' ? (aircraft as any).weeksInChart : '-'}
+          <b>Weeks in Chart:</b> {typeof (aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart === 'number' ? (aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart : '-'}
         </Typography>
         <Typography variant="body2" sx={{ mb: 0.5 }}>
-          <b>Compatibility:</b> <CompatibilityChips msfs2020Compatibility={(aircraft as any).msfs2020Compatibility} msfs2024Compatibility={(aircraft as any).msfs2024Compatibility} />
+          <b>Compatibility:</b> <CompatibilityChips msfs2020Compatibility={(aircraft as AircraftWithVotes & { msfs2020Compatibility?: string }).msfs2020Compatibility} msfs2024Compatibility={(aircraft as AircraftWithVotes & { msfs2024Compatibility?: string }).msfs2024Compatibility} />
         </Typography>
         {aircraft.buyUrl && (
           <Button href={aircraft.buyUrl} target="_blank" rel="noopener noreferrer" variant="outlined" size="small" sx={{ mt: 1 }}>

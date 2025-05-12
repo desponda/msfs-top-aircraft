@@ -29,9 +29,9 @@ interface ReportDialogProps {
     voteEditSnackbar: boolean;
     setVoteEditSnackbar: (open: boolean) => void;
     getMonthName: (month: number) => string;
-    editingReport: any;
+    editingReport: unknown;
     guardToken: () => boolean;
-    ReportService: any;
+    ReportService: unknown;
     setQuickEditAircraft: (aircraft: Aircraft | null) => void;
     setQuickEditFields: (fields: Partial<Aircraft>) => void;
     setCreateError?: (err: string | null) => void;
@@ -207,10 +207,14 @@ export const ReportDialog: React.FC<ReportDialogProps> = ({
                                                 onChange={async (e) => {
                                                     const newVotes = parseInt(e.target.value, 10) || 0;
                                                     setEditAircraftVotes((prevVotes: { aircraftId: string; votes: number }[]) => prevVotes.map((v: { aircraftId: string; votes: number }) => v.aircraftId === id ? { ...v, votes: newVotes } : v));
-                                                    if (editingReport && editingReport.id) {
-                                                        const payload = { ...editingReport, aircraftVotes: editAircraftVotes.map(v => v.aircraftId === id ? { ...v, votes: newVotes } : v) };
+                                                    if (
+                                                        editingReport &&
+                                                        typeof editingReport === 'object' &&
+                                                        'id' in editingReport
+                                                    ) {
+                                                        const payload = { ...(editingReport as Partial<import('../types/Report').Report>), aircraftVotes: editAircraftVotes.map(v => v.aircraftId === id ? { ...v, votes: newVotes } : v) };
                                                         if (!guardToken()) return;
-                                                        await ReportService.update(editingReport.id, payload);
+                                                        await (ReportService as { update: (id: string, payload: unknown) => Promise<void> }).update((editingReport as { id: string }).id, payload);
                                                         setVoteEditSnackbar(true);
                                                     }
                                                 }}

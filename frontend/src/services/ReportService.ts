@@ -13,11 +13,13 @@ function getCachedReports() {
     if (Date.now() - timestamp < CACHE_TTL) {
       return data;
     }
-  } catch {}
+  } catch {
+    // no-op
+  }
   return null;
 }
 
-function setCachedReports(data: any) {
+function setCachedReports(data: unknown) {
   localStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
 }
 
@@ -98,8 +100,8 @@ export const ReportService = {
         try {
             await axios.get(`${API_URL}/reports/${id}`);
             return true;
-        } catch (e: any) {
-            if (e.response && e.response.status === 404) return false;
+        } catch (e: unknown) {
+            if (typeof e === 'object' && e !== null && 'response' in e && (e as { response?: { status?: number } }).response?.status === 404) return false;
             throw e;
         }
     },

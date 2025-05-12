@@ -22,7 +22,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; color: string }> = {
 };
 
 const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPositionChange, idx }) => {
-  let posChange = (aircraft as any).positionChange;
+  const posChange = (aircraft as AircraftWithVotes & { positionChange?: number }).positionChange;
   let posChangeDisplay = null;
   if (posChange === null || posChange === undefined) {
     posChangeDisplay = <Chip label="NEW" size="small" sx={{ bgcolor: '#22C55E', color: '#fff', fontWeight: 700 }} />;
@@ -46,7 +46,7 @@ const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPosit
         },
       }}
     >
-      <TableCell sx={{ color: '#f4f4fa', fontWeight: 700, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as any).rank != null ? (aircraft as any).rank : '-'}</TableCell>
+      <TableCell sx={{ color: '#f4f4fa', fontWeight: 700, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as AircraftWithVotes & { rank?: number }).rank != null ? (aircraft as AircraftWithVotes & { rank?: number }).rank : '-'}</TableCell>
       {showPositionChange && (
         <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '1.1rem', md: '1.1rem' }, textAlign: 'center' }}>{posChangeDisplay}</TableCell>
       )}
@@ -106,9 +106,9 @@ const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPosit
           }}
         />
       </TableCell>
-      <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as any).weeksInChart != null ? (aircraft as any).weeksInChart : '-'}</TableCell>
+      <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart != null ? (aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart : '-'}</TableCell>
       <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
-        <CompatibilityChips msfs2020Compatibility={(aircraft as any).msfs2020Compatibility} msfs2024Compatibility={(aircraft as any).msfs2024Compatibility} />
+        <CompatibilityChips msfs2020Compatibility={(aircraft as AircraftWithVotes & { msfs2020Compatibility?: string }).msfs2020Compatibility} msfs2024Compatibility={(aircraft as AircraftWithVotes & { msfs2024Compatibility?: string }).msfs2024Compatibility} />
       </TableCell>
     </TableRow>
   );

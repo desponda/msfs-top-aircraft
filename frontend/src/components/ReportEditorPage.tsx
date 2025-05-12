@@ -62,14 +62,14 @@ export default function ReportEditorPage() {
     const data = await ReportService.getUnpublishedById(reportId);
     setReport(data);
     // Map votes from report
-    if ((data as any).aircraftVotes) {
+    if ((data as Report & { aircraftVotes?: { aircraftId: string; votes: number }[] }).aircraftVotes) {
       const v: { [aircraftId: string]: number } = {};
-      (data as any).aircraftVotes.forEach((av: any) => { v[av.aircraftId] = av.votes; });
+      (data as Report & { aircraftVotes?: { aircraftId: string; votes: number }[] }).aircraftVotes?.forEach((av) => { v[av.aircraftId] = av.votes; });
       setVotes(v);
       setInitialVotes(v); // Set initial votes
     } else if (data.aircraft) {
       const v: { [aircraftId: string]: number } = {};
-      data.aircraft.forEach((a: any) => { v[a.id] = a.votes || 0; });
+      data.aircraft.forEach((a) => { v[a.id] = a.votes || 0; });
       setVotes(v);
       setInitialVotes(v); // Set initial votes
     }

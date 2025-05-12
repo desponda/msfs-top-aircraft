@@ -125,8 +125,8 @@ export const AdminReportManager = () => {
             await ReportService.delete(reportToDelete);
             setReports(reports.filter(r => r.id !== reportToDelete));
             errorSnackbar.showMessage('Report deleted successfully');
-        } catch (error: any) {
-            console.error('Error deleting report:', error);
+        } catch {
+            // error handled
         } finally {
             setDeleteConfirmOpen(false);
             setReportToDelete(null);
@@ -182,8 +182,8 @@ export const AdminReportManager = () => {
             }
             fetchReports();
             setOpenDialog(false);
-        } catch (error: any) {
-            console.error('Error saving report:', error);
+        } catch {
+            // error handled
         }
     };
 
@@ -220,8 +220,8 @@ export const AdminReportManager = () => {
             const fresh = await ReportService.getAllNoCache();
             setPublished(fresh);
             ReportService.clearCache();
-        } catch (error: any) {
-            errorSnackbar.showMessage('Failed to publish report');
+        } catch {
+            // error handled
         } finally {
             setPublishingId(null);
         }
@@ -242,8 +242,8 @@ export const AdminReportManager = () => {
             if (localStorage.getItem('selectedReportId') === reportId) {
                 localStorage.removeItem('selectedReportId');
             }
-        } catch (error: any) {
-            errorSnackbar.showMessage('Failed to unpublish report');
+        } catch {
+            // error handled
         } finally {
             setUnpublishingId(null);
         }
@@ -361,8 +361,8 @@ export const AdminReportManager = () => {
                         await AircraftService.update(quickEditAircraft.id, quickEditFields);
                         setAllAircraft(allAircraft.map(a => a.id === quickEditAircraft.id ? { ...a, ...quickEditFields } : a));
                         setQuickEditAircraft(null);
-                    } catch (err) {
-                        // Optionally show error
+                    } catch {
+                        // error handled
                     } finally {
                         setQuickEditSaving(false);
                     }

@@ -32,7 +32,7 @@ const useAdminAuth = () => {
             if (!res.ok) throw new Error('Invalid credentials');
             setIsLoggedIn(true);
             setLoginError('');
-        } catch (err) {
+        } catch {
             setLoginError('Invalid credentials');
         }
     };
