@@ -6,4 +6,5 @@ RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/a
 COPY prisma/. ./
 ENV NODE_ENV=production
 RUN npx tsc --project tsconfig.json
+RUN npx prisma generate
 CMD ["sh"]
