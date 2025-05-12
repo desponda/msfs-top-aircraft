@@ -15,4 +15,4 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: DATABASE_URL
-          command: ["npx", "prisma", "migrate", "deploy"] 
+          command: ["sh", "-c", "npx prisma migrate deploy && npx ts-node import-initial-data.ts"] 
