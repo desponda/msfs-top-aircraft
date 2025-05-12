@@ -5,4 +5,5 @@ RUN npm ci --omit=dev
 RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
 COPY prisma/. ./
 ENV NODE_ENV=production
-CMD ["npx", "prisma", "migrate", "deploy"]
+RUN npx tsc import-initial-data.ts --outDir dist
+CMD ["sh"]
