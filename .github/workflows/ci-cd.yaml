@@ -54,7 +54,7 @@ jobs:
       matrix:
         include:
           - name: frontend
-            context: frontend
+            context: .
             dockerfile: frontend/Dockerfile
             image: ghcr.io/${{ github.repository }}/frontend
             path: frontend/**
@@ -64,7 +64,7 @@ jobs:
             image: ghcr.io/${{ github.repository }}/backend
             path: app/**
           - name: migrate
-            context: prisma
+            context: .
             dockerfile: prisma/Dockerfile
             image: ghcr.io/${{ github.repository }}/migrate
             path: prisma/**

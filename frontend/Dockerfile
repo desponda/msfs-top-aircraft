@@ -1,8 +1,8 @@
 # Stage 1: Build
 FROM node:22.15.0-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
-COPY . .
+COPY frontend/package*.json ./
+COPY frontend/. ./
 RUN npm ci
 RUN npm run build
 
