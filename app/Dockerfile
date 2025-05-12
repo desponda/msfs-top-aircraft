@@ -14,7 +14,7 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY prisma ./prisma
-RUN apt-get update && apt-get install -y openssl libssl1.1 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
 RUN npx prisma generate
 ENV NODE_ENV=production
 ENV DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft
