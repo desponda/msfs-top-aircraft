@@ -18,7 +18,12 @@ YELLOW := \033[0;33m
 NC := \033[0m # No Color
 
 .PHONY: help install dev-backend dev-frontend dev-up install-backend install-frontend build clean reset-reports export-dev-data import-dev-data dev-db-setup
+.PHONY: help install dev-backend dev-frontend dev-up install-backend install-frontend build clean reset-reports export-dev-data import-dev-data dev-db-setup ensure-client
 
+# Ensure Prisma client is generated correctly
+ensure-client:
+	@echo -e "$(GREEN)Ensuring Prisma client is correctly generated...$(NC)"
+	./scripts/ensure-client.sh
 # Help command
 help:
 	@echo -e "$(GREEN)MSFS Top Aircraft Makefile Commands:$(NC)"
@@ -32,6 +37,7 @@ help:
 	@echo -e "  $(YELLOW)make export-dev-data$(NC)  Export current database state to dev-export JSON"
 	@echo -e "  $(YELLOW)make import-dev-data$(NC)  Import dev-export JSON into database"
 	@echo -e "  $(YELLOW)make dev-db-setup$(NC)     Set up and hydrate dev database (idempotent)"
+	@echo -e "  $(YELLOW)make ensure-client$(NC)    Ensure Prisma client is properly generated"
 
 # Install dependencies for both backend and frontend
 install: install-backend install-frontend
@@ -59,6 +65,8 @@ dev-frontend:
 # Start both backend and frontend in development mode
 dev-up:
 	@echo -e "$(GREEN)Starting both backend and frontend development servers...$(NC)"
+	@echo -e "$(YELLOW)Ensuring Prisma client is generated...$(NC)"
+	@./scripts/ensure-client.sh
 	@echo -e "$(YELLOW)Backend will be available at: http://localhost:3001/api/aircraft$(NC)"
 	@echo -e "$(YELLOW)Frontend will be available at: http://localhost:5173$(NC)"
 	@(cd $(APP_DIR) && npm run dev) & \

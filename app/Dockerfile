@@ -3,8 +3,12 @@ FROM node:22.15.0-slim AS builder
 WORKDIR /app
 COPY app/package*.json ./
 COPY app/tsconfig.json ./
+# Copy prisma directory first, so we can generate the client
+COPY prisma /prisma
 COPY app/. ./
 RUN npm ci
+# Generate prisma client in the prisma folder as per schema definition
+RUN cd /prisma && npx prisma generate
 RUN npm run build || npx tsc
 
 # Stage 2: Run

@@ -26,6 +26,10 @@ A web application to track and display the most popular aircraft for Microsoft F
    ```bash
    make install
    ```
+3. Ensure the Prisma client is generated (only needed if you encounter Prisma errors):
+   ```bash
+   make ensure-client
+   ```
 3. Start development servers:
    ```bash
    make dev-up

@@ -6,6 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  // Using a relative path that works for both local dev and container builds
+  output   = "./node_modules/.prisma/client"
 }
 
 datasource db {
