@@ -1,8 +1,9 @@
 import React from 'react';
-import { TableRow, TableCell, Chip, Tooltip, Link } from '@mui/material';
+import { TableRow, TableCell, Chip, Tooltip, Link, Box } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { AircraftWithVotes } from '../types/Aircraft';
 import CompatibilityChips from './CompatibilityChips';
+import { getAircraftTypeLabels, getAircraftTypeColors } from '../utils/aircraftTypeUtils';
 
 interface AircraftTableRowProps {
   aircraft: AircraftWithVotes;
@@ -91,20 +92,30 @@ const AircraftTableRow: React.FC<AircraftTableRowProps> = ({ aircraft, showPosit
         />
       </TableCell>
       <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>
-        <Chip
-          label={aircraft.payware === 'Both Free & Premium' ? 'Mixed' : (aircraft.payware || 'Unknown')}
-          variant="filled"
-          size="small"
-          sx={{
-            background: 'rgba(255,255,255,0.04)',
-            color: 'text.secondary',
-            fontWeight: 500,
-            fontSize: '0.92rem',
-            paddingX: 1.2,
-            borderRadius: 2,
-            letterSpacing: 0,
-          }}
-        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, alignItems: 'flex-start' }}>
+          {getAircraftTypeLabels(aircraft.payware).map((label, index) => (
+            <Chip
+              key={`${aircraft.id}-type-${index}`}
+              label={label}
+              variant="filled"
+              size="small"
+              sx={{
+                background: getAircraftTypeColors(label).bg,
+                color: getAircraftTypeColors(label).color,
+                fontWeight: 600,
+                fontSize: '0.92rem',
+                paddingX: 1.2,
+                borderRadius: 2,
+                letterSpacing: 0,
+                transition: 'transform 0.18s',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                },
+              }}
+            />
+          ))}
+        </Box>
       </TableCell>
       <TableCell sx={{ color: '#f4f4fa', fontWeight: 600, px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>{(aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart != null ? (aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart : '-'}</TableCell>
       <TableCell sx={{ px: { xs: 1, md: 2 }, fontSize: { xs: '0.92rem', md: '1rem' } }}>

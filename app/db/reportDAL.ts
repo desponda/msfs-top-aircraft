@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-const { ReportType } = require('@prisma/client').$Enums;
-
-const prisma = new PrismaClient();
+import { prisma } from './prisma';
+import { ReportType } from '@prisma/client';
 
 export async function getAllReports(filters?: {
   year?: number;

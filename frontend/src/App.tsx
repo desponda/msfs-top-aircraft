@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { ReportSelector } from './components/ReportSelector';
 import AircraftEditor from './components/AircraftEditor';
 import ReportEditorPage from './components/ReportEditorPage';
+import LegacyCharts from './components/LegacyCharts';
 
 function DopplerBackground() {
   return (
@@ -238,7 +239,7 @@ function App() {
                   <Route path="/admin" element={<AdminReportManager />} />
                   <Route path="/admin/report/:id" element={<ReportEditorPage />} />
                   <Route path="/admin/aircraft" element={<AircraftEditor />} />
-                  <Route path="/legacy" element={<AircraftTable />} />
+                  <Route path="/legacy" element={<LegacyCharts />} />
                 </Routes>
               </Box>
             </Box>

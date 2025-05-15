@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card, CardContent, Typography, Button, Chip } from '@mui/material';
+import { Card, CardContent, Typography, Button, Chip, Box } from '@mui/material';
 import CompatibilityChips from './CompatibilityChips';
 import { AircraftWithVotes } from '../types/Aircraft';
+import { getAircraftTypeLabels, getAircraftTypeColors } from '../utils/aircraftTypeUtils';
 
 interface AircraftCardProps {
   aircraft: AircraftWithVotes;
@@ -41,7 +42,23 @@ const AircraftCard: React.FC<AircraftCardProps> = ({ aircraft, showPositionChang
           <b>Category:</b> {aircraft.category}
         </Typography>
         <Typography variant="body2" sx={{ mb: 0.5 }}>
-          <b>Type:</b> {aircraft.payware === 'Both Free & Premium' ? 'Mixed' : (aircraft.payware || 'Unknown')}
+          <b>Type:</b> 
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mt: 0.5, ml: 1 }}>
+            {getAircraftTypeLabels(aircraft.payware).map((label, index) => (
+              <Chip
+                key={`${aircraft.id}-type-${index}`}
+                label={label}
+                size="small"
+                sx={{
+                  background: getAircraftTypeColors(label).bg,
+                  color: getAircraftTypeColors(label).color,
+                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  height: '20px',
+                }}
+              />
+            ))}
+          </Box>
         </Typography>
         <Typography variant="body2" sx={{ mb: 0.5 }}>
           <b>Weeks in Chart:</b> {typeof (aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart === 'number' ? (aircraft as AircraftWithVotes & { weeksInChart?: number }).weeksInChart : '-'}

@@ -23,6 +23,8 @@ import { AircraftWithVotes, CompatibilityStatus } from '../types/Aircraft';
 import { AircraftService } from '../services/AircraftService';
 import AircraftTableRow from './AircraftTableRow';
 import AircraftCard from './AircraftCard';
+import { motion, AnimatePresence } from 'framer-motion';
+import AnimatedTableContainer from './AnimatedTableContainer';
 
 interface AircraftTableProps {
   data?: AircraftWithVotes[];
@@ -274,50 +276,45 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
               )}
             </Box>
           ) : (
-            <>
-              <TableContainer sx={{
-                mt: 3,
-                boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)',
-                borderRadius: 4,
-                overflow: 'auto',
-                background: 'rgba(255,255,255,0.01)',
-                width: '100%',
-                maxWidth: '100vw',
-                minWidth: 700,
-              }}>
-                <Table stickyHeader>
-                  <TableHead>
-                    <TableRow sx={{ background: 'rgba(255,255,255,0.01)' }}>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Rank</TableCell>
-                      {showPositionChange && (
-                        <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Δ</TableCell>
-                      )}
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Aircraft</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Developer</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Votes</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Category</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Type</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Weeks in Chart</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Compatibility</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {loading ? (
-                      <TableRow>
-                        <TableCell colSpan={showPositionChange ? 9 : 8} align="center">Loading...</TableCell>
-                      </TableRow>
-                    ) : paginatedData.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={showPositionChange ? 9 : 8} align="center">No aircraft found</TableCell>
-                      </TableRow>
-                    ) : (
-                      paginatedData.map((aircraft, idx) => (
-                        <AircraftTableRow key={aircraft.id} aircraft={aircraft} showPositionChange={showPositionChange} idx={idx} />
-                      ))
+            <Box>
+              <AnimatedTableContainer>
+                <TableHead>
+                  <TableRow sx={{ background: 'rgba(255,255,255,0.01)' }}>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Rank</TableCell>
+                    {showPositionChange && (
+                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Δ</TableCell>
                     )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Aircraft</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Developer</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Votes</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Category</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Type</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Weeks in Chart</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Compatibility</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {loading ? (
+                    <TableRow>
+                      <TableCell colSpan={showPositionChange ? 9 : 8} align="center">Loading...</TableCell>
+                    </TableRow>
+                  ) : paginatedData.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={showPositionChange ? 9 : 8} align="center">No aircraft found</TableCell>
+                    </TableRow>
+                  ) : (
+                    paginatedData.map((aircraft, idx) => (
+                      <AircraftTableRow 
+                        key={aircraft.id} 
+                        aircraft={aircraft} 
+                        showPositionChange={showPositionChange} 
+                        idx={idx} 
+                      />
+                    ))
+                  )}
+                </TableBody>
+              </AnimatedTableContainer>
+
               {/* Pagination Controls */}
               {totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
@@ -326,7 +323,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
                   <Button disabled={page === totalPages - 1} onClick={() => setPage(page + 1)}>Next</Button>
                 </Box>
               )}
-            </>
+            </Box>
           )}
         </Box>
       </Box>
