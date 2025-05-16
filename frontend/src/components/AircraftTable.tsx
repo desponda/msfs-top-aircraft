@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react';
 import {
   Box,
-  Table,
+  // These components are used by AnimatedTableContainer
+  // Table, 
+  // TableContainer,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   TextField,
@@ -23,7 +24,7 @@ import { AircraftWithVotes, CompatibilityStatus } from '../types/Aircraft';
 import { AircraftService } from '../services/AircraftService';
 import AircraftTableRow from './AircraftTableRow';
 import AircraftCard from './AircraftCard';
-import { motion, AnimatePresence } from 'framer-motion';
+// Using motion and AnimatePresence for animations
 import AnimatedTableContainer from './AnimatedTableContainer';
 
 interface AircraftTableProps {

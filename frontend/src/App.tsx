@@ -1,5 +1,6 @@
 import { Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import AircraftTable from './components/AircraftTable';
+// AircraftTable is imported but not used directly in this component
+// import AircraftTable from './components/AircraftTable';
 import MinimalHeader from './components/Header';
 import Footer from './components/Footer';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

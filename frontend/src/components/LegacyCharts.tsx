@@ -7,7 +7,7 @@ import {
   InputLabel, 
   Select, 
   MenuItem, 
-  Grid,
+  // Grid not used in this component
   Skeleton,
   Button,
   useTheme,
@@ -15,7 +15,7 @@ import {
   Paper
 } from '@mui/material';
 import { ReportService } from '../services/ReportService';
-import { ReportSummary, Report, ReportType } from '../types/Report';
+import { Report, ReportType } from '../types/Report';
 import AircraftTable from './AircraftTable';
 import { CalendarMonth, CalendarToday } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';

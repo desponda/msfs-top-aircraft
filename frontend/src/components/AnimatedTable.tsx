@@ -2,10 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import {
   Table,
-  TableBody,
-  TableCell,
+  // These components are defined but not used directly in this component
+  // They might be used by child components
+  // TableBody,
+  // TableCell,
   TableContainer,
-  TableHead,
+  // TableHead,
   TableRow
 } from '@mui/material';
 
@@ -46,18 +48,20 @@ interface AnimatedTableProps {
   children: React.ReactNode;
   tableProps?: React.ComponentProps<typeof Table>;
   containerSx?: React.ComponentProps<typeof TableContainer>['sx'];
-  showPositionChange?: boolean;
-  loading?: boolean;
-  noDataMessage?: string;
+  showPositionChange?: boolean; // Unused but kept for API compatibility
+  loading?: boolean; // Unused but kept for API compatibility
+  noDataMessage?: string; // Unused but kept for API compatibility
 }
 
 const AnimatedTable: React.FC<AnimatedTableProps> = ({ 
   children, 
   tableProps, 
   containerSx,
-  showPositionChange,
-  loading,
-  noDataMessage
+  // Ignore these props as they're not used in this component
+  // but are passed down from parent components
+  showPositionChange: _showPositionChange,
+  loading: _loading,
+  noDataMessage: _noDataMessage
 }) => {
   return (
     <motion.div
