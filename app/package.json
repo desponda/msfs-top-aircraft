@@ -5,9 +5,9 @@
     "license": "MIT",
     "scripts": {
         "dev": "cd ../prisma && npx prisma generate && cd ../app && DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft nodemon --watch './**/*.ts' --exec ts-node app.ts",
-        "start": "cd ../prisma && npx prisma generate && cd ../app && DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft ts-node app.ts",
+        "start": "node dist/app.js",
         "build": "tsc",
-        "prisma:generate": "prisma generate"
+        "prisma:generate": "cd ../prisma && prisma generate"
     },
     "dependencies": {
         "@prisma/client": "^5.0.0",

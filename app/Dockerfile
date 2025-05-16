@@ -14,16 +14,17 @@ RUN npm run build || npx tsc
 FROM node:22.15.0-slim
 WORKDIR /app
 COPY --from=builder /app/package*.json ./
+# Install both production dependencies and prisma as a regular dependency
+RUN npm install --omit=dev && npm install prisma @prisma/client --no-save
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
+COPY app/startup.sh ./startup.sh
 # Install OpenSSL (required for Prisma)
 RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
-# Generate Prisma client in the runtime environment to ensure it matches the platform
+# Make sure the startup script is executable
+RUN chmod +x ./startup.sh
 ENV NODE_ENV=production
-RUN npx prisma generate
 ENV DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft
 EXPOSE 3001
-# Add a startup script that ensures the Prisma client is generated before starting the app
-COPY --from=builder /app/node_modules/.bin/prisma /usr/local/bin/
-CMD ["sh", "-c", "prisma generate && node dist/app.js"] 
+# Use our startup script that handles prisma generation
+CMD ["./startup.sh"] 
