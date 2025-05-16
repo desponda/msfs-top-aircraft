@@ -1,5 +1,5 @@
 import { prisma } from './prisma';
-import { ReportType } from '@prisma/client';
+import { ReportType } from '../types/Report';
 
 export async function getAllReports(filters?: {
   year?: number;
