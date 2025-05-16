@@ -10,13 +10,19 @@ fi
 
 # Copy schema to the correct location relative to where we are generating
 echo "Setting up Prisma environment..."
-mkdir -p /app/node_modules/.prisma
+mkdir -p /app/node_modules/.prisma/client
 mkdir -p /app/node_modules/@prisma
 
 # Generate Prisma client
 echo "Generating Prisma client..."
 DATABASE_URL="${DATABASE_URL:-postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft}" \
   npx prisma generate --schema=/app/prisma/schema.prisma
+
+# Copy query engine to the expected location if it exists in prisma subdirectory
+if [ -f "/app/prisma/node_modules/.prisma/client/libquery_engine-debian-openssl-3.0.x.so.node" ]; then
+  echo "Copying query engine from prisma subdirectory..."
+  cp /app/prisma/node_modules/.prisma/client/libquery_engine-debian-openssl-3.0.x.so.node /app/node_modules/.prisma/client/
+fi
 
 # Check for success
 if [ $? -ne 0 ]; then

@@ -6,10 +6,8 @@
 
 generator client {
   provider      = "prisma-client-js"
-  // Use a simple direct path within this directory
-  output        = "./node_modules/.prisma/client"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
-  engineType    = "library"
+  output        = "../node_modules/.prisma/client"
+  binaryTargets = ["debian-openssl-3.0.x"]
 }
 
 datasource db {
