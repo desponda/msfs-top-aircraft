@@ -30,4 +30,4 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: DATABASE_URL
-          command: ["sh", "-c", "npx prisma migrate deploy && node dist/import-initial-data.js"] 
+          command: ["/app/prisma/start.sh"] 

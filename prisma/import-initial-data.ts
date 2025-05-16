@@ -2,7 +2,25 @@ import { PrismaClient } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
 
-const prisma = new PrismaClient();
+// Initialize Prisma with proper error handling
+const getPrismaClient = () => {
+  try {
+    // Check if client was generated
+    const clientPath = path.join(process.cwd(), 'node_modules', '.prisma', 'client');
+    if (!fs.existsSync(clientPath)) {
+      console.log('Prisma client directory not found, attempting to generate...');
+      // Try to generate the client first
+      require('child_process').execSync('npx prisma generate', { stdio: 'inherit' });
+    }
+    
+    return new PrismaClient();
+  } catch (error) {
+    console.error('Failed to initialize Prisma client:', error);
+    throw error;
+  }
+};
+
+const prisma = getPrismaClient();
 
 async function importData() {
   const exportDir = path.join(process.cwd(), 'data');
