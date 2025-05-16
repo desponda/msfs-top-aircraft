@@ -1,24 +1,19 @@
+// filepath: /workspaces/msfs-top-aircraft/helm/templates/migrate-job.yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: prisma-migrate-{{ .Release.Revision }}
   annotations:
-    argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
-    # Keep the old Helm hooks for direct helm installations
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "-5"  # Ensure this runs before backend deployment
   labels:
     app: prisma-migrate
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
 spec:
-  backoffLimit: 3
+  backoffLimit: 5
+  activeDeadlineSeconds: 300  # 5 minutes timeout for the job
   template:
-    metadata:
-      annotations:
-        # Add a checksum annotation to force job recreation when schema changes
-        checksum/schema: {{ include (print $.Template.BasePath "/migrate-configmap.yaml") . | sha256sum }}
     spec:
       restartPolicy: Never
       containers:
@@ -30,4 +25,35 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: DATABASE_URL
-          command: ["/app/prisma/start.sh"] 
+          command: 
+            - "sh"
+            - "-c"
+            - |
+              echo "Starting migration job..."
+              # Make sure Prisma client can be generated
+              npx prisma generate
+              
+              # Check for successful generation
+              if [ $? -ne 0 ]; then
+                echo "Failed to generate Prisma client. Attempting to fix dependencies..."
+                npm install --no-save prisma @prisma/client
+                npx prisma generate --verbose
+                if [ $? -ne 0 ]; then
+                  echo "Still failed to generate Prisma client. Exiting."
+                  exit 1
+                fi
+              fi
+              
+              # Run the migrations
+              echo "Running migrations..."
+              npx prisma migrate deploy
+              
+              # Check for successful migration
+              if [ $? -ne 0 ]; then
+                echo "Migration failed. Exiting."
+                exit 1
+              fi
+              
+              # Import initial data
+              echo "Importing initial data..."
+              node dist/import-initial-data.js

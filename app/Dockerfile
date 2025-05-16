@@ -1,3 +1,4 @@
+# filepath: /workspaces/msfs-top-aircraft/app/Dockerfile
 # Stage 1: Build
 FROM node:22.15.0-slim AS builder
 WORKDIR /app
@@ -6,6 +7,8 @@ COPY app/tsconfig.json ./
 RUN npm ci
 # Copy prisma schema
 COPY prisma /app/prisma
+# Generate Prisma client during build phase
+RUN npx prisma generate --schema=/app/prisma/schema.prisma
 # Copy the rest of the app code and build it
 COPY app/. ./
 RUN npm run build || npx tsc
@@ -20,6 +23,8 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY app/startup.sh ./startup.sh
 COPY app/prisma-diagnostics.sh ./prisma-diagnostics.sh
+COPY app/prisma-maintenance.sh ./prisma-maintenance.sh
+COPY app/verify-prisma.js ./verify-prisma.js
 
 # Install production dependencies and ensure directories exist
 RUN npm install --omit=dev && \
@@ -27,19 +32,17 @@ RUN npm install --omit=dev && \
     mkdir -p /app/node_modules/.prisma/client && \
     mkdir -p /app/prisma/node_modules/.prisma/client && \
     chmod +x ./startup.sh && \
-    chmod +x ./prisma-diagnostics.sh
+    chmod +x ./prisma-diagnostics.sh && \
+    chmod +x ./prisma-maintenance.sh
 
-# Install OpenSSL (required for Prisma)
-RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
+# Install OpenSSL (required for Prisma) and diagnostic tools
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev netcat-openbsd && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
 ENV NODE_ENV=production
 ENV DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft
-ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_QUERY_ENGINE_BINARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_SCHEMA_ENGINE_LIBRARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_CLIENT_ENGINE_TYPE=binary
 EXPOSE 3001
 # Use our startup script that handles prisma generation
-CMD ["./startup.sh"] 
+CMD ["./startup.sh"]

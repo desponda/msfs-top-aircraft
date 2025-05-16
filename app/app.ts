@@ -4,6 +4,7 @@ import aircraftRouter from './routes/aircraft';
 import reportsRouter from './routes/reports';
 import cors from 'cors';
 import session from 'express-session';
+import { prisma } from './db/prisma';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -53,6 +54,29 @@ app.get('/api/session', (req, res) => {
     res.json({ loggedIn: true });
   } else {
     res.json({ loggedIn: false });
+  }
+});
+
+// Add a health check endpoint that checks Prisma connection
+app.get('/api/health', async (req, res) => {
+  try {
+    // Check Prisma connection with a simple query
+    const result = await prisma.$queryRaw`SELECT 1 as health`;
+    
+    res.json({
+      status: 'ok',
+      database: 'connected',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development'
+    });
+  } catch (error) {
+    console.error('Health check failed:', error);
+    res.status(500).json({
+      status: 'error',
+      database: 'disconnected',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString()
+    });
   }
 });
 

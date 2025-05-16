@@ -1,29 +1,43 @@
+# filepath: /workspaces/msfs-top-aircraft/prisma/Dockerfile
 FROM node:22.15.0-slim
 WORKDIR /app/prisma
+
+# Install dependencies
 COPY prisma/package.json prisma/package-lock.json ./
 RUN npm ci
-RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
+
+# Install OpenSSL (required for Prisma)
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy the source files
 COPY prisma/ ./
-COPY prisma/prisma-migrate-diagnostics.sh /app/prisma/
 
-# Ensure directories exist for Prisma client
-RUN mkdir -p /app/prisma/node_modules/.prisma/client
+# Create necessary directories for Prisma client
+RUN mkdir -p /app/prisma/node_modules/.prisma/client && \
+    mkdir -p /app/node_modules/.prisma/client
 
-# Set environment variables for Prisma
-ENV NODE_ENV=production
-ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/prisma/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_QUERY_ENGINE_BINARY=/app/prisma/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/prisma/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_SCHEMA_ENGINE_LIBRARY=/app/prisma/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
-ENV PRISMA_CLIENT_ENGINE_TYPE=binary
-
-# Compile TypeScript and generate Prisma client
-RUN npx tsc --project tsconfig.json
+# Pre-generate the Prisma client during build
 RUN npx prisma generate
 
-# Create a startup script to ensure proper execution
-RUN echo '#!/bin/sh\nset -e\n\n# Generate Prisma client\necho "Generating Prisma client..."\nnpx prisma generate\n\n# Run migrations\necho "Running migrations..."\nnpx prisma migrate deploy\n\n# Run diagnostics if needed\nif [ -n "$DEBUG_PRISMA" ]; then\n  /app/prisma/prisma-migrate-diagnostics.sh\nfi\n\n# Import data\necho "Importing initial data..."\nnode dist/import-initial-data.js\n' > /app/prisma/start.sh && \
-    chmod +x /app/prisma/start.sh
+# Compile TypeScript
+RUN npx tsc --project tsconfig.json
 
-# Set the command to run the startup script
+# Create a startup script
+RUN echo '#!/bin/sh\n\
+echo "Starting migration process..."\n\
+# Regenerate Prisma client to ensure it matches the environment\n\
+npx prisma generate\n\
+\n\
+# Run the migrations\n\
+echo "Running database migrations..."\n\
+npx prisma migrate deploy\n\
+\n\
+# Run the initial data import\n\
+echo "Importing initial data..."\n\
+node dist/import-initial-data.js\n\
+' > /app/prisma/start.sh && chmod +x /app/prisma/start.sh
+
+# Start with our startup script
 CMD ["/app/prisma/start.sh"]
