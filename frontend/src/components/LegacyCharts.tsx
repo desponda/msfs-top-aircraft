@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Container, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem, 
+import {
+  Box,
+  Typography,
+  Container,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   // Grid not used in this component
   Skeleton,
   Button,
@@ -22,20 +22,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const LegacyCharts = () => {
   const [availableYears, setAvailableYears] = useState<number[]>([]);
-  const [availableMonths, setAvailableMonths] = useState<{id: string, month: number, year: number}[]>([]);
-  const [availableYearReports, setAvailableYearReports] = useState<{id: string, year: number}[]>([]);
-  
+  const [availableMonths, setAvailableMonths] = useState<{ id: string, month: number, year: number }[]>([]);
+  const [availableYearReports, setAvailableYearReports] = useState<{ id: string, year: number }[]>([]);
+
   const [selectedYearReport, setSelectedYearReport] = useState<string | null>(null);
   const [selectedMonthReport, setSelectedMonthReport] = useState<string | null>(null);
-  
+
   const [yearReportData, setYearReportData] = useState<Report | null>(null);
   const [monthReportData, setMonthReportData] = useState<Report | null>(null);
-  
+
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [reportLoading, setReportLoading] = useState<boolean>(false);
   const [reportType, setReportType] = useState<'monthly' | 'yearly'>('yearly');
   const [error, setError] = useState<string | null>(null);
-  
+
   const theme = useTheme();
 
   // Initial load to get all available reports
@@ -45,11 +45,11 @@ const LegacyCharts = () => {
       setError(null);
       try {
         const reports = await ReportService.getAll();
-        
+
         // Extract unique years
         const years = [...new Set(reports.map(r => r.year))].sort((a, b) => b - a);
         setAvailableYears(years);
-        
+
         // Group monthly reports
         const monthlyReports = reports
           .filter(r => r.type === ReportType.MONTHLY)
@@ -62,9 +62,9 @@ const LegacyCharts = () => {
             if (a.year !== b.year) return b.year - a.year;
             return b.month - a.month;
           });
-        
+
         setAvailableMonths(monthlyReports);
-        
+
         // Group yearly reports
         const yearlyReports = reports
           .filter(r => r.type === ReportType.YEARLY)
@@ -73,18 +73,18 @@ const LegacyCharts = () => {
             year: r.year
           }))
           .sort((a, b) => b.year - a.year);
-        
+
         setAvailableYearReports(yearlyReports);
-        
+
         // Set defaults if available
         if (yearlyReports.length > 0) {
           setSelectedYearReport(yearlyReports[0].id);
         }
-        
+
         if (monthlyReports.length > 0) {
           setSelectedMonthReport(monthlyReports[0].id);
         }
-        
+
         // Set initial report type based on availability
         if (yearlyReports.length === 0 && monthlyReports.length > 0) {
           setReportType('monthly');
@@ -96,20 +96,20 @@ const LegacyCharts = () => {
         setInitialLoading(false);
       }
     };
-    
+
     fetchReports();
   }, []);
-  
+
   // Load selected year report
   useEffect(() => {
     if (!selectedYearReport) return;
-    
+
     const fetchYearReport = async () => {
       if (reportType === 'yearly') {
         setReportLoading(true);
       }
       setError(null);
-      
+
       try {
         const report = await ReportService.getById(selectedYearReport);
         setYearReportData(report);
@@ -125,20 +125,20 @@ const LegacyCharts = () => {
         }
       }
     };
-    
+
     fetchYearReport();
   }, [selectedYearReport, reportType]);
-  
+
   // Load selected month report
   useEffect(() => {
     if (!selectedMonthReport) return;
-    
+
     const fetchMonthReport = async () => {
       if (reportType === 'monthly') {
         setReportLoading(true);
       }
       setError(null);
-      
+
       try {
         const report = await ReportService.getById(selectedMonthReport);
         setMonthReportData(report);
@@ -154,18 +154,18 @@ const LegacyCharts = () => {
         }
       }
     };
-    
+
     fetchMonthReport();
   }, [selectedMonthReport, reportType]);
-  
+
   const handleYearReportChange = (event: SelectChangeEvent<string>) => {
     setSelectedYearReport(event.target.value);
   };
-  
+
   const handleMonthReportChange = (event: SelectChangeEvent<string>) => {
     setSelectedMonthReport(event.target.value);
   };
-  
+
   const handleReportTypeChange = (type: 'monthly' | 'yearly') => {
     setReportType(type);
   };
@@ -187,7 +187,7 @@ const LegacyCharts = () => {
       </Container>
     );
   }
-  
+
   if (error && availableYears.length === 0) {
     return (
       <Container maxWidth="xl">
@@ -195,9 +195,9 @@ const LegacyCharts = () => {
           <Typography variant="h4" component="h1" gutterBottom>
             Historical Charts
           </Typography>
-          <Box sx={{ 
-            textAlign: 'center', 
-            py: 8, 
+          <Box sx={{
+            textAlign: 'center',
+            py: 8,
             px: 3,
             backgroundColor: 'rgba(255, 82, 82, 0.05)',
             borderRadius: 2
@@ -220,7 +220,7 @@ const LegacyCharts = () => {
       {getMonthName(m.month)} {m.year}
     </MenuItem>
   ));
-  
+
   const yearOptions = availableYearReports.map(y => (
     <MenuItem key={y.id} value={y.id}>
       {y.year}
@@ -240,10 +240,10 @@ const LegacyCharts = () => {
         <Typography variant="body1" sx={{ mb: 4, color: 'text.secondary' }}>
           View past monthly and yearly aircraft rankings
         </Typography>
-        
+
         {/* Report type selection */}
         <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
-          <Button 
+          <Button
             variant={reportType === 'yearly' ? 'contained' : 'outlined'}
             onClick={() => handleReportTypeChange('yearly')}
             startIcon={<CalendarToday />}
@@ -260,7 +260,7 @@ const LegacyCharts = () => {
             Monthly Reports
           </Button>
         </Box>
-        
+
         {/* Report selection */}
         <Paper elevation={0} sx={{
           p: 3,
@@ -273,7 +273,7 @@ const LegacyCharts = () => {
           <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Select a report
           </Typography>
-          
+
           {reportType === 'yearly' ? (
             <FormControl fullWidth>
               <InputLabel>Year</InputLabel>
@@ -298,7 +298,7 @@ const LegacyCharts = () => {
             </FormControl>
           )}
         </Paper>
-        
+
         {/* Report display */}
         {reportLoading ? (
           <>
@@ -309,9 +309,9 @@ const LegacyCharts = () => {
             <Skeleton variant="rectangular" height={400} />
           </>
         ) : error ? (
-          <Box sx={{ 
-            textAlign: 'center', 
-            py: 8, 
+          <Box sx={{
+            textAlign: 'center',
+            py: 8,
             px: 3,
             backgroundColor: 'rgba(255, 82, 82, 0.05)',
             borderRadius: 2
@@ -348,34 +348,34 @@ const LegacyCharts = () => {
                   )}
                 </motion.div>
               </Box>
-              
+
               <motion.div
                 initial={{ opacity: 0, scaleY: 0.9, transformOrigin: "top" }}
                 animate={{ opacity: 1, scaleY: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
               >
                 <motion.div
-              initial={{ opacity: 0, scaleY: 0.9, transformOrigin: "top" }}
-              animate={{ opacity: 1, scaleY: 1 }}
-              transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
-              style={{ overflow: 'hidden' }}
-            >
-              <AircraftTable data={activeReport.aircraft} showPositionChange={true} />
-            </motion.div>
+                  initial={{ opacity: 0, scaleY: 0.9, transformOrigin: "top" }}
+                  animate={{ opacity: 1, scaleY: 1 }}
+                  transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <AircraftTable data={activeReport.aircraft} showPositionChange={true} />
+                </motion.div>
               </motion.div>
             </motion.div>
           </AnimatePresence>
         ) : (
-          <Box sx={{ 
-            textAlign: 'center', 
-            py: 8, 
+          <Box sx={{
+            textAlign: 'center',
+            py: 8,
             px: 3,
             backgroundColor: 'rgba(0,0,0,0.04)',
             borderRadius: 2
           }}>
             <Typography variant="body1" color="text.secondary">
-              {availableYears.length === 0 ? 
-                'No historical reports available' : 
+              {availableYears.length === 0 ?
+                'No historical reports available' :
                 'Select a report to view'
               }
             </Typography>

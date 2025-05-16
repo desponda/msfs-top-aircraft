@@ -12,18 +12,18 @@ import {
 } from '@mui/material';
 
 const containerVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     height: 0,
-    scaleY: 0, 
-    transformOrigin: 'top' 
+    scaleY: 0,
+    transformOrigin: 'top'
   },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     height: 'auto',
     scaleY: 1,
-    transition: { 
-      duration: 0.5, 
+    transition: {
+      duration: 0.5,
       ease: "easeOut",
       staggerChildren: 0.05
     }
@@ -31,13 +31,13 @@ const containerVariants = {
 };
 
 const rowVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     y: 20,
     scaleY: 0.8
   },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     scaleY: 1,
     transition: { duration: 0.3 }
@@ -53,9 +53,9 @@ interface AnimatedTableProps {
   noDataMessage?: string; // Unused but kept for API compatibility
 }
 
-const AnimatedTable: React.FC<AnimatedTableProps> = ({ 
-  children, 
-  tableProps, 
+const AnimatedTable: React.FC<AnimatedTableProps> = ({
+  children,
+  tableProps,
   containerSx,
   // Ignore these props as they're not used in this component
   // but are passed down from parent components
@@ -69,7 +69,7 @@ const AnimatedTable: React.FC<AnimatedTableProps> = ({
       initial="hidden"
       animate="visible"
     >
-      <TableContainer 
+      <TableContainer
         sx={{
           mt: 3,
           boxShadow: '0 2px 8px 0 rgba(31,38,135,0.07)',

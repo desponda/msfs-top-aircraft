@@ -305,11 +305,11 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
                     </TableRow>
                   ) : (
                     paginatedData.map((aircraft, idx) => (
-                      <AircraftTableRow 
-                        key={aircraft.id} 
-                        aircraft={aircraft} 
-                        showPositionChange={showPositionChange} 
-                        idx={idx} 
+                      <AircraftTableRow
+                        key={aircraft.id}
+                        aircraft={aircraft}
+                        showPositionChange={showPositionChange}
+                        idx={idx}
                       />
                     ))
                   )}
