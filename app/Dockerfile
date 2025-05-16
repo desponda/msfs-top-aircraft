@@ -21,6 +21,8 @@ WORKDIR /app
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/prisma/node_modules/.prisma ./prisma/node_modules/.prisma
 COPY app/startup.sh ./startup.sh
 COPY app/prisma-diagnostics.sh ./prisma-diagnostics.sh
 COPY app/prisma-maintenance.sh ./prisma-maintenance.sh
@@ -28,9 +30,6 @@ COPY app/verify-prisma.js ./verify-prisma.js
 
 # Install production dependencies and ensure directories exist
 RUN npm install --omit=dev && \
-    npm install prisma @prisma/client --no-save && \
-    mkdir -p /app/node_modules/.prisma/client && \
-    mkdir -p /app/prisma/node_modules/.prisma/client && \
     chmod +x ./startup.sh && \
     chmod +x ./prisma-diagnostics.sh && \
     chmod +x ./prisma-maintenance.sh
