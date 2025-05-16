@@ -13,18 +13,33 @@ RUN npm run build || npx tsc
 # Stage 2: Run
 FROM node:22.15.0-slim
 WORKDIR /app
+
+# Copy application files
 COPY --from=builder /app/package*.json ./
-# Install both production dependencies and prisma as a regular dependency
-RUN npm install --omit=dev && npm install prisma @prisma/client --no-save
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY app/startup.sh ./startup.sh
+COPY app/prisma-diagnostics.sh ./prisma-diagnostics.sh
+
+# Install production dependencies and ensure directories exist
+RUN npm install --omit=dev && \
+    npm install prisma @prisma/client --no-save && \
+    mkdir -p /app/node_modules/.prisma/client && \
+    mkdir -p /app/prisma/node_modules/.prisma/client && \
+    chmod +x ./startup.sh && \
+    chmod +x ./prisma-diagnostics.sh
+
 # Install OpenSSL (required for Prisma)
 RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
-# Make sure the startup script is executable
-RUN chmod +x ./startup.sh
+
+# Set environment variables
 ENV NODE_ENV=production
 ENV DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft
+ENV PRISMA_SCHEMA_ENGINE_BINARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
+ENV PRISMA_QUERY_ENGINE_BINARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
+ENV PRISMA_SCHEMA_ENGINE_LIBRARY=/app/node_modules/prisma/libquery_engine-debian-openssl-3.0.x.so
+ENV PRISMA_CLIENT_ENGINE_TYPE=binary
 EXPOSE 3001
 # Use our startup script that handles prisma generation
 CMD ["./startup.sh"] 
