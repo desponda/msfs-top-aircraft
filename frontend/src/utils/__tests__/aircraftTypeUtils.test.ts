@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { getAircraftTypeLabels, getAircraftTypeColors } from '../aircraftTypeUtils';
 
 describe('Aircraft Type Utils', () => {

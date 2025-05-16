@@ -2,8 +2,8 @@
 FROM node:22.15.0-alpine AS builder
 WORKDIR /app
 COPY frontend/package*.json ./
-COPY frontend/. ./
 RUN npm ci
+COPY frontend/. ./
 RUN npm run build
 
 # Stage 2: Serve with nginx (rootless)
