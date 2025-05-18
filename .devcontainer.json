@@ -7,5 +7,8 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest"
     }
-  }
+  },
+  "remoteUser": "node",
+  "runArgs": ["--user", "node"],
+  "postCreateCommand": "sudo usermod -aG docker node"
 }

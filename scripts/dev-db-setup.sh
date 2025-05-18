@@ -43,13 +43,26 @@ END
 \$do\$;
 EOF
 
-# 4. Set DATABASE_URL for all following commands
+# 4. Configure PostgreSQL to listen on all interfaces
+PG_CONF=$(sudo -u postgres psql -t -P format=unaligned -c "SHOW config_file;")
+PG_HBA=$(dirname "$PG_CONF")/pg_hba.conf
+
+# Set listen_addresses = '*'
+sudo sed -i "s/^#*listen_addresses.*/listen_addresses = '*'/'" "$PG_CONF"
+
+# Allow all hosts to connect (for dev only!)
+echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a "$PG_HBA"
+
+# Restart PostgreSQL to apply changes
+sudo service postgresql restart
+
+# 5. Set DATABASE_URL for all following commands
 export DATABASE_URL="postgresql://$DB_USER:$DB_PASS@localhost:5432/$DB_NAME"
 
-# 5. Run migrations (if using Prisma)
+# 6. Run migrations (if using Prisma)
 npx prisma migrate deploy
 
-# 6. Hydrate with dev data
+# 7. Hydrate with dev data
 make import-dev-data
 
 echo "Dev database setup and hydrated!" 
