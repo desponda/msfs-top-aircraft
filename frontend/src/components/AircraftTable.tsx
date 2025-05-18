@@ -268,7 +268,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
                 ))
               )}
               {/* Pagination Controls */}
-              {totalPages > 1 && (
+              {!loading && totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
                   <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</Button>
                   <Typography sx={{ alignSelf: 'center' }}>Page {page + 1} of {totalPages}</Typography>
@@ -317,7 +317,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
               </AnimatedTableContainer>
 
               {/* Pagination Controls */}
-              {totalPages > 1 && (
+              {!loading && totalPages > 1 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
                   <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</Button>
                   <Typography sx={{ alignSelf: 'center' }}>Page {page + 1} of {totalPages}</Typography>
