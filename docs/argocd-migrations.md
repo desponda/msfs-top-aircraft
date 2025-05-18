@@ -12,14 +12,7 @@ This project uses Prisma for database management. When deploying with ArgoCD, we
 
 ## Preparing for Deployment
 
-Before deploying a new version with schema changes, run:
-
-```bash
-# From project root
-./scripts/prepare-helm-release.sh
-```
-
-This script copies the latest schema.prisma to the Helm directory, ensuring the checksum will be updated.
+Before deploying a new version with schema changes, ensure your `prisma/schema.prisma` is committed and up to date in your repository. The Helm migration job will use the schema directly from the repository.
 
 ## How Migrations Work with ArgoCD
 

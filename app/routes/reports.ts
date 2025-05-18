@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getAllReports, getReportById, createReport } from '../db/reportDAL';
 import { getAllAircraft } from '../db/aircraftDAL';
-const { ReportType } = require('@prisma/client').$Enums;
+const { ReportType } = require('@prisma/client');
 
 const router = Router();
 

@@ -23,15 +23,10 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY app/startup.sh ./startup.sh
-COPY app/prisma-diagnostics.sh ./prisma-diagnostics.sh
-COPY app/prisma-maintenance.sh ./prisma-maintenance.sh
-COPY app/verify-prisma.js ./verify-prisma.js
 
 # Install production dependencies and ensure directories exist
 RUN npm install --omit=dev && \
-    chmod +x ./startup.sh && \
-    chmod +x ./prisma-diagnostics.sh && \
-    chmod +x ./prisma-maintenance.sh
+    chmod +x ./startup.sh
 
 # Install OpenSSL (required for Prisma) and diagnostic tools
 RUN apt-get update && \

@@ -4,6 +4,7 @@ import aircraftRouter from './routes/aircraft';
 import reportsRouter from './routes/reports';
 import cors from 'cors';
 import session from 'express-session';
+import connectPgSimple from 'connect-pg-simple';
 import { prisma } from './db/prisma';
 
 const app = express();
@@ -20,10 +21,14 @@ app.use(cors({
 app.use(express.json());
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'dev-secret', // use a strong secret in production!
+  store: new (connectPgSimple(session))({
+    conString: process.env.DATABASE_URL,
+    // Optionally, set tableName, createTableIfMissing, etc.
+  }),
+  secret: process.env.SESSION_SECRET || 'dev-secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // set to true if using HTTPS
+  cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
 app.post('/api/login', (req, res) => {
