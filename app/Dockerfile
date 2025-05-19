@@ -1,41 +1,32 @@
 # filepath: /workspaces/msfs-top-aircraft/app/Dockerfile
 # Stage 1: Build
 FROM node:22.15.0-slim AS builder
-WORKDIR /app
-COPY app/package*.json ./
-COPY app/tsconfig.json ./
+WORKDIR /build
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY app/ app/
+COPY prisma/ prisma/
 RUN npm ci
-# Copy prisma schema
-COPY prisma /app/prisma
-# Generate Prisma client during build phase
-RUN npx prisma generate --schema=/app/prisma/schema.prisma
-# Copy the rest of the app code and build it
-COPY app/. ./
-RUN npm run build || npx tsc
+RUN npx prisma generate --schema=prisma/schema.prisma
+RUN npm run build:backend
 
 # Stage 2: Run
 FROM node:22.15.0-slim
 WORKDIR /app
-
-# Copy application files
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /build/package*.json ./
+COPY --from=builder /build/app/dist ./dist
+COPY --from=builder /build/prisma ./prisma
+COPY --from=builder /build/node_modules ./node_modules
 COPY app/startup.sh ./startup.sh
 
-# Install production dependencies and ensure directories exist
 RUN npm install --omit=dev && \
     chmod +x ./startup.sh
 
-# Install OpenSSL (required for Prisma) and diagnostic tools
 RUN apt-get update && \
     apt-get install -y openssl libssl-dev netcat-openbsd && \
     rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
 ENV NODE_ENV=production
 ENV DATABASE_URL=postgresql://msfs:msfs@localhost:5432/msfs_top_aircraft
 EXPOSE 3001
-# Use our startup script that handles prisma generation
 CMD ["./startup.sh"]

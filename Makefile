@@ -9,7 +9,6 @@
 SHELL := /bin/bash
 
 # Directories
-APP_DIR := app
 FRONTEND_DIR := frontend
 
 # Colors for terminal output
@@ -40,22 +39,15 @@ help:
 	@echo -e "  $(YELLOW)make ensure-client$(NC)    Ensure Prisma client is properly generated"
 
 # Install dependencies for both backend and frontend
-install: install-backend install-frontend
-
-# Install backend dependencies
-install-backend:
-	@echo -e "$(GREEN)Installing backend dependencies...$(NC)"
-	cd $(APP_DIR) && npm install
-
-# Install frontend dependencies
-install-frontend:
-	@echo -e "$(GREEN)Installing frontend dependencies...$(NC)"
+install:
+	@echo -e "$(GREEN)Installing all dependencies (backend & frontend)...$(NC)"
+	npm install
 	cd $(FRONTEND_DIR) && npm install
 
 # Start backend in development mode
 dev-backend:
 	@echo -e "$(GREEN)Starting backend development server on http://localhost:3001$(NC)"
-	cd $(APP_DIR) && npm run dev
+	npm run dev:backend
 
 # Start frontend in development mode
 dev-frontend:
@@ -66,58 +58,58 @@ dev-frontend:
 dev-up:
 	@echo -e "$(GREEN)Starting both backend and frontend development servers...$(NC)"
 	@echo -e "$(YELLOW)Ensuring Prisma client is generated...$(NC)"
-	@./scripts/ensure-client.sh
+	npm run prisma:generate
 	@echo -e "$(YELLOW)Backend will be available at: http://localhost:3001/api/aircraft$(NC)"
 	@echo -e "$(YELLOW)Frontend will be available at: http://localhost:5173$(NC)"
-	@(cd $(APP_DIR) && npm run dev) & \
+	(npm run dev:backend) & \
 	(cd $(FRONTEND_DIR) && npm run dev) & \
 	wait
 
 # Build for production
 build:
 	@echo -e "$(GREEN)Building backend for production...$(NC)"
-	cd $(APP_DIR) && npm run build
+	npm run build:backend
 	@echo -e "$(GREEN)Building frontend for production...$(NC)"
 	cd $(FRONTEND_DIR) && npm run build
 
 # Clean up
 clean:
 	@echo -e "$(GREEN)Cleaning up...$(NC)"
-	rm -rf $(APP_DIR)/node_modules
-	rm -rf $(APP_DIR)/dist
-	rm -rf $(FRONTEND_DIR)/node_modules
-	rm -rf $(FRONTEND_DIR)/dist
+	rm -rf node_modules
+	rm -rf app/dist
+	rm -rf frontend/node_modules
+	rm -rf frontend/dist
 
 # Reset reports data (for testing)
 reset-reports:
 	@echo -e "$(GREEN)Resetting reports data...$(NC)"
-	@if [ -f $(APP_DIR)/data/reports.json ]; then \
-		cp $(APP_DIR)/data/reports.json $(APP_DIR)/data/reports.json.bak; \
-		echo -e "$(YELLOW)Created backup at $(APP_DIR)/data/reports.json.bak$(NC)"; \
+	@if [ -f app/data/reports.json ]; then \
+		cp app/data/reports.json app/data/reports.json.bak; \
+		echo -e "$(YELLOW)Created backup at app/data/reports.json.bak$(NC)"; \
 	fi
-	@echo "[" > $(APP_DIR)/data/reports.json
-	@echo "    {" >> $(APP_DIR)/data/reports.json
-	@echo "        \"id\": \"2025-05\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"type\": \"monthly\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"year\": 2025," >> $(APP_DIR)/data/reports.json
-	@echo "        \"month\": 5," >> $(APP_DIR)/data/reports.json
-	@echo "        \"title\": \"Top Aircraft - May 2025\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"description\": \"The most popular aircraft for May 2025\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"createdAt\": \"2025-05-01T00:00:00Z\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"updatedAt\": \"2025-05-01T00:00:00Z\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"aircraft\": []" >> $(APP_DIR)/data/reports.json
-	@echo "    }," >> $(APP_DIR)/data/reports.json
-	@echo "    {" >> $(APP_DIR)/data/reports.json
-	@echo "        \"id\": \"2025\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"type\": \"yearly\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"year\": 2025," >> $(APP_DIR)/data/reports.json
-	@echo "        \"title\": \"Top Aircraft - 2025 (YTD)\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"description\": \"The most popular aircraft for 2025 (year-to-date)\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"createdAt\": \"2025-01-01T00:00:00Z\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"updatedAt\": \"2025-05-01T00:00:00Z\"," >> $(APP_DIR)/data/reports.json
-	@echo "        \"aircraft\": []" >> $(APP_DIR)/data/reports.json
-	@echo "    }" >> $(APP_DIR)/data/reports.json
-	@echo "]" >> $(APP_DIR)/data/reports.json
+	@echo "[" > app/data/reports.json
+	@echo "    {" >> app/data/reports.json
+	@echo "        \"id\": \"2025-05\"," >> app/data/reports.json
+	@echo "        \"type\": \"monthly\"," >> app/data/reports.json
+	@echo "        \"year\": 2025," >> app/data/reports.json
+	@echo "        \"month\": 5," >> app/data/reports.json
+	@echo "        \"title\": \"Top Aircraft - May 2025\"," >> app/data/reports.json
+	@echo "        \"description\": \"The most popular aircraft for May 2025\"," >> app/data/reports.json
+	@echo "        \"createdAt\": \"2025-05-01T00:00:00Z\"," >> app/data/reports.json
+	@echo "        \"updatedAt\": \"2025-05-01T00:00:00Z\"," >> app/data/reports.json
+	@echo "        \"aircraft\": []" >> app/data/reports.json
+	@echo "    }," >> app/data/reports.json
+	@echo "    {" >> app/data/reports.json
+	@echo "        \"id\": \"2025\"," >> app/data/reports.json
+	@echo "        \"type\": \"yearly\"," >> app/data/reports.json
+	@echo "        \"year\": 2025," >> app/data/reports.json
+	@echo "        \"title\": \"Top Aircraft - 2025 (YTD)\"," >> app/data/reports.json
+	@echo "        \"description\": \"The most popular aircraft for 2025 (year-to-date)\"," >> app/data/reports.json
+	@echo "        \"createdAt\": \"2025-01-01T00:00:00Z\"," >> app/data/reports.json
+	@echo "        \"updatedAt\": \"2025-05-01T00:00:00Z\"," >> app/data/reports.json
+	@echo "        \"aircraft\": []" >> app/data/reports.json
+	@echo "    }" >> app/data/reports.json
+	@echo "]" >> app/data/reports.json
 	@echo -e "$(GREEN)Reports reset complete.$(NC)"
 
 # Export current database state to dev-export JSON

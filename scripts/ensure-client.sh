@@ -8,14 +8,16 @@ GREEN="\033[0;32m"
 YELLOW="\033[0;33m"
 NC="\033[0m" # No Color
 
-echo -e "${GREEN}Ensuring Prisma client is properly generated...${NC}"
+echo -e "${GREEN}Cleaning up old node_modules, .prisma, and dist...${NC}"
+cd "$(dirname "$0")/../app"
+rm -rf node_modules .prisma dist
 
-# Generate Prisma client
-cd "$(dirname "$0")/.."
-cd prisma
+# Install dependencies in the app directory
+echo -e "${YELLOW}Installing backend dependencies...${NC}"
+npm install
+
 echo -e "${YELLOW}Generating Prisma client from schema...${NC}"
-npx prisma generate --schema=./schema.prisma
+npx prisma generate --schema=../prisma/schema.prisma
 
-# Ensure the client is accessible to the app
 echo -e "${GREEN}Prisma client successfully generated!${NC}"
 echo -e "${YELLOW}You can now run 'make dev-up' to start the development servers.${NC}"

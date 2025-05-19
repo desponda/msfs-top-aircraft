@@ -48,7 +48,7 @@ PG_CONF=$(sudo -u postgres psql -t -P format=unaligned -c "SHOW config_file;")
 PG_HBA=$(dirname "$PG_CONF")/pg_hba.conf
 
 # Set listen_addresses = '*'
-sudo sed -i "s/^#*listen_addresses.*/listen_addresses = '*'/'" "$PG_CONF"
+sudo sed -i "s/^#*listen_addresses.*/listen_addresses = '*'/" "$PG_CONF"
 
 # Allow all hosts to connect (for dev only!)
 echo "host    all             all             0.0.0.0/0               md5" | sudo tee -a "$PG_HBA"

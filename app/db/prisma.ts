@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
-import { prisma, getPrismaClient, checkPrismaClientStatus } from './connection';
+import { prisma, getPrismaClient } from './connection';
 
 // Re-export the client and utilities
-export { prisma, getPrismaClient, checkPrismaClientStatus };
+export { prisma, getPrismaClient };
 
 // Initialize the client immediately on import
 (async () => {

@@ -252,14 +252,14 @@ router.post('/admin/publish/:id', async (req, res) => {
             include: { votes: true }
         });
         // Helper: ranking logic (same as mergeAircraftWithVotes)
-        function rankVotes(votes: Array<{ aircraftId: string; votes: number; } & Record<string, any>>): Array<{ aircraftId: string; votes: number; rank?: number; } & Record<string, any>> {
+        const rankVotes = (votes: Array<{ aircraftId: string; votes: number; } & Record<string, any>>): Array<{ aircraftId: string; votes: number; rank?: number; } & Record<string, any>> => {
             const sorted = [...votes].sort((a, b) => {
                 if (a.votes !== b.votes) return b.votes - a.votes;
                 return 0;
             });
             sorted.forEach((v: any, i: number) => { v.rank = i + 1; });
             return sorted;
-        }
+        };
         // Rank current and previous votes
         const currentVotes = draft.votes.map((v: any) => ({ ...v }));
         const rankedCurrent = rankVotes(currentVotes);

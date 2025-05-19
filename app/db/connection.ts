@@ -1,7 +1,5 @@
 // Enhanced Prisma Client connection helper with retries and connection pooling
 import { PrismaClient } from '@prisma/client';
-import * as fs from 'fs';
-import * as path from 'path';
 
 // Maximum number of connection attempts
 const MAX_RETRY_COUNT = 5;
@@ -12,35 +10,6 @@ const INITIAL_RETRY_DELAY = 1000;
 declare global {
   var prisma: PrismaClient | undefined;
 }
-
-// Diagnostic function to help debug Prisma client issues
-export const checkPrismaClientStatus = () => {
-  console.log('Checking Prisma client status...');
-  
-  // Check if node_modules/.prisma/client exists
-  const clientPath = path.join(process.cwd(), 'node_modules', '.prisma', 'client');
-  const prismaClientPath = path.join(process.cwd(), 'prisma', 'node_modules', '.prisma', 'client');
-  
-  console.log(`Main client path exists: ${fs.existsSync(clientPath)}`);
-  console.log(`Prisma subdirectory client path exists: ${fs.existsSync(prismaClientPath)}`);
-  
-  // Show key files if they exist
-  if (fs.existsSync(clientPath) && fs.existsSync(path.join(clientPath, 'index.js'))) {
-    console.log('Client index.js found in main path');
-  }
-  
-  if (fs.existsSync(prismaClientPath) && fs.existsSync(path.join(prismaClientPath, 'index.js'))) {
-    console.log('Client index.js found in prisma subdirectory');
-  }
-  
-  // Try to check for the query engine
-  try {
-    const queryEnginePath = process.env.PRISMA_QUERY_ENGINE_BINARY || '';
-    console.log(`Query engine path exists: ${fs.existsSync(queryEnginePath)}`);
-  } catch (e) {
-    console.log('Could not check query engine path', e);
-  }
-};
 
 // Create Prisma Client with connection pooling and connection management
 const createPrismaClient = () => {
@@ -57,14 +26,10 @@ const createPrismaClient = () => {
 
 // Get Prisma Client with error handling and retry logic
 export const getPrismaClient = async (): Promise<PrismaClient> => {
-  // Run diagnostics to help debug issues
-  checkPrismaClientStatus();
-  
-  // Use existing client if available
   if (global.prisma) {
     return global.prisma;
   }
-  
+
   let client: PrismaClient;
   try {
     client = createPrismaClient();
@@ -101,12 +66,6 @@ export const getPrismaClient = async (): Promise<PrismaClient> => {
     return client;
   } catch (error) {
     console.error('Failed to initialize Prisma client:', error);
-    
-    // Check if this is the common "did not initialize yet" error
-    if (error instanceof Error && error.message.includes('did not initialize yet')) {
-      console.error('Prisma client not initialized. Make sure "prisma generate" was run.');
-      checkPrismaClientStatus();
-    }
     
     throw error;
   }

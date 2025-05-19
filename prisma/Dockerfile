@@ -3,7 +3,7 @@ FROM node:22.15.0-slim
 WORKDIR /app
 COPY prisma/package*.json ./prisma/
 COPY prisma ./prisma
-COPY app/package*.json ./
+COPY package*.json ./
 RUN npm ci
 RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
 RUN npx prisma generate --schema=prisma/schema.prisma
