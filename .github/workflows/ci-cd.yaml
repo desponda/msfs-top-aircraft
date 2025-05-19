@@ -34,27 +34,41 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
+      - name: Install dependencies (frontend)
+        if: matrix.service == 'frontend'
         run: |
-          if [ "${{ matrix.service }}" = "frontend" ]; then
-            cd frontend && npm ci
-          else
-            npm ci
-          fi
-      - name: Lint
+          cd frontend
+          npm ci
+      - name: Install dependencies (backend/prisma)
+        if: matrix.service != 'frontend'
         run: |
-          if [ "${{ matrix.service }}" = "frontend" ]; then
-            cd frontend && npm run lint || true
-          else
-            if npm run | grep -q 'lint:backend'; then npm run lint:backend || true; fi
-            if npm run | grep -q 'lint:prisma'; then npm run lint:prisma || true; fi
-      - name: Test
+          npm ci
+      - name: Lint (frontend)
+        if: matrix.service == 'frontend'
         run: |
-          if [ "${{ matrix.service }}" = "frontend" ]; then
-            cd frontend && npm test || true
-          else
-            if npm run | grep -q 'test:backend'; then npm run test:backend || true; fi
-            if npm run | grep -q 'test:prisma'; then npm run test:prisma || true; fi
+          cd frontend
+          npm run lint || true
+      - name: Lint (backend)
+        if: matrix.service == 'app'
+        run: |
+          if npm run | grep -q 'lint:backend'; then npm run lint:backend || true; fi
+      - name: Lint (prisma)
+        if: matrix.service == 'prisma'
+        run: |
+          if npm run | grep -q 'lint:prisma'; then npm run lint:prisma || true; fi
+      - name: Test (frontend)
+        if: matrix.service == 'frontend'
+        run: |
+          cd frontend
+          npm test || true
+      - name: Test (backend)
+        if: matrix.service == 'app'
+        run: |
+          if npm run | grep -q 'test:backend'; then npm run test:backend || true; fi
+      - name: Test (prisma)
+        if: matrix.service == 'prisma'
+        run: |
+          if npm run | grep -q 'test:prisma'; then npm run test:prisma || true; fi
 
   build-push:
     needs: test-lint
