@@ -5,15 +5,17 @@ import { TableContainer, Table, SxProps, Theme } from '@mui/material';
 interface AnimatedTableContainerProps {
   children: React.ReactNode;
   sx?: SxProps<Theme>;
+  onAnimationComplete?: () => void;
 }
 
-const AnimatedTableContainer: React.FC<AnimatedTableContainerProps> = ({ children, sx }) => {
+const AnimatedTableContainer: React.FC<AnimatedTableContainerProps> = ({ children, sx, onAnimationComplete }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scaleY: 0.8, height: 0, transformOrigin: 'top' }}
       animate={{ opacity: 1, scaleY: 1, height: 'auto' }}
       exit={{ opacity: 0, scaleY: 0.8, height: 0 }}
       transition={{ duration: 0.6, ease: [0.04, 0.62, 0.23, 0.98] }}
+      onAnimationComplete={onAnimationComplete}
     >
       <TableContainer
         sx={{

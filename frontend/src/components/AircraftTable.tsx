@@ -47,6 +47,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
   const [page, setPage] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [showPagination, setShowPagination] = useState(false);
 
   useEffect(() => {
     // If data is passed as a prop, use it directly
@@ -71,6 +72,11 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
 
   // Reset to first page on filter/search change
   useEffect(() => { setPage(0); }, [categoryFilter, manufacturerFilter, paywareFilter, msfs2020Filter, msfs2024Filter, searchTerm]);
+
+  // Reset showPagination when loading or page changes
+  useEffect(() => {
+    setShowPagination(false);
+  }, [loading, page, isMobile]);
 
   // Extract unique categories, manufacturers, and payware types for filters
   const categories = [...new Set(aircraftData.map(aircraft => aircraft.category))];
@@ -257,7 +263,10 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
 
           {/* Responsive Table/Card Layout */}
           {isMobile ? (
-            <Box>
+            <Box
+              component={undefined}
+              onAnimationEnd={() => setShowPagination(true)}
+            >
               {loading ? (
                 <Typography align="center" sx={{ py: 4 }}>Loading...</Typography>
               ) : paginatedData.length === 0 ? (
@@ -268,7 +277,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
                 ))
               )}
               {/* Pagination Controls */}
-              {!loading && totalPages > 1 && (
+              {showPagination && !loading && totalPages > 1 && paginatedData.length > 0 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
                   <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</Button>
                   <Typography sx={{ alignSelf: 'center' }}>Page {page + 1} of {totalPages}</Typography>
@@ -278,7 +287,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
             </Box>
           ) : (
             <Box>
-              <AnimatedTableContainer>
+              <AnimatedTableContainer onAnimationComplete={() => setShowPagination(true)}>
                 <TableHead>
                   <TableRow sx={{ background: 'rgba(255,255,255,0.01)' }}>
                     <TableCell sx={{ fontWeight: 600, color: 'text.secondary', background: 'rgba(255,255,255,0.01)', fontSize: { xs: '0.92rem', md: '1rem' }, borderBottom: '1px solid rgba(255,255,255,0.04)', zIndex: 2, px: { xs: 1, md: 2 } }}>Rank</TableCell>
@@ -317,7 +326,7 @@ const AircraftTable = ({ data, showPositionChange = false }: AircraftTableProps)
               </AnimatedTableContainer>
 
               {/* Pagination Controls */}
-              {!loading && totalPages > 1 && (
+              {showPagination && !loading && totalPages > 1 && paginatedData.length > 0 && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
                   <Button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous</Button>
                   <Typography sx={{ alignSelf: 'center' }}>Page {page + 1} of {totalPages}</Typography>
