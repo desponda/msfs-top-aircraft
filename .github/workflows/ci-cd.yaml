@@ -45,7 +45,6 @@ jobs:
           if [ "${{ matrix.service }}" = "frontend" ]; then
             cd frontend && npm run lint || true
           else
-            # For backend/prisma, add lint:backend and lint:prisma scripts to root package.json if needed
             if npm run | grep -q 'lint:backend'; then npm run lint:backend || true; fi
             if npm run | grep -q 'lint:prisma'; then npm run lint:prisma || true; fi
       - name: Test
@@ -53,7 +52,6 @@ jobs:
           if [ "${{ matrix.service }}" = "frontend" ]; then
             cd frontend && npm test || true
           else
-            # For backend/prisma, add test:backend and test:prisma scripts to root package.json if needed
             if npm run | grep -q 'test:backend'; then npm run test:backend || true; fi
             if npm run | grep -q 'test:prisma'; then npm run test:prisma || true; fi
 
